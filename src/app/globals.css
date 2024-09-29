@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --powder-blue: #81d0d8;
+  --white: white;
+  --black: #333;
+  --khaki: #e2e279;
+  --dark-turquoise: #79d6e0;
+}
+
+body {
+  color: #333;
+  background-color: #fff;
+  min-height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif !important;
+  font-size: 14px;
+  line-height: 20px;
+  position: relative;
+}
+
+@import url("../Components/Header/header.css");
+@import url("../Components/Main/mainHome.css");
+@import url("shop/shop.css");
+@import url("shop/[id]/product.css");
+@import url("../Components/Footer/footer.css");
+@import url("about/about.css");
+@import url("contact/contact.css");
