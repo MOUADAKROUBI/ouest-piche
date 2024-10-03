@@ -8,8 +8,11 @@ import Footer from "@/Components/Footer/page";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "lefisheur.ma",
-  description: "A ecommerce site for fish",
+  title: {
+    template: "%s | leficheur.ma",
+    default: "home | leficheur.ma",
+  },
+  description: "our website is the best place to find the best products for Fishing tools",
 };
 
 export default function RootLayout({
@@ -19,9 +22,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <script>AOS.init();</script>
-      </head>
       <body className={inter.className}>
         <WixClientContextProvider>
           <Header />

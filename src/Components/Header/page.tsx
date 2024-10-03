@@ -17,6 +17,7 @@ const Header = () => {
   const [collections, setCollections] = useState<any[]>([]);
   const myWixClient = useContext(WixClientContext);
   const cartFormRef = useRef<HTMLFormElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const { cart, isLoading, counter, removeItem, updateQuantity } =
     useCartStore();
   const [focused, setFocused] = useState(false);
@@ -93,6 +94,16 @@ const Header = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (menuRef.current) {
+      if (menuOpen) {
+        menuRef.current.style.height = "12533.6px";
+      } else {
+        menuRef.current.style.height = "";
+      }
+    }
+  }, [menuOpen]);
 
   return (
     <header className="navbar w-nav" data-collapse="medium">
@@ -195,7 +206,7 @@ const Header = () => {
                   className="icon w-icon-dropdown-toggle"
                   style={{
                     transition: "cubic-bezier(1,-0.3, 0.58, 1) .7s",
-                    transform: toggle ? `rotate(180deg)` : `rotate(0deg)`,
+                    transform: toggle ? `translateX(50%) rotate(180deg)` : `rotate(0deg)`,
                   }}
                 >
                   <svg
@@ -341,7 +352,7 @@ const Header = () => {
                   <Brand />
                 </div>
                 <div className="w-commerce-commercecartformwrapper">
-                  {isLoading && <div className="loading">loading</div>}
+                  {isLoading && <div className="loading-cart" />}
                   {cart.lineItems?.length ? (
                     <form
                       ref={cartFormRef}
@@ -445,10 +456,10 @@ const Header = () => {
           </div>
         </div>
         <div
-          className="w-nav-overlay border border-red-700"
+          className="w-nav-overlay"
+          ref={menuRef}
           data-wf-ignore
           style={{
-            height: "9407.09px",
             display: menuOpen ? "block" : "none",
           }}
         >
@@ -457,9 +468,9 @@ const Header = () => {
             className="nav-menu w-nav-menu"
             style={{
               transition: "all, transform 500ms ease-in-out",
-              transform: "translateY(0%) translateX(0px)",
+              transform:`translateY(${menuOpen?'0px':'-100%'}) translateX(0px)`,
             }}
-            data-nav-menu-open={menuOpen}
+            data-nav-menu-open
           >
             <div className="wrap-nav">
               <Link href="/about" className="nav-link w-inline-block">

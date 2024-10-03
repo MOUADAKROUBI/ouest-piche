@@ -1,19 +1,22 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
-import SingleProduct from "@/UI/singleProduct";
-import { wixClientServer } from "@/lib/wixClientServer";
+import FetchProducts from "@/UI/fetchProducts";
+import LoadingSkeleton from "@/UI/loadingSkeleton";
 
-export default async function Collection() {
-  const wixClient = await wixClientServer();
-  const res = (await wixClient.products.queryProducts().limit(4).find()).items
-
+export default function Collection() {
   return (
     <>
       <div className="collection-section">
-        <div className="main-text normal scroll-in-to-view" data-aos="zoom-in-right">
+        <div
+          className="main-text normal scroll-in-to-view"
+          data-aos="zoom-in-right"
+        >
           Makai COLLECTION
         </div>
-        <h1 className="main-heading h3 black scroll-in-to-view" data-aos="zoom-in-left">
+        <h1
+          className="main-heading h3 black scroll-in-to-view"
+          data-aos="zoom-in-left"
+        >
           the unlimited collection
           <br />
           of the best quality
@@ -24,16 +27,20 @@ export default async function Collection() {
           aspernatur ex voluptatem obcaecati autem doloribus minus in laudantium
           nam quos.
         </p>
-        <Link href="/shop?category=all-products" className="main-button" data-aos="fade-in">
+        <Link
+          href="/shop?category=all-products"
+          className="main-button"
+          data-aos="fade-in"
+        >
           view all
         </Link>
       </div>
       <div className="product-section no-padding-top" data-aos="zoom-in-down">
         <div className="collection-product w-dyn-list">
           <div role="list" className="collection-list-product w-dyn-items">
-            {res.map((data, i) => (
-              <SingleProduct key={i} data={data} />
-            ))}
+            <Suspense fallback={<LoadingSkeleton />}>
+              <FetchProducts />
+            </Suspense>  
           </div>
         </div>
       </div>

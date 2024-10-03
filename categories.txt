@@ -14,3 +14,6 @@ Leurre
 Épuisette 
 Sac et glacière
 
+quick-look-wrap: translate3d(0px, 0%, 0px)
+price: opacity:1 and translate3d(0%, 0%, 0px)
+add-to-cart-dard: opacity:1 and translate3d(0%, 100%, 0px)

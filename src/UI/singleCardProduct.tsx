@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { WixClientContext } from "@/Contexts/wixContext";
 import Link from "next/link";
 import { useCartStore } from "@/hooks/useCartStore";
@@ -9,14 +9,6 @@ export default function SingleProduct({ data }) {
   const [hoveredIndex, setHoveredIndex] = useState(null); // Tracks which item is hovered
   const { addItem } = useCartStore();
   const ref = useRef<HTMLInputElement>(null);
-
-  const handleMouseEnter = (index: any) => {
-    setHoveredIndex(index);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredIndex(null); // Reset when no item is hovered
-  };
 
   const wixClient = useContext(WixClientContext);
 
@@ -36,6 +28,36 @@ export default function SingleProduct({ data }) {
     };
   }
 
+  // Use media query to check if it's mobile
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Check on initial render and when resizing the window
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
+
+  const handleMouseEnter = (index: any) => {
+    setHoveredIndex(index);
+    if (!isMobile) {
+      setHoveredIndex(index);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null); // Reset when no item is hovered
+    if (!isMobile) {
+      setHoveredIndex(null);
+    }
+  };
+
   return (
     <div
       className="collection-item-product w-dyn-item"
@@ -50,24 +72,23 @@ export default function SingleProduct({ data }) {
           href={`/shop/${data._id}`}
           className="wrapp-image-product w-inline-block"
           style={{
-            backgroundImage: `url(${
-              data?.media?.mainMedia?.image?.url || "/placeholder-image.jpg"
-            })`,
+            backgroundImage: `url(${data?.media?.mainMedia?.image?.url || "/placeholder-image.jpg"})`,
           }}
         >
           <div
             className="quick-look-wrap"
             style={{
               transform: `translate3d(0px, ${
-                hoveredIndex == data._id ? "0%" : "100%"
+                hoveredIndex === data._id || isMobile ? "0%" : "100%"
               }, 0px)`,
-              transition: "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)", // Add smooth cubic-bezier
+              transition: "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
               transformStyle: "preserve-3d",
             }}
           >
             <p className="main-paragraph card">Quick look</p>
           </div>
         </Link>
+
         <div className="container-text-product">
           <div className="collumn _1">
             <h5 className="heading-product">{data.name}</h5>
@@ -75,13 +96,14 @@ export default function SingleProduct({ data }) {
               {data.stock.inStock ? "in stock" : "out of stock"}
             </p>
           </div>
+
           <div className="collumn">
             <div
               className="price"
               style={{
-                opacity: hoveredIndex == data._id ? 0 : 1,
+                opacity: hoveredIndex === data._id ? 0 : 1,
                 transform: `translate3d(${
-                  hoveredIndex == data._id ? "100%" : "0%"
+                  hoveredIndex === data._id ? "100%" : "0%"
                 }, 0%, 0px)`,
                 transition: "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease",
                 transformStyle: "preserve-3d",
@@ -89,13 +111,14 @@ export default function SingleProduct({ data }) {
             >
               {data.price.price + " " + data.price.currency}
             </div>
+
             <div
               className="add-to-cart-card"
               style={{
-                opacity: hoveredIndex == data._id ? 1 : 0,
+                opacity: hoveredIndex === data._id || isMobile ? 1 : 0,
                 transform: `translate3d(${
-                  hoveredIndex == data._id ? "0%" : "-100%"
-                }, 0px, 0px)`,
+                  hoveredIndex === data._id || isMobile ? "0%" : "-100%"
+                }, ${isMobile ? '50%': '0px'} ,0px)`,
                 transition: "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease",
                 transformStyle: "preserve-3d",
               }}
@@ -104,9 +127,7 @@ export default function SingleProduct({ data }) {
                 className="w-commerce-commerceaddtocartform default-state-card"
                 onSubmit={addToCart}
               >
-                <label htmlFor="" className="field-label">
-                  Quantity
-                </label>
+                <label htmlFor="" className="field-label">Quantity</label>
                 <input
                   type="number"
                   pattern="^[0-9]+DH"

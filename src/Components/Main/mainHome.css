@@ -659,6 +659,10 @@ img {
   grid-template-columns: 1fr 1fr 1fr;
 }
 
+.w-dyn-empty {
+  text-align: center;
+}
+
 @media screen and (max-width: 991px) {
   .collection-list-product.shop-page {
       grid-template-columns: 1fr 1fr;
