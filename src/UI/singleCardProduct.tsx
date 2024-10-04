@@ -4,27 +4,23 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { WixClientContext } from "@/Contexts/wixContext";
 import Link from "next/link";
 import { useCartStore } from "@/hooks/useCartStore";
+import { products } from "@wix/stores";
 
-export default function SingleProduct({ data }) {
+export default function SingleProduct({ data } : { data: products.Product }) {
   const [hoveredIndex, setHoveredIndex] = useState(null); // Tracks which item is hovered
   const { addItem } = useCartStore();
   const ref = useRef<HTMLInputElement>(null);
 
   const wixClient = useContext(WixClientContext);
 
-  function addToCart(e: React.FormEvent<HTMLFormElement>) {
+  async function addToCart(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (ref.current) {
-      const variantId = data.variants[0]._id;
+      const variantId = data.variants?.[0]._id;
       ref.current.value = "Adding to cart...";
-      addItem(wixClient, data._id, variantId, 1)
-      .then(() => {
-        ref.current.value = "Added to cart";
-      })
-      .catch((error) => {
-        ref.current.value = "Error";
-      });
+      await addItem(wixClient, data._id!, variantId!, 1)
+      ref.current.value = "Added to cart";
     };
   }
 
@@ -93,7 +89,7 @@ export default function SingleProduct({ data }) {
           <div className="collumn _1">
             <h5 className="heading-product">{data.name}</h5>
             <p className="category-text capitalize">
-              {data.stock.inStock ? "in stock" : "out of stock"}
+              {data.stock?.inventoryStatus ? "in stock" : "out of stock"}
             </p>
           </div>
 
@@ -109,7 +105,7 @@ export default function SingleProduct({ data }) {
                 transformStyle: "preserve-3d",
               }}
             >
-              {data.price.price + " " + data.price.currency}
+              {data.priceData?.price + " " + data.priceData?.currency}
             </div>
 
             <div
