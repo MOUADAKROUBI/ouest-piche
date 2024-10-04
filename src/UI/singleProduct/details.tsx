@@ -3,36 +3,38 @@
 import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { useCartStore } from "@/hooks/useCartStore";
-import { WixClientContext } from "@/Contexts/wixContext";
+import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
 import Link from "next/link";
+import { collections, products } from "@wix/stores";
 
 export function Details({
   product,
   collection,
 }: {
-  product: any;
-  collection: any;
+  product: products.Product;
+  collection: collections.Collection;
 }) {
-  const [imageHovered, setImageHovered] = useState(null);
-  const [tabSelected, setTabSelected] = useState(1);
-  const WixClient = useContext(WixClientContext);
+  const [imageHovered, setImageHovered] = useState<string | undefined>(undefined);
+  const [tabSelected, setTabSelected] = useState<number>(1);
+  const WixClient = useContext<MyWixClient>(WixClientContext);
 
   const { isLoading, addItem } = useCartStore();
 
-  const handleMouseEnter = (i) => {
+  const handleMouseEnter = (i: string | undefined) => {
     setImageHovered(i);
   };
 
   const handleMouseLeave = () => {
-    setImageHovered(null);
+    setImageHovered(undefined);
   };
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const quantity = e.target[0].value || 1;
-    const variantId = product.variants[0]._id;
-    addItem(WixClient, product._id, variantId, quantity);
+    const form = e.target as HTMLFormElement;
+    const quantity = (form.elements.namedItem('commerce-add-to-cart-quantity-input') as HTMLInputElement).value;
+    const variantId = product.variants?.[0]._id;
+    addItem(WixClient, product._id!, variantId!, parseInt(quantity));
   }
 
   return (
@@ -40,55 +42,59 @@ export function Details({
       <div className="w-layout-grid shop-grid" data-id={product._id}>
         <div className="wrapper-gallery-product">
           <div className="container-hover-image">
-            {product?.media?.items
-              .filter((_, index) => index >= 1)
-              .map((item) => (
-                <Image
-                  key={item._id}
-                  src={item.image.url}
-                  alt={item.title}
-                  width={600}
-                  height={600}
-                  className="hover-image"
-                  style={{
-                    opacity: imageHovered === item._id ? 1 : 0,
-                    transition: "opacity 1s ease", // Smooth opacity transition
-                  }}
-                />
-              ))}
-            <Image
-              src={product.media.mainMedia.image.url}
-              alt={product.media.mainMedia.title}
-              width={600}
-              height={600}
-              className="image sroll-in-to-view"
-              style={{
-                opacity: imageHovered === null ? 1 : 0,
-                transition: "opacity 1s ease", // Smooth opacity transition
-              }}
-            />
+            {product.media?.items &&
+              product.media.items
+                .filter((_, index) => index >= 1)
+                .map((item) => (
+                  <Image
+                    key={item._id}
+                    src={item.image?.url!}
+                    alt={item.title!}
+                    width={600}
+                    height={600}
+                    className="hover-image"
+                    style={{
+                      opacity: imageHovered === item._id ? 1 : 0,
+                      transition: "opacity 1s ease", // Smooth opacity transition
+                    }}
+                  />
+                ))}
+            {product.media && (
+              <Image
+                src={product.media.mainMedia?.image?.url!}
+                alt={product.media.mainMedia?.title!}
+                width={600}
+                height={600}
+                className="image sroll-in-to-view"
+                style={{
+                  opacity: imageHovered === undefined ? 1 : 0,
+                  transition: "opacity 1s ease", // Smooth opacity transition
+                }}
+              />
+            )}
           </div>
           <div className="w-layout-grid grid-more-image">
-            {product?.media?.items
-              .filter((_, index) => index >= 1)
-              .map((item) => (
-                <Image
-                  key={item._id}
-                  src={item.image.url}
-                  alt={item.title}
-                  width={600}
-                  height={600}
-                  onMouseEnter={() => handleMouseEnter(item._id)}
-                  onMouseLeave={handleMouseLeave}
-                  onClick={() => handleMouseEnter(item._id)}
-                  style={{
-                    cursor: "pointer",
-                    transition: "transform 0.3s ease", // Smooth scale effect
-                    transform:
-                      imageHovered === item._id ? "scale(1.05)" : "scale(1)", // Slight scale on hover
-                  }}
-                />
-              ))}
+            {product.media?.items &&
+              product?.media?.items
+                .filter((_, index) => index >= 1)
+                .map((item) => (
+                  <Image
+                    key={item._id}
+                    src={item.image?.url!}
+                    alt={item.title!}
+                    width={600}
+                    height={600}
+                    onMouseEnter={() => handleMouseEnter(item._id)}
+                    onMouseLeave={handleMouseLeave}
+                    onClick={() => handleMouseEnter(item._id)}
+                    style={{
+                      cursor: "pointer",
+                      transition: "transform 0.3s ease", // Smooth scale effect
+                      transform:
+                        imageHovered === item._id ? "scale(1.05)" : "scale(1)", // Slight scale on hover
+                    }}
+                  />
+                ))}
           </div>
         </div>
 
@@ -97,7 +103,7 @@ export function Details({
             {product?.discount?.value ? (
               <div>
                 <span className="text-gray-500 line-through text-[15px]">
-                  {product.price.price + " " + product.price.currency}
+                  {product.priceData?.price + " " + product.priceData?.currency}
                 </span>
                 <sup className="mr-3 main-text price blue">
                   -
@@ -105,11 +111,15 @@ export function Details({
                     (product?.discount?.type === "PERCENT" ? "%" : "DH")}
                 </sup>
                 <span>
-                  {product.price.discountedPrice + " " + product.price.currency}
+                  {product.priceData?.discountedPrice +
+                    " " +
+                    product.priceData?.currency}
                 </span>
               </div>
             ) : (
-              <span>{product.price.price + " " + product.price.currency}</span>
+              <span>
+                {product.priceData?.price + " " + product.priceData?.currency}
+              </span>
             )}
           </div>
           <h2 className="main-heading shop" data-aos="fade-up">
@@ -129,11 +139,11 @@ export function Details({
               <div className="add-to-cart-wrap">
                 <input
                   type="number"
-                  pattern="^[0-9]+$"
+                  pattern="^[1-9]+$"
                   inputMode="numeric"
                   id="quantity-5377d51fa6998e4325fd81c3622b761b"
                   name="commerce-add-to-cart-quantity-input"
-                  min="1"
+                  min={1}
                   className="w-commerce-commerceaddtocartquantityinput quantity-product"
                   defaultValue={1}
                 />
@@ -155,7 +165,7 @@ export function Details({
             <div
               className="w-commerce-commerceaddtocartoutofstock"
               style={{
-                display: product.stock.inStock ? "none" : "block",
+                display: product.stock?.inventoryStatus ? "none" : "block",
               }}
             >
               <div>this product is out of stock</div>
@@ -238,42 +248,45 @@ export function Details({
             >
               <div className="flex-container">
                 <table className="table">
-                    <tbody>
-                        <tr>
-                            <td className="main-text price first">quantity</td>
-                            <td className="main-text price first">
-                            {product.stock.quantity}
-                            </td>
+                  <tbody>
+                    <tr>
+                      <td className="main-text price first">quantity</td>
+                      <td className="main-text price first">
+                        {product.stock?.quantity}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="main-text price">ribbon</td>
+                      <td className="main-text price">{product.ribbon}</td>
+                    </tr>
+                    {product.additionalInfoSections &&
+                      product.additionalInfoSections.map((section, i) => (
+                        <tr key={i}>
+                          <td className="main-text price">{section.title}</td>
+                          <td
+                            className="main-text price"
+                            dangerouslySetInnerHTML={{
+                              __html: section.description!,
+                            }}
+                          />
                         </tr>
-                        <tr>
-                            <td className="main-text price">ribbon</td>
-                            <td className="main-text price">{product.ribbon}</td>
-                        </tr>
-                        {product.additionalInfoSections.map((section, i) => (
-                            <tr key={i}>
-                            <td className="main-text price">{section.title}</td>
-                            <td
-                                className="main-text price"
-                                dangerouslySetInnerHTML={{
-                                __html: section.description,
-                                }}
-                            />
-                            </tr>
-                        ))}
+                      ))}
 
-                        {product.productOptions.map((options, i) => (
-                            <tr key={i}>
-                            <td className="main-text price">{options.name}</td>
-                            <td>
-                                {options.choices.map((choice, i) => (
+                    {product.productOptions &&
+                      product.productOptions.map((options, i) => (
+                        <tr key={i}>
+                          <td className="main-text price">{options.name}</td>
+                          <td>
+                            {options.choices &&
+                              options.choices.map((choice, i) => (
                                 <span key={i} className="main-text price">
-                                    {choice.value} {options.length == i ? "." : ","}{" "}
+                                  {choice.value} ,{" "}
                                 </span>
-                                ))}
-                            </td>
-                            </tr>
-                        ))}
-                    </tbody>
+                              ))}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
                 </table>
               </div>
             </div>
