@@ -425,7 +425,7 @@ const Header = () => {
                         <div className="w-commerce-commercecartlineitem">
                           <div className="main-text cart">subTotal</div>
                           <div className="w-commerce-commercecartordervalue main-text cart blue">
-                            {cart.subtotal.amount + " " + cart.currency}
+                            {cart.subtotal?.amount + " " + cart.currency}
                           </div>
                         </div>
                         <div>

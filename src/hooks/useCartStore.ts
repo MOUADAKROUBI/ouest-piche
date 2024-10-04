@@ -3,7 +3,7 @@ import { currentCart } from "@wix/ecom";
 import { create } from "zustand";
 
 type CartState = {
-  cart: currentCart.Cart;
+  cart: currentCart.Cart & currentCart.CartNonNullableFields;
   isLoading: boolean;
   counter: number;
   getCart: (wixClient: MyWixClient) => void;
@@ -18,7 +18,19 @@ type CartState = {
 };
 
 export const useCartStore = create<CartState>((set) => ({
-  cart: [],
+  cart: {
+    lineItems: [],
+    currency: '',
+    conversionCurrency: '',
+    subtotal: {
+      amount: '',
+      convertedAmount: '',
+      formattedAmount: '',
+      formattedConvertedAmount: '',
+    },
+    appliedDiscounts: [],
+    weightUnit: currentCart.WeightUnit.KG || currentCart.WeightUnit.LB || currentCart.WeightUnit.UNSPECIFIED_WEIGHT_UNIT,
+  },
   isLoading: false,
   counter: 0,
   getCart: async (wixClient) => {
