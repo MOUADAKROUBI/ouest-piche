@@ -448,127 +448,118 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <div
-          className="w-nav-overlay"
-          ref={menuRef}
-          data-wf-ignore
+      </div>
+      <div
+        className="w-nav-overlay"
+        ref={menuRef}
+        data-wf-ignore
+        style={{
+          display: menuOpen ? "block" : "none",
+        }}
+      >
+        <nav
+          role="navigation"
+          className="nav-menu w-nav-menu"
           style={{
-            display: menuOpen ? "block" : "none",
+            transition: "all, transform 500ms ease-in-out",
+            transform:`translateY(${menuOpen?'0px':'-100%'}) translateX(0px)`,
           }}
+          data-nav-menu-open
         >
-          <nav
-            role="navigation"
-            className="nav-menu w-nav-menu"
-            style={{
-              transition: "all, transform 500ms ease-in-out",
-              transform:`translateY(${menuOpen?'0px':'-100%'}) translateX(0px)`,
-            }}
-            data-nav-menu-open
-          >
-            <div className="wrap-nav">
-              <Link href="/about" className="nav-link w-inline-block">
-                about
-              </Link>
-              <div className="dropdown w-dropdown w--nav-dropdown-open">
+          <div className="wrap-nav">
+            <Link href="/about" className="nav-link w-inline-block">
+              about
+            </Link>
+            <div className="dropdown w-dropdown w--nav-dropdown-open">
+              <div
+                className="dropdown-toggle w-dropdown-toggle nav-link"
+                onClick={toggleDropdown}
+                style={{
+                  opacity: 1,
+                  transform:
+                    "translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
+                  transformStyle: "preserve-3d",
+                }}
+              >
                 <div
-                  className="dropdown-toggle w-dropdown-toggle nav-link nav-link _2"
-                  onClick={toggleDropdown}
+                  className="icon"
                   style={{
-                    opacity: 1,
-                    transform:
-                      "translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
-                    transformStyle: "preserve-3d",
+                    transition: "cubic-bezier(1,-0.3, 0.58, 1) .7s",
+                    transform: toggle ? `rotate(180deg)` : `rotate(0deg)`,
                   }}
                 >
-                  <div
-                    className="icon"
-                    style={{
-                      transition: "cubic-bezier(1,-0.3, 0.58, 1) .7s",
-                      transform: toggle ? `rotate(180deg)` : `rotate(0deg)`,
-                    }}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#333"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="24px"
-                      viewBox="0 -960 960 960"
-                      width="24px"
-                      fill="#333"
-                    >
-                      <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
-                    </svg>
-                  </div>
-                  <div className="text-link text-static">shop</div>
+                    <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+                  </svg>
                 </div>
-                <nav
-                  className={`dropdown-list w-dropdown-list ${
-                    toggle && "w--open"
-                  }`}
-                >
-                  <div
-                    className="bg-dropdown"
-                    style={{
-                      height: toggle ? "100%" : "0%",
-                      width: "864px",
-                      transition: "height 0.3s ease",
-                    }}
-                  ></div>
-                  <div className="container-dropdown">
-                    <div className="main-section">
-                      <div className="collection-list-wrapper">
-                        <div
-                          role="list"
-                          className="collection-grid-list w-dyn-items"
-                        >
-                          {collections.map((item) => (
-                            <div key={item._id} role="listitem">
-                              <Link
-                                className="nav-card w-inline-block"
-                                href={`/shop?category=${item.name!
-                                  .toLowerCase()
-                                  .replaceAll(" ", "-")}`}
-                                onClick={() => setToggle(false)}
-                              >
-                                <Image
-                                  src="https://cdn.prod.website-files.com/60d454895317b1b117060f3d/60d5d32920b4c5addcaad33d_tshirt.jpg"
-                                  alt="t-shirt"
-                                  width={400}
-                                  height={400}
-                                  className="main-image hidden-mobile"
-                                />
-                                <div className="nav-link footer">
-                                  <div className="text-link static">
-                                    {item.name}
-                                  </div>
+                <div className="nav-link _2">
+                  <div className="text-link static">shop</div>
+                </div>
+              </div>
+              <nav
+                className={`dropdown-list w-dropdown-list w--nav-dropdown-list-open ${
+                  toggle && "w--open"
+                }`}
+              >
+                <div
+                  className="bg-dropdown"
+                  style={{
+                    height: toggle ? "100%" : "0%",
+                    width: "864px",
+                    transition: "height 0.3s ease",
+                  }}
+                ></div>
+                <div className="container-dropdown">
+                  <div className="main-section">
+                    <div className="collection-list-wrapper">
+                      <div
+                        role="list"
+                        className="collection-grid-list w-dyn-items"
+                      >
+                        {collections.map((item) => (
+                          <div key={item._id} role="listitem" className="w-dyn-item">
+                            <Link
+                              className="nav-card w-inline-block"
+                              href={`/shop?category=${item.name!
+                                .toLowerCase()
+                                .replaceAll(" ", "-")}`}
+                              onClick={() => {
+                                setMenuOpen(false)
+                                setToggle(false)
+                              }}
+                            >
+                              <Image
+                                src="https://cdn.prod.website-files.com/60d454895317b1b117060f3d/60d5d32920b4c5addcaad33d_tshirt.jpg"
+                                alt="t-shirt"
+                                width={400}
+                                height={400}
+                                className="main-image hidden-mobile"
+                              />
+                              <div className="nav-link footer">
+                                <div className="text-link static">
+                                  {item.name}
                                 </div>
-                              </Link>
-                            </div>
-                          ))}
-                        </div>
+                              </div>
+                            </Link>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                  <Link
-                    href="/shop?category=all-products"
-                    className="main-button sroll-in-to-view"
-                    style={{
-                      borderColor: "rgb(51, 51, 51)",
-                      transform:
-                        "translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
-                      transformStyle: "preserve-3d",
-                      opacity: 1,
-                      transition: "transform 0.3s ease, opacity 0.3s ease", // Smooth transition for transform and opacity
-                    }}
-                  >
-                    All products
-                  </Link>
-                </nav>
-              </div>
-              <Link href="/contact" className="nav-link w-inline-block">
-                Contact
-              </Link>
+                </div>
+              </nav>
             </div>
-          </nav>
-        </div>
+            <Link href="/contact" className="nav-link w-inline-block">
+              Contact
+            </Link>
+          </div>
+        </nav>
       </div>
     </header>
   );
