@@ -78,8 +78,8 @@ const Footer = async () => {
           </div>
         </div>
       </div>
-      <div className="footer-buttom mt-3 text-center">
-        <p className="text-center text-[15px]">
+      <div className="footer-buttom">
+        <p>
           {new Date().getFullYear()} &copy; All rights reserved || designed and
           developed by{" "}
           <a

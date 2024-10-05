@@ -124,9 +124,16 @@
     }
 }
 
+.footer-buttom {
+    margin-top: 20px;
+    text-align: center;
+}
 
-
-
+.footer-buttom p {
+    font-size: 16px;
+    color: var(--powder-blue);
+    margin: 0;
+}
 
 
 

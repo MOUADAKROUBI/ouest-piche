@@ -131,6 +131,100 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   }
 }
 
+.w-nav-button {
+  float: right;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 18px;
+  font-size: 24px;
+  display: none;
+  position: relative;
+}
+
+@media screen and (max-width: 991px) {
+  .menu-button {
+      z-index: 1;
+      padding-right: 0;
+      display: flex;
+  }
+}
+@media screen and (max-width: 991px) {
+  .w-nav[data-collapse="medium"] .w-nav-button {
+      display: block;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .wrapper-burger-menu {
+      flex-direction: column;
+      display: flex;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .line-burger-menu {
+      background-color: var(--black);
+      width: 25px;
+      height: 1px;
+      margin-top: 2px;
+      margin-bottom: 2px;
+      padding-bottom: 0;
+      padding-right: 0;
+      display: flex;
+  }
+}
+
+.wrapper-search {
+  flex-direction: row-reverse;
+  align-items: center;
+  display: flex;
+  position: absolute;
+  left: 0;
+}
+@media screen and (max-width: 991px) {
+  .wrapper-search {
+      z-index: 4;
+      position: relative;
+  }
+}
+@media screen and (max-width: 479px) {
+  .wrapper-search {
+      flex: 0 auto;
+      display: flex;
+  }
+}
+
+.button-search {
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+.w-button {
+  color: #fff;
+  line-height: inherit;
+  cursor: pointer;
+  background-color: #3898ec;
+  border: 0;
+  border-radius: 0;
+  padding: 9px 15px;
+  text-decoration: none;
+  display: inline-block;
+}
+.search-button {
+  display: none;
+}
+
+input.w-button {
+  -webkit-appearance: button;
+}
+
 img {
   vertical-align: middle;
   max-width: 100%;
@@ -462,7 +556,7 @@ input[type="search"]::-moz-search-cancel-button {
   top: 100%;
   left: 0;
   right: 0;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 /* ------------------------------ */

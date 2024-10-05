@@ -111,39 +111,44 @@ const Header = () => {
       <Brand />
       <div className="container navbar">
         <div
-          className="menu-button w-nav-button select-none float-right p-[18px] text-[24px] md:pr-0 md:z-[1] cursor-pointer hidden md:block relative"
+          className="menu-button w-nav-button"
           role="button"
           onClick={() => setMenuOpen(!menuOpen)}
+          style={{
+            WebkitUserSelect: 'text'
+          }}
         >
-          <div
-            className="line-one w-[30px] h-[2px] bg-[#333] mb-1"
-            style={{
-              transition: "all, transform 500ms ease-in-out",
-              transform: menuOpen
-                ? "rotate(45deg) translate(5px, 5px)"
-                : "rotate(0deg) translate(0px, 0px)",
-            }}
-          />
-          <div
-            className="line-two w-[30px] h-[2px] bg-[#333] mb-1"
-            style={{
-              transition: "all, transform 500ms ease-in-out",
-              opacity: menuOpen ? 0 : 1,
-            }}
-          />
-          <div
-            className="line-three w-[30px] h-[2px] bg-[#333]"
-            style={{
-              transition: "all, transform 500ms ease-in-out",
-              transform: menuOpen
-                ? "rotate(-45deg) translate(5px, -5px)"
-                : "rotate(0deg) translate(0px, 0px)",
-            }}
-          />
+          <div className="wrapper-burger-menu">
+            <div
+              className="line-burger-menu"
+              style={{
+                transition: "all, transform 500ms ease-in-out",
+                transform: menuOpen
+                  ? "rotate(45deg) translate(5px, 5px)"
+                  : "rotate(0deg) translate(0px, 0px)",
+              }}
+            />
+            <div
+              className="line-burger-menu"
+              style={{
+                transition: "all, transform 500ms ease-in-out",
+                opacity: menuOpen ? 0 : 1,
+              }}
+            />
+            <div
+              className="line-burger-menu"
+              style={{
+                transition: "all, transform 500ms ease-in-out",
+                transform: menuOpen
+                  ? "rotate(-45deg) translate(5px, -5px)"
+                  : "rotate(0deg) translate(0px, 0px)",
+              }}
+            />
+          </div>
         </div>
-        <div className="wrapper-search flex-row-reverse items-center flex absolute left-0 xs:flex-[0_auto] md:z-[4] md:relative">
+        <div className="wrapper-search">
           <div
-            className="cursor-pointer justify-center items-center ml-[10px] flex relative overflow-hidden"
+            className="button-search"
             onClick={handleFocus}
           >
             <svg
@@ -175,7 +180,7 @@ const Header = () => {
               maxLength={256}
               required
             />
-            <button type="submit" className="button-search hidden">
+            <button type="submit" className="search-button w-button" value="search">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
@@ -281,7 +286,7 @@ const Header = () => {
             </Link>
           </div>
         </nav>
-        <div className="cart-wrap overflow-hidden">
+        <div className="cart-wrap">
           <div className="w-commerce-commercecartwrapper cart-2" data-cart-open>
             <div className="w-commerce-commercecartopenlink cart-button w-inline-block">
               <div className="cart" onClick={toggleCart}>
