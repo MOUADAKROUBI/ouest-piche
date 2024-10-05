@@ -4,23 +4,24 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Brand from "@/UI/brand";
-import { WixClientContext } from "@/Contexts/wixContext";
+import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
 import { useCartStore } from "@/hooks/useCartStore";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
+import { collections } from "@wix/stores";
 
 const Header = () => {
-  const [toggle, setToggle] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
+  const [toggle, setToggle] = useState<boolean>(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [cartOpen, setCartOpen] = useState<boolean>(false);
   const cartRef = useRef<HTMLDivElement>(null);
-  const [collections, setCollections] = useState<any[]>([]);
-  const myWixClient = useContext(WixClientContext);
+  const [collections, setCollections] = useState<collections.Collection[]>([]);
+  const myWixClient = useContext<MyWixClient>(WixClientContext);
   const cartFormRef = useRef<HTMLFormElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { cart, isLoading, counter, removeItem, updateQuantity } =
     useCartStore();
-  const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState<boolean>(false);
 
   const handleFocus = () => {
     setFocused(true);
@@ -245,9 +246,10 @@ const Header = () => {
                           <div key={collection._id} role="listitem">
                             <Link
                               className="nav-card w-inline-block"
-                              href={`/shop?category=${collection.name
+                              href={`/shop?category=${collection.name!
                                 .toLowerCase()
                                 .replaceAll(" ", "-")}`}
+                                onClick={() => setToggle(false)}
                             >
                               <Image
                                 src={
@@ -272,20 +274,6 @@ const Header = () => {
                     </div>
                   </div>
                 </div>
-                <Link
-                  href="/shop?category=all-products"
-                  className="main-button sroll-in-to-view"
-                  style={{
-                    borderColor: "rgb(51, 51, 51)",
-                    transform:
-                      "translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
-                    transformStyle: "preserve-3d",
-                    opacity: 1,
-                    transition: "transform 0.3s ease, opacity 0.3s ease", // Smooth transition for transform and opacity
-                  }}
-                >
-                  view all
-                </Link>
               </nav>
             </div>
             <Link href="/contact" className="nav-link">
@@ -530,9 +518,10 @@ const Header = () => {
                             <div key={item._id} role="listitem">
                               <Link
                                 className="nav-card w-inline-block"
-                                href={`/shop?category=${item.name
+                                href={`/shop?category=${item.name!
                                   .toLowerCase()
                                   .replaceAll(" ", "-")}`}
+                                onClick={() => setToggle(false)}
                               >
                                 <Image
                                   src="https://cdn.prod.website-files.com/60d454895317b1b117060f3d/60d5d32920b4c5addcaad33d_tshirt.jpg"

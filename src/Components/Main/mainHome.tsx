@@ -3,7 +3,7 @@ import Hero from "./hero";
 import Collection from "./collection";
 import IconSection from "./iconSection";
 
-const MainHome = async () => {
+const MainHome = () => {
   return (
     <div className="main">
       <div className="container">
