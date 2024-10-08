@@ -2,8 +2,8 @@ import React from 'react'
 import SingleProduct from './singleCardProduct'
 import { fetchProducts } from '@/lib/fetchData';
 
-export default async function FetchProducts() {
-  const products = await fetchProducts(4);
+export default async function FetchProducts({ id }: { id?: string }) {
+  const products = await fetchProducts(4, id);
 
   if (!products) 
     return (

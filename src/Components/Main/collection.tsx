@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
 import FetchProducts from "@/UI/fetchProducts";
-import LoadingSkeleton from "@/UI/loadingSkeleton";
+import ProductCartSkeleton from "@/UI/productCartSkeleton";
 
 export default function Collection() {
   return (
@@ -38,7 +38,7 @@ export default function Collection() {
       <div className="product-section no-padding-top" data-aos="zoom-in-down">
         <div className="collection-product w-dyn-list">
           <div role="list" className="collection-list-product w-dyn-items">
-            <Suspense fallback={<LoadingSkeleton />}>
+            <Suspense fallback={<ProductCartSkeleton len={4} />}>
               <FetchProducts />
             </Suspense>  
           </div>

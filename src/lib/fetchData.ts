@@ -12,10 +12,10 @@ export async function fetchCollections(limit: number) {
   }
 }
 
-export async function fetchProducts(limit: number) {
+export async function fetchProducts(limit: number, skipProductId?: string) {
   try {
     const client = await wixClientServer();
-    const response = await client.products.queryProducts().limit(limit).find();
+    const response = await client.products.queryProducts().ne('_id', skipProductId || '').limit(limit).find();
     return response.items;
   } catch (error) {
     console.log(error);

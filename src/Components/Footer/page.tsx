@@ -1,6 +1,6 @@
 import { fetchCollections } from "@/lib/fetchData";
 import Brand from "@/UI/brand";
-import LoadingSkeleton from "@/UI/loadingSkeleton";
+import LoadingSkeleton from "@/UI/productCartSkeleton";
 import Link from "next/link";
 import React, { Suspense } from "react";
 

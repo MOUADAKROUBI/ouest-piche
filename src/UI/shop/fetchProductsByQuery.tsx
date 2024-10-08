@@ -14,17 +14,10 @@ export default async function Products({ searchParams }: {searchParams: Props["s
     )
 
   return (
-    <div className="container-card-product">
-      <div className="collection-product w-dyn-list">
-        <div
-          role="list"
-          className="collection-list-product shop-page w-dyn-items"
-        >
-          {products.map((data, i) => (
-            <SingleProduct key={i} data={data} />
-          ))}
-        </div>
-      </div>
-    </div>
+    <>
+      {products.map((data, i) => (
+        <SingleProduct key={i} data={data} />
+      ))}
+    </>
   );
 }

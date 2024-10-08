@@ -172,7 +172,7 @@
 }
 
 .shop-grid.shop {
-    grid-column-gap: 0px;
+    grid-column-gap: 10px;
     grid-template-columns: 25% 75%;
     margin-top: 60px;
     position: relative;

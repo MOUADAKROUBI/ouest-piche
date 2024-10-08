@@ -1,9 +1,10 @@
 import FetchProducts from "@/UI/fetchProducts";
-import LoadingSkeleton from "@/UI/loadingSkeleton";
-import SingleProductContent from "@/UI/singleProduct/singleProduct";
 import React, { Suspense } from "react";
 import type { Metadata, ResolvingMetadata } from 'next'
 import { fetchSingleP } from "@/lib/fetchData";
+import ProductCartSkeleton from "@/UI/productCartSkeleton";
+import DetailsSkelton from "@/UI/detailsSkelton";
+import SingleProductContent from "@/UI/singleProduct/singleProduct";
  
 type Props = {
   params: { id: string }
@@ -32,14 +33,14 @@ export default async function Page({ params }: Props) {
     <>
       <div className="main">
         <div className="container">
-          <Suspense fallback={<LoadingSkeleton />}>
+          <Suspense fallback={<DetailsSkelton />}>
             <SingleProductContent id={params.id} />
           </Suspense>
           <div className="product-section">
             <div className="collection-product w-dyn-list">
               <div role="list" className="collection-list-product w-dyn-items">
-                <Suspense fallback={<LoadingSkeleton />}>
-                  <FetchProducts />
+                <Suspense fallback={<ProductCartSkeleton len={4} />}>
+                  <FetchProducts id={params.id} />
                 </Suspense>
               </div>
             </div>
