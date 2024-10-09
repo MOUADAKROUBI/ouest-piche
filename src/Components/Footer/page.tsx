@@ -1,6 +1,6 @@
 import { fetchCollections } from "@/lib/fetchData";
 import Brand from "@/UI/brand";
-import LoadingSkeleton from "@/UI/productCartSkeleton";
+import CategoriesSkelton from "@/UI/categoriesSkelton";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
@@ -42,7 +42,7 @@ const Footer = async () => {
               </div>
               <div className="wrapper-link-footer">
                 <h6 className="heading">shop</h6>
-                <Suspense fallback={<LoadingSkeleton />}>
+                <Suspense fallback={<CategoriesSkelton len={3} />}>
                     {collections.map((collection) => (
                     <Link
                         key={collection._id}

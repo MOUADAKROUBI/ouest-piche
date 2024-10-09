@@ -31,7 +31,7 @@ export default function Page({ searchParams }: Props) {
         <div className="w-layout-grid shop-grid shop">
           <div className="collumn-stiky">
             <div className="main-text link black">select a category</div>
-            <Suspense fallback={<CategoriesSkelton />}>
+            <Suspense fallback={<CategoriesSkelton len={6} />}>
               <Categories />
             </Suspense>
           </div>
