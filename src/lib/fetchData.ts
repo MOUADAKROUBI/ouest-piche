@@ -61,3 +61,68 @@ export async function fetchProductsByQuery(query: string, limit: number) {
         throw new Error("error fetching products my query")
     }
 }
+
+export async function fetchBestSellersProducts() {
+    try {
+        const client = await wixClientServer();
+        const listAvailableAlgorithms = (await client.recommendations.listAvailableAlgorithms()).availableAlgorithms;
+
+        const recommendedProducts = client.recommendations.getRecommendation([
+            {
+              _id: listAvailableAlgorithms[3].config?._id,
+              appId: listAvailableAlgorithms[3].appId,
+            }
+        ]);
+
+        return recommendedProducts;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Error fetching recommendations products");
+    }
+}
+
+export async function fetchSameCategoriesProducts(catalogItemId: string) {
+    try {
+        const client = await wixClientServer();
+        const listAvailableAlgorithms = (await client.recommendations.listAvailableAlgorithms()).availableAlgorithms;
+
+        const recommendedProducts = client.recommendations.getRecommendation([
+            {
+              _id: listAvailableAlgorithms[0].config?._id,
+              appId: listAvailableAlgorithms[0].appId,
+            }
+        ], {
+          items: [
+            {
+              catalogItemId: catalogItemId,
+              appId: listAvailableAlgorithms[0].appId,
+            }
+          ]
+        });
+
+        return recommendedProducts;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Error fetching recommendations products");
+    }
+}
+
+export async function fetchFrequentlyViewedProducts() {
+    try {
+        const client = await wixClientServer();
+        const listAvailableAlgorithms = (await client.recommendations.listAvailableAlgorithms()).availableAlgorithms;
+
+        const recommendedProducts = client.recommendations.getRecommendation([
+            {
+              _id: listAvailableAlgorithms[2].config?._id,
+              appId: listAvailableAlgorithms[2].appId,
+            }
+        ]);
+        console.log((await recommendedProducts).recommendation?.items)
+
+        return recommendedProducts;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Error fetching recommendations products");
+    }
+}

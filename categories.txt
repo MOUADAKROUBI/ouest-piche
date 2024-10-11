@@ -14,6 +14,58 @@ Leurre
 Épuisette 
 Sac et glacière
 
-quick-look-wrap: translate3d(0px, 0%, 0px)
-price: opacity:1 and translate3d(0%, 0%, 0px)
-add-to-cart-dard: opacity:1 and translate3d(0%, 100%, 0px)
+[
+  {
+    config: {
+      name: 'From the same categories',
+      description: 'This gallery works best when added to the product page, cart and thank you page.\n' +
+        '\n' +
+        'If there’s not enough data about products that share the same categories, we’ll display your All Products category instead.',
+      additionalInfo: 'We’ll display products that share the most categories with the existing products on the page.',
+      algorithmType: 'RELATED_ITEMS',
+      algorithmId: '68ebce04-b96a-4c52-9329-08fc9d8c1253',
+      _id: '68ebce04-b96a-4c52-9329-08fc9d8c1253'
+    },
+    appId: '215238eb-22a5-4c36-9e7b-e7c08025e04e',
+    catalogAppIds: [ '215238eb-22a5-4c36-9e7b-e7c08025e04e' ]
+  },
+  {
+    config: {
+      name: 'Frequently bought together',
+      description: "This gallery works best when it's added to the product page. \n" +
+        '\n' +
+        'If there’s not enough data about products frequently bought together, we’ll display other related products instead.',  
+      algorithmType: 'RELATED_ITEMS',
+      algorithmId: 'd5aac1e1-2e53-4d11-85f7-7172710b4783',
+      _id: 'd5aac1e1-2e53-4d11-85f7-7172710b4783'
+    },
+    appId: '215238eb-22a5-4c36-9e7b-e7c08025e04e',
+    catalogAppIds: [ '215238eb-22a5-4c36-9e7b-e7c08025e04e' ]
+  },
+  {
+    config: {
+      name: 'Frequently viewed together',
+      description: "This gallery works best when it's added to the product page.\n" +
+        '\n' +
+        'If there’s not enough data about products frequently viewed together, we’ll display other related products instead.',  
+      algorithmType: 'RELATED_ITEMS',
+      algorithmId: '5dd69f67-9ab9-478e-ba7c-10c6c6e7285f',
+      _id: '5dd69f67-9ab9-478e-ba7c-10c6c6e7285f'
+    },
+    appId: '215238eb-22a5-4c36-9e7b-e7c08025e04e',
+    catalogAppIds: [ '215238eb-22a5-4c36-9e7b-e7c08025e04e' ]
+  },
+  {
+    config: {
+      name: 'Best sellers',
+      description: 'We’ll automatically display your store’s best selling products.\n' +
+        '\n' +
+        'If there’s not enough data about your best selling products, we’ll show related products or your All Products category.',
+      algorithmType: 'GLOBAL',
+      algorithmId: 'ba491fd2-b172-4552-9ea6-7202e01d1d3c',
+      _id: 'ba491fd2-b172-4552-9ea6-7202e01d1d3c'
+    },
+    appId: '215238eb-22a5-4c36-9e7b-e7c08025e04e',
+    catalogAppIds: [ '215238eb-22a5-4c36-9e7b-e7c08025e04e' ]
+  }
+]

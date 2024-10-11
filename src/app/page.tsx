@@ -7,6 +7,7 @@ import IconSection from "@/Components/Main/iconSection";
 // import AOS from 'aos';
 // import 'aos/dist/aos.css';
 
+
 export default function Home() {
   // useEffect(() => {
   //   AOS.init();

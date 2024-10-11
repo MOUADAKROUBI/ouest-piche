@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
-import FetchProducts from "@/UI/fetchProducts";
 import ProductCartSkeleton from "@/UI/productCartSkeleton";
+import FetchBestSellersProducts from "@/UI/fetchBestSellersProducts";
 
 export default function Collection() {
   return (
@@ -39,7 +39,7 @@ export default function Collection() {
         <div className="collection-product w-dyn-list">
           <div role="list" className="collection-list-product w-dyn-items">
             <Suspense fallback={<ProductCartSkeleton len={4} />}>
-              <FetchProducts />
+              <FetchBestSellersProducts />
             </Suspense>  
           </div>
         </div>

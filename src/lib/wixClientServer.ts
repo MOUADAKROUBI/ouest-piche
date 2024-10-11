@@ -1,6 +1,6 @@
 import { createClient, OAuthStrategy } from "@wix/sdk";
 import { products, collections } from "@wix/stores";
-import { currentCart } from "@wix/ecom";
+import { currentCart, recommendations } from "@wix/ecom";
 import { redirects } from '@wix/redirects';
 import { cookies } from "next/headers";
 
@@ -19,7 +19,8 @@ export const wixClientServer = async () => {
         products,
         collections,
         currentCart,
-        redirects
+        redirects,
+        recommendations
       },
       auth: OAuthStrategy({
         clientId: process.env.NEXT_PUBLIC_CLIENT_ID || "",
