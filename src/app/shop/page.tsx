@@ -5,6 +5,7 @@ import type { Metadata, ResolvingMetadata } from "next";
 import ProductCartSkeleton from "@/UI/productCartSkeleton";
 import Products from "@/UI/shop/fetchProductsByQuery";
 import CategoriesSkelton from "@/UI/categoriesSkelton";
+import { fetchCollections } from "@/lib/fetchData";
 
 export type Props = {
   searchParams: { [key: string]: string | undefined };
@@ -14,8 +15,22 @@ export async function generateMetadata(
   { searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  const collection = await fetchCollections(100);
+  const collectionNames = collection.filter((col) => col.name?.toLowerCase().replaceAll(' ', '-') === searchParams.category)[0]
+  
+  const previousImages = (await parent).openGraph?.images || [];
+
   return {
     title: searchParams.category ? `Shop ${searchParams.category}` : "Shop",
+    description: "browse our products",
+    openGraph: {
+      title: searchParams.category ? `Shop ${searchParams.category}` : "Shop",
+      description: "browse our products",
+      type: "website",
+      url: `https://leficheur.vercle.com/shop?category=${searchParams.category}`,
+      siteName: "leficheur.ma",
+      images: [collectionNames.media?.items?.[0].image?.url!, ...previousImages],
+    },
   };
 }
 

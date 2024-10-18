@@ -66,10 +66,10 @@ export async function fetchBestSellersProducts() {
     try {
         const client = await wixClientServer();
         const listAvailableAlgorithms = (await client.recommendations.listAvailableAlgorithms()).availableAlgorithms;
-
+        console.log(listAvailableAlgorithms)
         const recommendedProducts = client.recommendations.getRecommendation([
             {
-              _id: listAvailableAlgorithms[3].config?._id,
+              _id: 'ba491fd2-b172-4552-9ea6-7202e01d1d3c',
               appId: listAvailableAlgorithms[3].appId,
             }
         ]);
@@ -88,7 +88,7 @@ export async function fetchSameCategoriesProducts(catalogItemId: string) {
 
         const recommendedProducts = client.recommendations.getRecommendation([
             {
-              _id: listAvailableAlgorithms[0].config?._id,
+              _id: '68ebce04-b96a-4c52-9329-08fc9d8c1253',
               appId: listAvailableAlgorithms[0].appId,
             }
         ], {
@@ -114,7 +114,7 @@ export async function fetchFrequentlyViewedProducts() {
 
         const recommendedProducts = client.recommendations.getRecommendation([
             {
-              _id: listAvailableAlgorithms[2].config?._id,
+              _id: '5dd69f67-9ab9-478e-ba7c-10c6c6e7285f',
               appId: listAvailableAlgorithms[2].appId,
             }
         ]);

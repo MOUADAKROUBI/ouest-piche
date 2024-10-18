@@ -21,10 +21,19 @@ export async function generateMetadata(
   const product = await fetchSingleP(id)
  
   // optionally access and extend (rather than replace) parent metadata
-  
+  const previousImages = (await parent).openGraph?.images || []
  
   return {
     title: product.product?.name,
+    description: product.product?.description,
+    openGraph: {
+      title: product.product?.name!,
+      description: product.product?.description!,
+      type: 'website',
+      url: `https://leficheur.vercle.app/shop/${id}`,
+      siteName: 'leficheur.ma',
+      images: [product.product?.media?.items?.[0].image?.url!, ...previousImages],
+    },
   }
 }
 

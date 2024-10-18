@@ -102,7 +102,7 @@ export function Details({
           <div className="main-text price" data-aos="fade-up">
             {product?.discount?.value ? (
               <div>
-                <span className="text-gray-500 line-through text-[15px]">
+                <span className="old-price">
                   {product.priceData?.price + " " + product.priceData?.currency}
                 </span>
                 <sup className="mr-3 main-text price blue">

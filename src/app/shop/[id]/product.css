@@ -85,6 +85,14 @@
     }
 }
 
+.old-price {
+    color: var(--black);
+    text-decoration: line-through;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 300;
+}
+
 .main-text.price.blue {
     color: var(--powder-blue);
 }
