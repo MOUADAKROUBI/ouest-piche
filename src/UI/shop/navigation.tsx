@@ -10,18 +10,14 @@ export default function Navigation() {
   return (
     <div className="container no-bg">
       <Link href="/" className="link-text w-inline-block">
-        <div className="main-text link">home</div>
+      <div className="main-text link">accueil</div>
       </Link>
       <div className="main-text link margin">/</div>
       <Link href="#" className="link-text w-inline-block">
-        <div className="main-text link">shop</div>
+      <div className="main-text link">boutique</div>
       </Link>
-      {query ? (
-        <>
-          <div className="main-text link margin">/</div>
-          <div className="main-text link">{query.replaceAll("-", " ")}</div>
-        </>
-      ) : null}
+      <div className="main-text link margin">/</div>
+      <div className="main-text link">{query?.replaceAll("-", " ") || 'all products'}</div>
     </div>
   );
 }

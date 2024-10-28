@@ -6,6 +6,7 @@ import ProductCartSkeleton from "@/UI/productCartSkeleton";
 import Products from "@/UI/shop/fetchProductsByQuery";
 import CategoriesSkelton from "@/UI/categoriesSkelton";
 import { fetchCollections } from "@/lib/fetchData";
+import Filters from "@/UI/shop/filters";
 
 export type Props = {
   searchParams: { [key: string]: string | undefined };
@@ -16,20 +17,26 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const collection = await fetchCollections(100);
-  const collectionNames = collection.filter((col) => col.name?.toLowerCase().replaceAll(' ', '-') === searchParams.category)[0]
-  
+  const collectionNames = collection.filter(
+    (col) =>
+      col.name?.toLowerCase().replaceAll(" ", "-") === searchParams.category || 'all-products'
+  )[0];
+
   const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    title: searchParams.category ? `Shop ${searchParams.category}` : "Shop",
+    title: `Shop ${searchParams.category || 'all-products'}`,
     description: "browse our products",
     openGraph: {
-      title: searchParams.category ? `Shop ${searchParams.category}` : "Shop",
+      title: `Shop ${searchParams.category || 'all-products'}`,
       description: "browse our products",
       type: "website",
-      url: `https://leficheur.vercle.com/shop?category=${searchParams.category}`,
+      url: `https://leficheur.vercle.com/shop?category=${searchParams.category || 'all-products'}`,
       siteName: "leficheur.ma",
-      images: [collectionNames.media?.items?.[0].image?.url!, ...previousImages],
+      images: [
+        collectionNames.media?.items?.[0].image?.url!,
+        ...previousImages,
+      ],
     },
   };
 }
@@ -40,12 +47,15 @@ export default function Page({ searchParams }: Props) {
       <div className="main">
         <div className="navigation-wrap">
           <Navigation />
+          <Filters />
         </div>
       </div>
       <div className="container shop">
         <div className="w-layout-grid shop-grid shop">
           <div className="collumn-stiky">
-            <div className="main-text link black">select a category</div>
+            <div className="main-text link black">
+              sélectionnez une catégorie
+            </div>
             <Suspense fallback={<CategoriesSkelton len={6} />}>
               <Categories />
             </Suspense>

@@ -4,11 +4,12 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Brand from "@/UI/brand";
-import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
 import { useCartStore } from "@/hooks/useCartStore";
 import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
 import { collections } from "@wix/stores";
+import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
+import Search from "@/UI/search";
 
 const Header = () => {
   const [toggle, setToggle] = useState<boolean>(false);
@@ -21,15 +22,6 @@ const Header = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const { cart, isLoading, counter, removeItem, updateQuantity } =
     useCartStore();
-  const [focused, setFocused] = useState<boolean>(false);
-
-  const handleFocus = () => {
-    setFocused(true);
-  };
-
-  const handleBlur = () => {
-    setFocused(false);
-  };
 
   useEffect(() => {
     if (cartFormRef.current) if (cart) cartFormRef.current.style.display = "";
@@ -110,12 +102,13 @@ const Header = () => {
     <header className="navbar w-nav" data-collapse="medium">
       <Brand />
       <div className="container navbar">
+        {/* menu button */}
         <div
           className="menu-button w-nav-button"
           role="button"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{
-            WebkitUserSelect: 'text'
+            WebkitUserSelect: "text",
           }}
         >
           <div className="wrapper-burger-menu">
@@ -146,141 +139,15 @@ const Header = () => {
             />
           </div>
         </div>
-        <div className="wrapper-search">
-          <div
-            className="button-search"
-            onClick={handleFocus}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#333"
-            >
-              <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-            </svg>
-          </div>
-          <form
-            action=""
-            className={`search w-form`}
-            style={{
-              width: focused ? "158px" : "0px", // Toggle the width
-              height: "24.9844px",
-              transition: "width 0.5s cubic-bezier(0.63, 0, 0.25, 1)",
-            }}
-            onBlur={handleBlur}
-          >
-            <input
-              type="search"
-              name="query"
-              id="search-query"
-              className="search-input w-input"
-              placeholder="Search..."
-              maxLength={256}
-              required
-            />
-            <button type="submit" className="search-button w-button" value="search">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#333"
-              >
-                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-              </svg>
-            </button>
-          </form>
-        </div>
+        <Search />
         <nav role="navigation" className="nav-menu w-nav-menu">
           <div className="wrap-nav">
             <Link href="/about" className="nav-link">
-              about
+              à propos de nous
             </Link>
-            <div
-              className="dropdown w-dropdown"
-              style={{
-                zIndex: toggle ? 901 : 900,
-              }}
-            >
-              <div
-                className="dropdown-toggle w-dropdown-toggle w--open"
-                onClick={toggleDropdown}
-              >
-                <div
-                  className="icon w-icon-dropdown-toggle"
-                  style={{
-                    transition: "cubic-bezier(1,-0.3, 0.58, 1) .7s",
-                    transform: toggle ? `translateX(50%) rotate(180deg)` : `rotate(0deg)`,
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24px"
-                    viewBox="0 -960 960 960"
-                    width="24px"
-                    fill="#333"
-                  >
-                    <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
-                  </svg>
-                </div>
-                <div className="nav-link _2">shop</div>
-              </div>
-              <nav
-                className={`dropdown-list w-dropdown-list ${
-                  toggle ? "w--open" : ""
-                }`}
-              >
-                <div
-                  className="bg-dropdown"
-                  style={{
-                    height: toggle ? "100%" : "0%",
-                    width: "100%",
-                    transition: "height 0.5s ease", // Smooth transition for height
-                  }}
-                ></div>
-                <div className="container-dropdown">
-                  <div className="main-section">
-                    <div className="collection-list-wrapper">
-                      <div
-                        role="list"
-                        className="collection-grid-list w-dyn-items"
-                      >
-                        {collections.map((collection) => (
-                          <div key={collection._id} role="listitem">
-                            <Link
-                              className="nav-card w-inline-block"
-                              href={`/shop?category=${collection.name!
-                                .toLowerCase()
-                                .replaceAll(" ", "-")}`}
-                                onClick={() => setToggle(false)}
-                            >
-                              <Image
-                                src={
-                                  collection?.media?.mainMedia?.image?.url ||
-                                  "/placeholder-image.jpg"
-                                } // Fallback if image URL is missing
-                                alt={
-                                  collection?.media?.mainMedia?.title ||
-                                  "No title available"
-                                } // Fallback if title is missing
-                                width={400}
-                                height={400}
-                                className="main-image"
-                              />
-                              <div className="nav-link footer">
-                                {collection.name}
-                              </div>
-                            </Link>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </nav>
-            </div>
+            <Link href="/shop" className="nav-link">
+              boutique
+            </Link>
             <Link href="/contact" className="nav-link">
               Contact
             </Link>
@@ -394,7 +261,7 @@ const Header = () => {
                                     removeItem(myWixClient, item._id!)
                                   }
                                 >
-                                  Remove
+                                  Supprimer
                                 </div>
                               </Link>
                             </div>
@@ -416,7 +283,7 @@ const Header = () => {
                       </div>
                       <div className="w-commerce-commercecartfooter">
                         <div className="w-commerce-commercecartlineitem">
-                          <div className="main-text cart">subTotal</div>
+                          <div className="main-text cart">Sous-total</div>
                           <div className="w-commerce-commercecartordervalue main-text cart blue">
                             {cart.subtotal?.amount + " " + cart.currency}
                           </div>
@@ -426,19 +293,19 @@ const Header = () => {
                             type="submit"
                             className="w-commerce-commercecartcheckoutbutton checkout-button"
                           >
-                            continue to checkout
+                            continuer vers le paiement
                           </button>
                         </div>
                       </div>
                     </form>
                   ) : (
                     <div className="w-commerce-commercecartemptystate empty-state-cart">
-                      <div className="text-cart">No items Found</div>
+                      <div className="text-cart">Aucun article trouvé</div>
                       <Link
                         href="/shop?category=all-products"
                         className="main-button"
                       >
-                        back to shop
+                        retour à la boutique
                       </Link>
                     </div>
                   )}
@@ -462,13 +329,15 @@ const Header = () => {
           className="nav-menu w-nav-menu"
           style={{
             transition: "all, transform 500ms ease-in-out",
-            transform:`translateY(${menuOpen?'0px':'-100%'}) translateX(0px)`,
+            transform: `translateY(${
+              menuOpen ? "0px" : "-100%"
+            }) translateX(0px)`,
           }}
           data-nav-menu-open
         >
           <div className="wrap-nav">
             <Link href="/about" className="nav-link w-inline-block">
-              about
+              à propos de nous
             </Link>
             <div className="dropdown w-dropdown w--nav-dropdown-open">
               <div
@@ -499,7 +368,7 @@ const Header = () => {
                   </svg>
                 </div>
                 <div className="nav-link _2">
-                  <div className="text-link static">shop</div>
+                  <div className="text-link static">boutique</div>
                 </div>
               </div>
               <nav
@@ -523,15 +392,19 @@ const Header = () => {
                         className="collection-grid-list w-dyn-items"
                       >
                         {collections.map((item) => (
-                          <div key={item._id} role="listitem" className="w-dyn-item">
+                          <div
+                            key={item._id}
+                            role="listitem"
+                            className="w-dyn-item"
+                          >
                             <Link
                               className="nav-card w-inline-block"
-                              href={`/shop?category=${item.name!
-                                .toLowerCase()
+                              href={`/shop?category=${item
+                                .name!.toLowerCase()
                                 .replaceAll(" ", "-")}`}
                               onClick={() => {
-                                setMenuOpen(false)
-                                setToggle(false)
+                                setMenuOpen(false);
+                                setToggle(false);
                               }}
                             >
                               <Image

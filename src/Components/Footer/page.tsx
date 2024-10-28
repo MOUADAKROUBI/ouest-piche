@@ -14,7 +14,7 @@ const Footer = async () => {
           <div className="wrapper-footer">
             <Brand />
             <h1 className="main-heading footer">
-              Premium fishing gear for all.
+              Équipement de pêche <br /> premium pour tous.
             </h1>
           </div>
           <div
@@ -25,13 +25,13 @@ const Footer = async () => {
               <div className="wrapper-link-footer">
                 <h6 className="heading">page</h6>
                 <Link href="/about" className="nav-link footer w-inline-block">
-                  <div className="text-link static">about</div>
+                  <div className="text-link static">À propos de nous</div>
                 </Link>
                 <Link
                   href="/shop?category=all-products"
                   className="nav-link footer w-inline-block"
                 >
-                  <div className="text-link static">shop</div>
+                  <div className="text-link static">Boutique</div>
                 </Link>
                 <Link
                   href="/contact"
@@ -43,36 +43,38 @@ const Footer = async () => {
               <div className="wrapper-link-footer">
                 <h6 className="heading">shop</h6>
                 <Suspense fallback={<CategoriesSkelton len={3} />}>
-                    {collections.map((collection) => (
+                  {collections.map((collection) => (
                     <Link
-                        key={collection._id}
-                        href={`/shop?category=${collection.name
+                      key={collection._id}
+                      href={`/shop?category=${collection.name
                         ?.replaceAll(" ", "-")
                         .toLowerCase()}`}
-                        className="nav-link footer w-inline-block"
+                      className="nav-link footer w-inline-block"
                     >
-                        <div className="text-link static">{collection.name}</div>
+                      <div className="text-link static">{collection.name}</div>
                     </Link>
-                    ))}
+                  ))}
                 </Suspense>
               </div>
               <div className="wrapper-link-footer">
                 <h6 className="heading">social</h6>
-                <Link href="/about" className="nav-link footer w-inline-block">
+                <a
+                  target="_blank"
+                  href="https://www.facebook.com/profile.php?id=100094002310270&mibextid=ZbWKwL"
+                  className="nav-link footer w-inline-block"
+                >
                   <div className="text-link static">facebook</div>
-                </Link>
-                <Link
-                  href="/shop?category=all-products"
+                </a>
+                <a
+                  target="_blank"
+                  href="https://www.instagram.com/bluefish.store_?igsh=MWRpeTQ4M2RtaXFwaQ=="
                   className="nav-link footer w-inline-block"
                 >
                   <div className="text-link static">instagram</div>
-                </Link>
-                <Link
-                  href="/contact"
-                  className="nav-link footer w-inline-block"
-                >
+                </a>
+                <a href="#" className="nav-link footer w-inline-block">
                   <div className="text-link static">whatsApp</div>
-                </Link>
+                </a>
               </div>
             </div>
           </div>

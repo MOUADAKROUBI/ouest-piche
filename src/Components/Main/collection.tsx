@@ -4,43 +4,33 @@ import ProductCartSkeleton from "@/UI/productCartSkeleton";
 import FetchBestSellersProducts from "@/UI/fetchBestSellersProducts";
 
 export default function Collection() {
+
   return (
     <>
       <div className="collection-section">
-        <div
-          className="main-text normal scroll-in-to-view"
-          data-aos="zoom-in-right"
-        >
-          Makai COLLECTION
-        </div>
-        <h1
+        <h3
           className="main-heading h3 black scroll-in-to-view"
           data-aos="zoom-in-left"
         >
-          the unlimited collection
-          <br />
-          of the best quality
-        </h1>
+          les plus vendus
+        </h3>
         <p className="main-paragraph center" data-aos="zoom-in-right">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur
-          odit, minima officiis earum sapiente eaque illo repudiandae odio et
-          aspernatur ex voluptatem obcaecati autem doloribus minus in laudantium
-          nam quos.
+          Découvrez nos produits les plus vendus
         </p>
         <Link
           href="/shop?category=all-products"
           className="main-button"
           data-aos="fade-in"
         >
-          view all
+          voir tout
         </Link>
       </div>
-      <div className="product-section no-padding-top" data-aos="zoom-in-down">
+      <div className="product-section no-padding-top">
         <div className="collection-product w-dyn-list">
           <div role="list" className="collection-list-product w-dyn-items">
             <Suspense fallback={<ProductCartSkeleton len={4} />}>
               <FetchBestSellersProducts />
-            </Suspense>  
+            </Suspense>
           </div>
         </div>
       </div>

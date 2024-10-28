@@ -15,7 +15,7 @@ export default function Icon() {
       <div
         style={{
           fontSize: 24,
-          fontFamily: 'Lobster, sans-serif',
+          fontFamily: 'Poppins, sans-serif',
           background: 'black',
           width: '100%',
           height: '100%',

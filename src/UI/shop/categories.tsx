@@ -1,6 +1,6 @@
 import React from "react";
-import Link from "next/link";
 import { fetchCollections } from "@/lib/fetchData";
+import Link from "next/link";
 
 export default async function Categories() {
   const collections = await fetchCollections(100);

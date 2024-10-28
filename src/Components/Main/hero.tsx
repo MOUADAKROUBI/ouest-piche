@@ -1,6 +1,9 @@
-'use client';
+"use client";
 
 import React, { useEffect, useState } from "react";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import Image from "next/image";
 
 const Hero = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -16,37 +19,62 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [activeSlide]);
 
+  const sliders = [
+    {
+      title: "Chaque lancer,",
+      title2: "paix et découverte.",
+      className: "first",
+    },
+    {
+      title: "Entre calme et frémissement,",
+      title2: "l’aventure commence.",
+      className: "second",
+    },
+    {
+      title: "À chaque lancer,",
+      title2: "l’espoir renait.",
+      className: "third",
+    },
+  ];  
+
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <>
       <div className="hero-section">
         <div className="hero-slider w-slider" aria-label="carousel">
           <div className="w-slider-mask">
-            {[0, 1, 2].map((slide, index) => (
+            {sliders.map((slide, index) => (
               <div
                 key={index}
                 className="hero-slide w-slide"
                 role="group"
                 aria-roledescription="slide"
-                aria-label={`slide ${slide + 1} of 3`}
+                aria-label={`slide ${index + 1} of 3`}
                 style={{
                   transition:
-                    activeSlide == slide ? "all, transform 900ms" : "all",
+                    activeSlide == index ? "all, transform 900ms" : "all",
                   transform: `translateX(${-activeSlide * 100}vw)`,
-                  opacity: activeSlide == slide ? 1 : 0,
-                  zIndex: activeSlide == slide ? 1 : 0,
+                  opacity: activeSlide == index ? 1 : 0,
+                  zIndex: activeSlide == index ? 1 : 0,
                 }}
               >
                 <div
-                  className={`image-slider ${slide == 0 && "first"} ${
-                    slide == 1 && "second"
-                  } ${slide == 2 && "third"}`}
+                  className={`image-slider ${index == 0 && "first"} ${
+                    index == 1 && "second"
+                  } ${index == 2 && "third"}`}
                 >
-                  <div className="container-text-hero-slider" data-aos="fade-up">
+                  <div
+                    className="container-text-hero-slider"
+                    data-aos="fade-up"
+                  >
                     <div className="overflow">
-                      <h1 className="main-heading white">lets break the</h1>
+                      <h1 className="main-heading white">{slide.title}</h1>
                     </div>
                     <div className="overflow">
-                      <h1 className="main-heading white">barriers together</h1>
+                      <h1 className="main-heading white">{slide.title2}</h1>
                     </div>
                   </div>
                 </div>
@@ -116,6 +144,60 @@ const Hero = () => {
                 marginRight: "3px",
               }}
             ></div>
+          </div>
+        </div>
+      </div>
+      <div className="section-services" data-aos="fade-in">
+        <div className="w-layout-grid grid-icon">
+          <div className="icon-wrap sroll-in-to-view">
+            <div className="lottie-animation">
+              <Image
+                src='/images/delivery.png'
+                alt="delivery icon"
+                width={71}
+                height={71}
+              />
+            </div>
+            <h1 className="main-heading h6 services">
+              Livraison partout au Maroc
+            </h1>
+            <p className="main-paragraph center">
+              Profitez d&apos;une livraison rapide et fiable dans tout le pays.
+            </p>
+          </div>
+          {/* ---------------------- */}
+          <div className="icon-wrap sroll-in-to-view">
+            <div className="lottie-animation">
+              <Image
+                src='/images/virtual-assistant.png'
+                alt="delivery icon"
+                width={71}
+                height={71}
+              />
+            </div>
+            <h1 className="main-heading h6 services">
+              Assistante À L&apos;écoute
+            </h1>
+            <p className="main-paragraph center">
+              Notre équipe est disponible pour répondre à toutes vos questions et besoins.
+            </p>
+          </div>
+          {/* ---------------------- */}
+          <div className="icon-wrap sroll-in-to-view">
+            <div className="lottie-animation">
+              <Image
+                src='/images/gear.png'
+                alt="delivery icon"
+                width={71}
+                height={71}
+              />
+            </div>
+            <h1 className="main-heading h6 services">
+              Service après-vente
+            </h1>
+            <p className="main-paragraph center">
+              Un support de qualité pour garantir votre satisfaction après chaque achat.
+            </p>
           </div>
         </div>
       </div>

@@ -106,7 +106,7 @@
 }
 .price {
     margin-top: 10px;
-    font-family: Poppins, sans-serif;
+    font-family: var(--font-family-p);
 }
 
 .main-paragraph.shop {
@@ -159,7 +159,7 @@
     height: 100%;
     margin-bottom: 0;
     margin-right: 10px;
-    font-family: Poppins, sans-serif;
+    font-family: var(--font-family-p);
 }
 
 @media screen and (max-width: 479px) {
@@ -181,7 +181,7 @@
     margin-right: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
-    font-family: Poppins, sans-serif;
+    font-family: var(--font-family-p);
     font-size: 16px;
     line-height: 1;
     transition: border-color .4s ease-in-out, color .4s ease-in-out, background-color .4s ease-in-out;
@@ -288,14 +288,14 @@ a:active, a:hover {
     background-color: rgba(0, 0, 0, 0);
     padding-top: 15px;
     padding-bottom: 15px;
-    font-family: Poppins, sans-serif;
+    font-family: var(--font-family-p);
 }
 .shop-tab-link.w--current {
     background-color: var(--powder-blue);
     color: var(--white);
     padding-top: 15px;
     padding-bottom: 15px;
-    font-family: Poppins, sans-serif;
+    font-family: var(--font-family-p);
 }
 
 @media screen and (max-width: 479px) {
