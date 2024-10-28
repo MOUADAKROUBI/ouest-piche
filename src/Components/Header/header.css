@@ -18,8 +18,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 @media screen and (max-width: 991px) {
   .container.navbar {
     z-index: 4;
-    flex-direction: row-reverse;
-    width: auto;
     margin-right: 0;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -28,7 +26,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 @media screen and (max-width: 767px) {
   .container.navbar {
-    flex: 1;
     justify-content: flex-start;
     padding-right: 0;
   }
@@ -36,7 +33,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 @media screen and (max-width: 479px) {
   .container.navbar {
     z-index: 3;
-    flex: 1;
     justify-content: flex-start;
     max-width: 1400px;
     margin-left: auto;
@@ -105,23 +101,21 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   position: relative;
 }
 
+.brand-search-wrapp {
+  display: flex;
+  align-items: center;
+}
+
 .brand.w--current {
   display: block;
 }
 
 .w-nav-brand {
-  float: left;
-  position: relative;
-}
-
-@media screen and (max-width: 767px) {
-  .w-nav-brand {
-    padding-left: 10px;
-  }
+  padding-inline-end: 5px;
 }
 
 .brand {
-  width: 120px;
+  width: 200px;
   padding-bottom: 0;
   display: block;
 }
@@ -198,7 +192,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 .search {
   align-items: center;
-  width: 350px;
+  width: 100%;
   display: flex;
   position: relative;
 }
@@ -295,14 +289,11 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: auto;
   margin-left: 0;
   margin-right: 0;
-  padding: 0 20px;
   font-family: var(--font-family-p);
   font-size: 18px;
   position: relative;
-  overflow: hidden;
   text-transform: capitalize;
 }
 
@@ -625,6 +616,7 @@ ul {
 .wrap-nav {
   align-items: center;
   display: flex;
+  gap: 20px;
 }
 
 @media screen and (max-width: 991px) {

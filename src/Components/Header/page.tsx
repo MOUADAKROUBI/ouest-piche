@@ -100,7 +100,6 @@ const Header = () => {
 
   return (
     <header className="navbar w-nav" data-collapse="medium">
-      <Brand />
       <div className="container navbar">
         {/* menu button */}
         <div
@@ -139,19 +138,28 @@ const Header = () => {
             />
           </div>
         </div>
-        <Search />
+        <div className="brand-search-wrapp">
+          <Brand />
+          <Search />
+        </div>
         <nav role="navigation" className="nav-menu w-nav-menu">
-          <div className="wrap-nav">
-            <Link href="/about" className="nav-link">
-              à propos de nous
-            </Link>
-            <Link href="/shop" className="nav-link">
-              boutique
-            </Link>
-            <Link href="/contact" className="nav-link">
-              Contact
-            </Link>
-          </div>
+          <ul className="wrap-nav">
+            <li>
+              <Link href="/about" className="nav-link">
+                à propos de nous
+              </Link>
+            </li>
+            <li>
+              <Link href="/shop" className="nav-link">
+                boutique
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="nav-link">
+                Contact
+              </Link>
+            </li>
+          </ul>
         </nav>
         <div className="cart-wrap">
           <div className="w-commerce-commercecartwrapper cart-2" data-cart-open>
