@@ -35,8 +35,8 @@ const Page = () => {
                 }}
               >
                 Bluefish, votre magasin spécialisé en matériel de pêche, vous
-                propose une large gamme d'équipements adaptés à tous les
-                pêcheurs, du débutant à l'expert. Chez Bluefish, vous trouverez
+                propose une large gamme d&apos;équipements adaptés à tous les
+                pêcheurs, du débutant à l&apos;expert. Chez Bluefish, vous trouverez
                 des cannes à pêche, des appâts, des accessoires et des conseils
                 personnalisés pour vivre une expérience de pêche réussie, que ce
                 soit en eau douce ou en mer. Notre passion pour la pêche se
@@ -128,7 +128,7 @@ const Page = () => {
               height={800}
               className="slag-image"
             />
-            <p className="main-paragraph no-margin">Assistante À L'écoute</p>
+            <p className="main-paragraph no-margin">Assistante À L&apos;écoute</p>
           </div>
           <div
             className="row"

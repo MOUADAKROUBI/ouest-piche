@@ -6,7 +6,7 @@ import { products } from "@wix/stores";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export default function Search() {
+export default function Search({screen}: {screen: string}) {
   const router = useRouter()
   const myWixClient = useContext<MyWixClient>(WixClientContext);
   const [searchTxt, setSearchTxt] = useState<string>("");
@@ -29,7 +29,7 @@ export default function Search() {
   };
 
   return (
-    <div className={`search`}>
+    <div className={`search ${screen}`}>
       <svg
         className="icon search-input-icon"
         height="20px"

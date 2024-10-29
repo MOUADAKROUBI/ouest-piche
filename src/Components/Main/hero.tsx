@@ -152,7 +152,7 @@ const Hero = () => {
           <div className="icon-wrap sroll-in-to-view">
             <div className="lottie-animation">
               <Image
-                src='/images/delivery.png'
+                src='/images/delivery.gif'
                 alt="delivery icon"
                 width={71}
                 height={71}
@@ -169,7 +169,7 @@ const Hero = () => {
           <div className="icon-wrap sroll-in-to-view">
             <div className="lottie-animation">
               <Image
-                src='/images/virtual-assistant.png'
+                src='/images/virtual-assistant.gif'
                 alt="delivery icon"
                 width={71}
                 height={71}
@@ -186,7 +186,7 @@ const Hero = () => {
           <div className="icon-wrap sroll-in-to-view">
             <div className="lottie-animation">
               <Image
-                src='/images/gear.png'
+                src='/images/tech-support.gif'
                 alt="delivery icon"
                 width={71}
                 height={71}
