@@ -107,6 +107,7 @@
 .price {
     margin-top: 10px;
     font-family: var(--font-family-p);
+    font-weight: 600;
 }
 
 .main-paragraph.shop {

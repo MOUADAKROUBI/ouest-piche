@@ -1,8 +1,9 @@
 import React, { Suspense } from "react";
 import CollectionsSkelton from "@/UI/collectionsSkelton";
 import FetchCollections from "@/UI/fetchCollections";
+import Link from "next/link";
 
-export default function IconSection() {
+export default function CategoriesHome() {
   return (
     <>
       <div className="collections-section">
@@ -12,6 +13,13 @@ export default function IconSection() {
         >
           découvrez nos meilleures <br /> catégories
         </h3>
+        <Link
+          href="/shop"
+          className="main-button"
+          data-aos="fade-in"
+        >
+          voir tout
+        </Link>
       </div>
       <div className="collections-section">
         <Suspense fallback={<CollectionsSkelton />}>

@@ -41,7 +41,8 @@ export async function generateMetadata(
   };
 }
 
-export default function Page({ searchParams }: Props) {
+export default async function Page({ searchParams }: Props) {
+  const collections = await fetchCollections(100);
   return (
     <>
       <div className="main">
@@ -51,13 +52,10 @@ export default function Page({ searchParams }: Props) {
         </div>
       </div>
       <div className="container shop">
-        <div className="w-layout-grid shop-grid shop">
+        <div className="shop-page shop">
           <div className="collumn-stiky">
-            <div className="main-text link black">
-              sélectionnez une catégorie
-            </div>
-            <Suspense fallback={<CategoriesSkelton len={6} />}>
-              <Categories />
+            <Suspense fallback={<CategoriesSkelton len={4} />}>
+              <Categories collections={collections} />
             </Suspense>
           </div>
 
@@ -65,7 +63,7 @@ export default function Page({ searchParams }: Props) {
             <div className="collection-product w-dyn-list">
               <div
                 role="list"
-                className="collection-list-product shop-page w-dyn-items"
+                className="collection-list-product w-dyn-items"
               >
                 <Suspense fallback={<ProductCartSkeleton len={6} />}>
                   <Products searchParams={searchParams} />

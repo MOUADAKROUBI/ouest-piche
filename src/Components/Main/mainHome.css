@@ -800,6 +800,7 @@ img {
   text-transform: lowercase;
   margin-bottom: 0;
   font-size: 17px;
+  font-weight: 500;
 }
 
 h5 {
@@ -948,6 +949,7 @@ input {
 /* collctions section */
 .collections-section {
   padding-top: 60px;
+  text-align: center;
 }
 
 @media screen and (max-width: 991px) {
@@ -961,10 +963,6 @@ input {
   .collections-section {
       padding-top: 20px;
   }
-}
-
-.collection-list-wrapper {
-  position: relative;
 }
 
 .collection-list {
@@ -1034,41 +1032,6 @@ input {
   .nav-link.footer {
       align-items: flex-start;
   }
-}
-
-.arrow-left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 100%;
-  cursor: pointer;
-  transition: all .9 ease-in;
-}
-
-.arrow-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 100%;  
-  cursor: pointer;
-  transition: all .9 ease-in;
-}
-
-.arrow-left:hover, .arrow-right:hover {
-  opacity: .5;
-}
-
-.icon-arrow-left, .icon-arrow-right {
-  font-size: 20px;
-  z-index: 999;
 }
 
 .w-layout-grid.collection-skelton-grid {

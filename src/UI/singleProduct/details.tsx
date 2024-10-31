@@ -195,7 +195,6 @@ export function Details({
         <div
           className="shop-tab w-tabs"
           data-current="tab-1"
-          data-aos="fade-up"
         >
           <div className="w-tab-menu" role="tablist">
             <button
@@ -233,7 +232,6 @@ export function Details({
               className={`tab-pane-first-tab w-tab-pane ${
                 tabSelected === 1 ? "w--tab-active" : ""
               }`}
-              data-aos="fade-down"
             >
               <p className="main-paragraph">{product.description}</p>
             </div>
@@ -244,7 +242,6 @@ export function Details({
               className={`tab-pane-second-tab w-tab-pane ${
                 tabSelected === 2 ? "w--tab-active" : ""
               }`}
-              data-aos="fade-down"
             >
               <div className="flex-container">
                 <table className="table">

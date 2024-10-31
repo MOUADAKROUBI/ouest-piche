@@ -46,6 +46,13 @@ export default async function Page({ params }: Props) {
             <SingleProductContent id={params.id} />
           </Suspense>
           <div className="product-section">
+            <h3 className="main-heading h3 black scroll-in-to-view" data-aos="zoom-in-left">
+              Produits similaires
+            </h3>
+            <p className="main-paragraph center" data-aos="zoom-in-right">
+              Découvrez nos produits similaires
+            </p>
+            
             <div className="collection-product w-dyn-list">
               <div role="list" className="collection-list-product w-dyn-items">
                 <Suspense fallback={<ProductCartSkeleton len={4} />}>

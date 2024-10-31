@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "@/Components/Main/hero";
 import Collection from "@/Components/Main/collection";
-import IconSection from "@/Components/Main/iconSection";
+import CategoriesHome from "@/Components/Main/categoriesHome";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
       <div className="main">
         <div className="container">
           <Hero />
-          <IconSection />
+          <CategoriesHome />
           <Collection />
         </div>
       </div>

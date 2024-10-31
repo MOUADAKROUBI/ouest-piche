@@ -47,8 +47,6 @@ export default function Search({screen}: {screen: string}) {
         id="search-query"
         placeholder={`rechercher plus de 30 produits`}
         maxLength={256}
-        required
-        autoFocus
         value={searchTxt}
         onChange={(e) => handleSearch(e)}
       />

@@ -110,7 +110,12 @@
     margin: 0;
 }
 
-
+.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
 
 
 
