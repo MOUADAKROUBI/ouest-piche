@@ -474,6 +474,7 @@ const Header = () => {
                         <Link
                           href="/shop?category=all-products"
                           className="main-button"
+                          onClick={toggleCart}
                         >
                           retour à la boutique
                         </Link>
