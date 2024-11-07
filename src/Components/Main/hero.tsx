@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Image from "next/image";
-import Carousel from "react-elastic-carousel";
+import ReactElasticCarousel, { ReactElasticCarouselProps } from "react-elastic-carousel";
 
 const Hero = () => {
   const sliders = [
@@ -29,12 +29,20 @@ const Hero = () => {
     AOS.init();
   }, []);
 
+  interface CustomCarouselProps extends ReactElasticCarouselProps {
+    children: React.ReactNode;
+  }
+  
+  const CustomCarousel = (props: CustomCarouselProps) => (
+    <ReactElasticCarousel {...props} />
+  );
+
   return (
     <>
       <div className="hero-section">
         <div className="hero-slider w-slider" aria-label="carousel">
           <div className="w-slider-mask">
-            <Carousel showArrows={false}>
+            <CustomCarousel isRTL={false} showArrows={false}>
               {sliders.map((slide, index) => (
                 <div
                   key={index}
@@ -62,7 +70,7 @@ const Hero = () => {
                   </div>
                 </div>
               ))}
-            </Carousel>
+            </CustomCarousel>
           </div>
         </div>
       </div>
