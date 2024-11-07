@@ -10,7 +10,7 @@ export default async function SingleProductContent({ id }: { id: string }) {
 
   return (
     <>
-      <Details product={product} collection={collection} />
+      <Details product={product!} collection={collection} />
     </>
   );
 }
