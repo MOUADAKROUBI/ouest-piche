@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import Navigation from "@/UI/shop/navigation";
 import Categories from "@/UI/shop/categories";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata, ResolvingMetadata } from 'next'
 import ProductCartSkeleton from "@/UI/productCartSkeleton";
 import Products from "@/UI/shop/fetchProductsByQuery";
 import CategoriesSkelton from "@/UI/categoriesSkelton";

@@ -114,7 +114,6 @@ export async function fetchBestSellersProducts() {
     const listAvailableAlgorithms = (
       await client.recommendations.listAvailableAlgorithms()
     ).availableAlgorithms;
-    console.log(listAvailableAlgorithms);
     const recommendedProducts = client.recommendations.getRecommendation([
       {
         _id: "ba491fd2-b172-4552-9ea6-7202e01d1d3c",

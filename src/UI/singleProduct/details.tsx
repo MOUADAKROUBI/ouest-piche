@@ -6,6 +6,7 @@ import { useCartStore } from "@/hooks/useCartStore";
 import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
 import Link from "next/link";
 import { collections, products } from "@wix/stores";
+import { useRouter } from "next/navigation";
 
 export function Details({
   product,
@@ -17,6 +18,7 @@ export function Details({
   const [imageHovered, setImageHovered] = useState<string | undefined>(undefined);
   const [tabSelected, setTabSelected] = useState<number>(1);
   const WixClient = useContext<MyWixClient>(WixClientContext);
+  const router = useRouter();
 
   const { isLoading, addItem } = useCartStore();
 
@@ -39,6 +41,22 @@ export function Details({
 
   return (
     <>
+      <div className="go-back">
+        <div
+          className="icon-go-back"
+          onClick={() => router.back()}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="30px"
+            viewBox="0 -960 960 960"
+            width="30px"
+            fill="#333"
+          >
+            <path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z" />
+          </svg>
+        </div>
+      </div>
       <div className="w-layout-grid shop-grid" data-id={product._id}>
         <div className="wrapper-gallery-product">
           <div className="container-hover-image">
@@ -134,7 +152,7 @@ export function Details({
               onSubmit={handleSubmit}
             >
               <label htmlFor="" className="field-label-product">
-                Quantity
+                Quantité
               </label>
               <div className="add-to-cart-wrap">
                 <input
@@ -152,7 +170,7 @@ export function Details({
                   className="w-commerce-commerceaddtocartbutton add-to-cart-button-product"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Adding to cart..." : "Add to cart"}
+                    {isLoading ? "Ajout au panier..." : "Ajouter au panier"}
                 </button>
               </div>
               <Link
@@ -168,7 +186,7 @@ export function Details({
                 display: product.stock?.inventoryStatus ? "none" : "block",
               }}
             >
-              <div>this product is out of stock</div>
+                <div>ce produit est en rupture de stock</div>
             </div>
             <div
               className="w-commerce-commerceaddtocarterror"
@@ -176,13 +194,13 @@ export function Details({
                 display: "none",
               }}
             >
-              <div>product is not avariable in this Quantity</div>
+                <div>Le produit n&apos;est pas disponible en cette quantité</div>
             </div>
           </div>
           <div className="w-layout-grid additional-information-grid top">
             <div className="colluumn">
-              <div className="main-text price first">SKU</div>
-              <div className="main-text price first">Category</div>
+                <div className="main-text price first">UGS</div>
+                <div className="main-text price first">Catégorie</div>
             </div>
             <div className="colluumn">
               <div className="main-text price first">{product.sku}</div>
@@ -208,7 +226,7 @@ export function Details({
               }`}
               onClick={() => setTabSelected(1)}
             >
-              <div className="tab-text">description</div>
+                <div className="tab-text">description</div>
             </button>
             <button
               data-w-tab="Tab 2"
@@ -221,7 +239,7 @@ export function Details({
               }`}
               onClick={() => setTabSelected(2)}
             >
-              <div className="tab-text">details</div>
+                <div className="tab-text">détails</div>
             </button>
           </div>
           <div className="w-tab-content">
@@ -247,13 +265,13 @@ export function Details({
                 <table className="table">
                   <tbody>
                     <tr>
-                      <td className="main-text price first">quantity</td>
+                        <td className="main-text price first">quantité</td>
                       <td className="main-text price first">
                         {product.stock?.quantity}
                       </td>
                     </tr>
                     <tr>
-                      <td className="main-text price">ribbon</td>
+                        <td className="main-text price">ruban</td>
                       <td className="main-text price">{product.ribbon}</td>
                     </tr>
                     {product.additionalInfoSections &&

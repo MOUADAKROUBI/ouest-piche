@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { WixClientContextProvider } from "@/Contexts/wixContext";
 import Header from "@/Components/Header/page";
 import Footer from "@/Components/Footer/page";
-
-const inter = Inter({ subsets: ["latin"] });
+import { popping } from "./fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -21,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="fr" className={`${popping.variable}`}>
+      <body>
         <WixClientContextProvider>
           <Header />
           {children}

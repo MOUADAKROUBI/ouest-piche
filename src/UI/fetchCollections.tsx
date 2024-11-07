@@ -8,7 +8,7 @@ export default async function FetchCollections() {
 
   return (
     <div className="collection-list-wrapper">
-      <div role="list" className="collection-list w-dyn-items">
+      <div role="list" className="collection-list-home w-dyn-items">
         {collections.map((collection) => (
           <div key={collection._id} role="listitem" className="collection-item">
             <Link

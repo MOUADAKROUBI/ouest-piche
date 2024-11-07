@@ -81,13 +81,13 @@ export default function SingleProduct({ data } : { data: products.Product }) {
               transformStyle: "preserve-3d",
             }}
           >
-            <p className="main-paragraph card">Quick look</p>
+            <p className="main-paragraph card">Aperçu rapide</p>
           </div>
         </Link>
 
         <div className="container-text-product">
           <div className="collumn _1">
-            <h5 className="heading-product">{data.name}</h5>
+            <h4 className="heading-product">{data.name}</h4>
             <p className="category-text capitalize">
               {data.stock?.inventoryStatus ? "in stock" : "out of stock"}
             </p>
@@ -123,7 +123,7 @@ export default function SingleProduct({ data } : { data: products.Product }) {
                 className="w-commerce-commerceaddtocartform default-state-card"
                 onSubmit={addToCart}
               >
-                <label htmlFor="" className="field-label">Quantity</label>
+                <label htmlFor="" className="field-label">Quantité</label>
                 <input
                   type="number"
                   pattern="^[0-9]+DH"
@@ -137,7 +137,7 @@ export default function SingleProduct({ data } : { data: products.Product }) {
                 <input
                   ref={ref}
                   type="submit"
-                  value="Add to cart"
+                  value="Ajouter au panier"
                   id={`add-to-cart-${data._id}`}
                   className="w-commerce-commerceaddtocartbutton add-to-cart-button"
                 />

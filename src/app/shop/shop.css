@@ -201,21 +201,6 @@ option {
     }
 }
 
-.collection-list {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-}
-
-.collection-list-category {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 10px;
-}
-
 .main-text.link.black {
     color: #333;
     text-transform: lowercase;

@@ -5,7 +5,7 @@ export default async function SingleProductContent({ id }: { id: string }) {
   const { product, collection } = await fetchSingleP(id);
 
   if (!product) {
-    return <p>product not fount</p>
+    <p>produit non trouvé</p>
   }
 
   return (

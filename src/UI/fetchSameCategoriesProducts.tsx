@@ -19,7 +19,7 @@ export default async function FetchSameCategoriesProducts({catalogItemId}:{catal
   if (!products?.length)
     return (
       <div className="w-dyn-empty">
-        <h1>no products found</h1>
+        <h1>aucun produit trouvé</h1>
       </div>
     );
 
