@@ -9,6 +9,7 @@ import { media as wixMedia } from "@wix/sdk";
 import { currentCart } from "@wix/ecom";
 import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
 import Search from "@/UI/search";
+import Weather from "@/UI/header/weather";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -74,9 +75,9 @@ const Header = () => {
   useEffect(() => {
     if (menuRef.current) {
       if (menuOpen) {
-        menuRef.current.style.height = "12533.6px";
+        menuRef.current.style.display = "block";
       } else {
-        menuRef.current.style.height = "";
+        menuRef.current.style.display = "";
       }
     }
   }, [menuOpen]);
@@ -352,8 +353,8 @@ const Header = () => {
                   className="w-commerce-commercecartcontainer cart-container"
                   style={{
                     transition:
-                      "all, transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                    transform: cartOpen ? "translateX(0px)" : "none",
+                      "transform .3 cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                    transform: cartOpen ? "translateX(0px)" : "translateX(-100%)",
                   }}
                 >
                   <div className="w-commerce-commercecartheader cart-header">
@@ -513,23 +514,18 @@ const Header = () => {
         ref={menuRef}
         data-wf-ignore
         style={{
-          display: menuOpen ? "block" : "none",
+          transition: "all, transform .5 ease-in-out",
+          transform: `translateY(${menuOpen ? 0 : "-100%"})`,
         }}
       >
         <nav
           role="navigation"
           className="nav-menu w-nav-menu"
-          style={{
-            transition: "all, transform 500ms ease-in-out",
-            transform: `translateY(${
-              menuOpen ? "0px" : "-100%"
-            }) translateX(0px)`,
-          }}
           data-nav-menu-open
         >
           <ul className="wrap-nav">
             <li className="nav-item">
-              <Link href="/" className="nav-link">
+              <Link href="/" className="nav-link" onClick={() => setMenuOpen(!menuOpen)}>
                 <div className="icon-page">
                   <svg
                     viewBox="0 0 24 24"
@@ -565,7 +561,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/shop" className="nav-link">
+              <Link href="/shop" className="nav-link" onClick={() => setMenuOpen(!menuOpen)}>
                 <div className="icon-page">
                   <svg
                     viewBox="0 0 24 24"
@@ -607,7 +603,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/contact" className="nav-link">
+              <Link href="/contact" className="nav-link" onClick={() => setMenuOpen(!menuOpen)}>
                 <div className="icon-page">
                   <svg
                     viewBox="0 0 24 24"
@@ -638,7 +634,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/about" className="nav-link">
+              <Link href="/about" className="nav-link" onClick={() => setMenuOpen(!menuOpen)}>
                 <div className="icon-page">
                   <svg
                     viewBox="0 0 24 24"
@@ -670,6 +666,8 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+        
+        <Weather screen="-mobile" />
       </div>
     </header>
   );

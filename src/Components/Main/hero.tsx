@@ -5,6 +5,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Image from "next/image";
 import ReactElasticCarousel, { ReactElasticCarouselProps } from "react-elastic-carousel";
+import Weather from "@/UI/header/weather";
 
 const Hero = () => {
   const sliders = [
@@ -39,6 +40,8 @@ const Hero = () => {
 
   return (
     <>
+      <Weather screen="-desktop" />
+
       <div className="hero-section">
         <div className="hero-slider w-slider" aria-label="carousel">
           <div className="w-slider-mask">

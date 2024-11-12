@@ -7,8 +7,8 @@ import { popping } from "./fonts";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | leficheur.ma",
-    default: "home | leficheur.ma",
+    template: "%s | OUEST PECHE",
+    default: "home | OUEST PECHE",
   },
   description: "our website is the best place to find the best products for Fishing tools",
 };
