@@ -106,8 +106,8 @@ const Page = () => {
             <Image
               src="https://cdn.prod.website-files.com/60d4499d6dd4a589a869c2a8/60dd8f386671a5605644ec2d_Slag-01.svg"
               alt="image-1"
-              width={800}
-              height={800}
+              width={20}
+              height={20}
               className="slag-image"
             />
             <p className="main-paragraph no-margin">Livraison par tout au Maroc</p>
@@ -124,8 +124,8 @@ const Page = () => {
             <Image
               src="https://cdn.prod.website-files.com/60d4499d6dd4a589a869c2a8/60dd8f386671a5605644ec2d_Slag-01.svg"
               alt="image-1"
-              width={800}
-              height={800}
+              width={20}
+              height={20}
               className="slag-image"
             />
             <p className="main-paragraph no-margin">Assistante À L&apos;écoute</p>
@@ -142,8 +142,8 @@ const Page = () => {
             <Image
               src="https://cdn.prod.website-files.com/60d4499d6dd4a589a869c2a8/60dd8f386671a5605644ec2d_Slag-01.svg"
               alt="image-1"
-              width={800}
-              height={800}
+              width={20}
+              height={20}
               className="slag-image"
             />
             <p className="main-paragraph no-margin">Service après-vente</p>
