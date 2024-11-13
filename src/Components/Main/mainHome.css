@@ -158,6 +158,20 @@ h3 {
   line-height: 30px;
 }
 
+h5 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: var(--font-family-p);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+h5 {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
 h6 {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -183,7 +197,7 @@ img {
   max-width: 100%;
   display: inline-block;
   border: 0;
-  height: auto;
+  /* height: auto; */
 }
 
 a {
@@ -659,20 +673,6 @@ a {
   font-weight: 500;
 }
 
-h5 {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-family: var(--font-family-p);
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 1;
-}
-h5 {
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 20px;
-}
-
 .category-text {
   text-transform: lowercase;
   font-size: 12px;
@@ -831,8 +831,12 @@ input {
 .collection-list-home {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
+}
+
+@media screen and (max-width: 479px) {
+  .collection-list-home {
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width: 991px) {
@@ -897,6 +901,11 @@ input {
   }
 }
 
+.nav-card .footer {
+  background-color: transparent;
+  color: var(--black);
+}
+
 .w-layout-grid.collection-skelton-grid {
   grid-template-rows: auto;
   grid-template-columns: repeat(5, 1fr);
@@ -930,6 +939,12 @@ input {
 .location-current-date span {
   font-family: var(--font-family-p);
   font-size: 18px;
+}
+
+@media screen and (max-width: 469px) {
+  .location-current-date span {
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 991px) {
@@ -979,7 +994,6 @@ select:focus {
 
 .weather-state, .tides {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
   flex-direction: row;
 }
@@ -992,7 +1006,7 @@ select:focus {
 
 @media screen and (max-width: 479px) {
   .tides {
-    flex-direction: column;
+    flex-wrap: wrap;
   }
 }
 
@@ -1000,7 +1014,6 @@ select:focus {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
   gap: 10px;
 }
 
@@ -1059,8 +1072,8 @@ select:focus {
 }
 
 .tide.alert {
-  position: relative;
   animation: alert 1s infinite;
+  position: relative;
 }
 
 .line {
@@ -1071,12 +1084,7 @@ select:focus {
 
 @media screen and (max-width: 479px) {
   .line {
-    height: 1px;
-    width: 195px;
-  }
-
-  .line:nth-child(1) {
-    margin-top: 10px;
+    display: none;
   }
 }
 
@@ -1094,17 +1102,24 @@ select:focus {
 }
 
 .alert-ntf {
-  position: absolute;
-  left: 50%;
+  position: fixed;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
   background-color: #333;
+  font-family: var(--font-family-p);
   color: var(--white);
   max-width: 200px;
-  padding: 10px;
+  padding: 5px;
   border-radius: 10px;
-  box-shadow: 5px 5px 20px rgba(0, 0, 0, .2);
-  transform: translate(-50%, -100%); /* Adjust position slightly above */
-  pointer-events: none; /* Keeps alert from affecting hover behavior */
-  z-index: 888;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, .1);
+}
+
+.tide.alert:hover .alert-ntf {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .3s ease;
+  cursor: none;
 }
 
 .alert-ntf::after {

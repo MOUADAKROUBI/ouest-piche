@@ -15,7 +15,7 @@ const Footer = async () => {
             <Brand isFooter={true} />
             <figcaption className="">
               Découvrez Ouest pêche votre spécialiste dans les matériels de
-              pêch, nous proposons une large gamme de produits adaptés à tous
+              pêche, nous proposons une large gamme de produits adaptés à tous
               les techniques : pêche en mer, pêche en rivière, pêche au
               carnassier ou à la carpe. Que vous soyez débutant ou pêcheur
               expérimenté, notre objectif est de vous fournir l&apos;équipement et
@@ -85,7 +85,7 @@ const Footer = async () => {
                   </Link>
                   <Link
                     target="_blank"
-                    href="https://www.instagram.com/bluefish.store_?igsh=MWRpeTQ4M2RtaXFwaQ=="
+                    href="https://www.instagram.com/Ouest Pêche.store_?igsh=MWRpeTQ4M2RtaXFwaQ=="
                     className="nav-link footer w-inline-block"
                   >
                     <svg

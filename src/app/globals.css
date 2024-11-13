@@ -1,5 +1,5 @@
 :root {
-  --powder-blue: #81d0d8;
+  --powder-blue: #063D93;
   --white: white;
   --black: #333;
   --khaki: #e2e279;
@@ -24,7 +24,6 @@ body {
   position: relative;
 }
 
-/* HTML: <div class="loader"></div> */
 .loader {
   position: fixed;
   z-index: 999;
@@ -32,7 +31,7 @@ body {
   left: 0;
   width: 100%;
   height: 5px;
-  --c:no-repeat linear-gradient(#79d6e0 0 0);
+  --c:no-repeat linear-gradient(var(--powder-blue) 0 0);
   background: var(--c),var(--c),#d7b8fc;
   background-size: 60% 100%;
   animation: l16 3s infinite;
@@ -67,7 +66,7 @@ body {
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3) inset;
 }
 .loader-spiner:after {
-  box-shadow: 0 2px 0 var(--dark-turquoise) inset;
+  box-shadow: 0 2px 0 var(--powder-blue) inset;
   animation: rotate 2s linear infinite;
 }
 
@@ -147,6 +146,64 @@ body {
 .nav-link.footer.skelton {
   height: 30px;
   width: 100px;
+}
+
+.date.skelton {
+  height: 30px;
+  width: 400px;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 479px) {
+  .date.skelton {
+      height: 30px;
+      width: 200px;
+  }
+  
+}
+
+.select-city.skelton {
+  height: 30px;
+  width: 500px;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 479px) {
+  .select-city.skelton {
+      height: 30px;
+      width: 200px;
+  }
+  
+}
+
+.weather-today.skelton {
+  height: 150px;
+  width: 300px;
+  margin-right: 30px;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 479px) {
+  .weather-today.skelton {
+      height: 150px;
+      width: 150px;
+  }
+  
+}
+
+.tide.skelton {
+  height: 150px;
+  width: 150px;
+  margin-right: 30px;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 479px) {
+  .tide.skelton {
+      height: 100px;
+      width: 100px;
+  }
+
 }
 
 .main.error {

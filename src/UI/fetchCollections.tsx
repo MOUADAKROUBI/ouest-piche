@@ -25,8 +25,8 @@ export default async function FetchCollections() {
                 alt={
                   collection?.media?.mainMedia?.title || "No title available"
                 } // Fallback if title is missing
-                width={400}
-                height={400}
+                width={200}
+                height={200}
                 className="main-image"
               />
               <div className="nav-link footer">{collection.name}</div>

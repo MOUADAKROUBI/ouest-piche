@@ -31,6 +31,18 @@ export async function fetchProducts(limit: number, skipProductId?: string) {
   }
 }
 
+export async function fetchCollectionName(collectionId: string) {
+  try {
+    const client = await wixClientServer();
+    const collection = await client.collections.getCollection(collectionId);
+    return collection.name;
+    
+  } catch (error) {
+    console.log(error)
+    throw new Error("Error fetching collection name")
+  }
+}
+
 export async function fetchSingleP(id: string) {
   try {
     const client = await wixClientServer();

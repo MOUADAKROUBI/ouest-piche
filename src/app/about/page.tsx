@@ -34,9 +34,9 @@ const Page = () => {
                   transformStyle: "preserve-3d",
                 }}
               >
-                Bluefish, votre magasin spécialisé en matériel de pêche, vous
+                Ouest Pêche, votre magasin spécialisé en matériel de pêche, vous
                 propose une large gamme d&apos;équipements adaptés à tous les
-                pêcheurs, du débutant à l&apos;expert. Chez Bluefish, vous trouverez
+                pêcheurs, du débutant à l&apos;expert. Chez Ouest Pêche, vous trouverez
                 des cannes à pêche, des appâts, des accessoires et des conseils
                 personnalisés pour vivre une expérience de pêche réussie, que ce
                 soit en eau douce ou en mer. Notre passion pour la pêche se
@@ -57,7 +57,7 @@ const Page = () => {
               ></div>
               <Image
                 className="main-image"
-                src="https://assets-global.website-files.com/60d4499d6dd4a589a869c2a8/60e2cdca782f33aac57badd3_44%20(1)%20(1)-p-800.jpeg"
+                src="/images/1.jpg"
                 alt="about"
                 width={800}
                 height={800}

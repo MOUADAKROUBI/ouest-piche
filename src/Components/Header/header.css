@@ -449,16 +449,20 @@ ul {
 
 /* ------------------------------ */
 .w-nav-overlay {
-  background-color: var(--white);
   width: 100%;
-  height: auto;
+  height: 100%;
   max-height: 100vh;
   display: none;
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
+}
+
+.nav-menu-weather {
+  background-color: var(--white);
   overflow-y: scroll;
+  height: auto;
 }
 
 [data-nav-menu-open] {

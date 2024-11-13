@@ -21,9 +21,10 @@
 }
 
 .container-image {
-  background-image: url(https://cdn.prod.website-files.com/60d4499d6dd4a589a869c2a8/60e2d738ad63e84bddde0b2d_insta5.jpg);
-  background-position: 50% 100%;
-  background-size: auto;
+  background-image: url(/images/contactImage.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 721px;
   position: relative;
 }

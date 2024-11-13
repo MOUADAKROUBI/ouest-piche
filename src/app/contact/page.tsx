@@ -16,7 +16,7 @@ export default function Contact() {
                     <h1 className="main-heading contact-info">call</h1>
                     <p className="main-paragraph">+21774912950</p>
                     <h1 className="main-heading contact-info">email</h1>
-                    <p className="main-paragraph">Bluefish@gmail.com</p>
+                    <p className="main-paragraph">ouestpeche.info@gmail.com</p>
                     <h1 className="main-heading contact-info">address</h1>
                     <p className="main-paragraph">National R1 en face de, route oukhrib tusouss, Belfaa</p>
                 </div>

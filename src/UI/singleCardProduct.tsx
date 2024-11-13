@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useCartStore } from "@/hooks/useCartStore";
 import { products } from "@wix/stores";
 
-export default function SingleProduct({ data } : { data: products.Product }) {
+export default function SingleProduct({ data, collectionName } : { data: products.Product, collectionName: string | null | undefined }) {
   const [hoveredIndex, setHoveredIndex] = useState(null); // Tracks which item is hovered
   const { addItem } = useCartStore();
   const ref = useRef<HTMLInputElement>(null);
@@ -89,7 +89,7 @@ export default function SingleProduct({ data } : { data: products.Product }) {
           <div className="collumn _1">
             <h4 className="heading-product">{data.name}</h4>
             <p className="category-text capitalize">
-              {data.stock?.inventoryStatus ? "in stock" : "out of stock"}
+              {collectionName}
             </p>
           </div>
 

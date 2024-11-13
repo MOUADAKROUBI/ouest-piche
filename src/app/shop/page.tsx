@@ -32,7 +32,7 @@ export async function generateMetadata(
       description: "browse our products",
       type: "website",
       url: `https://leficheur.vercle.com/shop?category=${searchParams.category || 'all-products'}`,
-      siteName: "leficheur.ma",
+      siteName: "ouest peche",
       images: [
         collectionNames.media?.items?.[0].image?.url!,
         ...previousImages,
