@@ -4,30 +4,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { collections } from "@wix/stores";
-import ReactElasticCarousel, { ReactElasticCarouselProps } from "react-elastic-carousel";
+import Carousel from "../carousel";
 
 export default function Categories({
   collections,
 }: {
   collections: collections.Collection[];
 }) {
-  interface CustomCarouselProps extends ReactElasticCarouselProps {
-    children: React.ReactNode;
-  }
-  
-  const CustomCarousel = (props: CustomCarouselProps) => (
-    <ReactElasticCarousel {...props} />
-  );
-
-  const breakPoints = [
-    { width: 1, itemsToShow: 1, pagination: false },
-    { width: 550, itemsToShow: 2, itemsToScroll: 2, pagination: false },
-    { width: 850, itemsToShow: 7, pagination: false },
-    { width: 1150, itemsToShow: 7, itemsToScroll: 6, pagination: false },
-    { width: 1450, itemsToShow: 7, pagination: false },
-    { width: 1750, itemsToShow: 7, pagination: false },
-  ]
-
   return (
     <div className="collection-list w-dyn-list">
       <div
@@ -37,7 +20,7 @@ export default function Categories({
           cursor: "grab",
         }}
       >
-        <CustomCarousel isRTL={false} breakPoints={breakPoints} >
+        <Carousel autoSlide={false} tips={false} >
           {collections.map((collection, i) => (
             <Link
               key={i}
@@ -59,7 +42,7 @@ export default function Categories({
               </div>
             </Link>
           ))}
-        </CustomCarousel>
+        </Carousel>
       </div>
     </div>
   );

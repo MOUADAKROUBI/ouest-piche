@@ -16,16 +16,10 @@ export default function WeatherSkelton() {
           {[1,2,3,4].map(
             (index) => {
               return (
-                <>
-                  <div
-                    className={`tide skelton`}
-                    key={index}
-                  ></div>
-
-                  {index <3  && (
-                    <div className="line"></div>
-                  )}
-                </>
+                <div
+                  className={`tide skelton`}
+                  key={index}
+                ></div>
               );
             }
           )}

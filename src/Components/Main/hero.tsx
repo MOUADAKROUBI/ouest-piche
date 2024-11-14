@@ -4,39 +4,13 @@ import React, { useEffect } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Image from "next/image";
-import ReactElasticCarousel, { ReactElasticCarouselProps } from "react-elastic-carousel";
 import Weather from "@/UI/header/weather";
+import Carousel from "@/UI/carousel";
 
 const Hero = () => {
-  const sliders = [
-    {
-      title: "Chaque lancer,",
-      title2: "paix et découverte.",
-      className: "first",
-    },
-    {
-      title: "Entre calme et frémissement,",
-      title2: "l’aventure commence.",
-      className: "second",
-    },
-    {
-      title: "À chaque lancer,",
-      title2: "l’espoir renait.",
-      className: "third",
-    },
-  ];  
-
   useEffect(() => {
     AOS.init();
   }, []);
-
-  interface CustomCarouselProps extends ReactElasticCarouselProps {
-    children: React.ReactNode;
-  }
-  
-  const CustomCarousel = (props: CustomCarouselProps) => (
-    <ReactElasticCarousel {...props} />
-  );
 
   return (
     <>
@@ -44,37 +18,19 @@ const Hero = () => {
 
       <div className="hero-section">
         <div className="hero-slider w-slider" aria-label="carousel">
-          <div className="w-slider-mask">
-            <CustomCarousel isRTL={false} showArrows={false}>
-              {sliders.map((slide, index) => (
-                <div
+            <Carousel>
+              {[1,2,3].map((_, index) => (
+                <Image
                   key={index}
-                  className="hero-slide w-slide"
-                  role="group"
-                  aria-roledescription="slide"
-                  aria-label={`slide ${index + 1} of 3`}
-                >
-                  <div
-                    className={`image-slider ${index == 0 && "first"} ${
-                      index == 1 && "second"
-                    } ${index == 2 && "third"}`}
-                  >
-                    <div
-                      className="container-text-hero-slider"
-                      data-aos="fade-up"
-                    >
-                      <div className="overflow">
-                        <h2 className="main-heading white">{slide.title}</h2>
-                      </div>
-                      <div className="overflow">
-                        <h2 className="main-heading white">{slide.title2}</h2>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  src={`/images/hero-${index + 1}.jpg`}
+                  alt="hero"
+                  width={1920}
+                  height={100}
+                  className="slider-image"
+                  unoptimized={true}
+                />
               ))}
-            </CustomCarousel>
-          </div>
+            </Carousel>
         </div>
       </div>
       <div className="section-services" data-aos="fade-in">

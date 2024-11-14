@@ -193,12 +193,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   width: fit-content;
 }
 
-.icon-go-back:hover {
-  background-color: #eee;
-  padding: 10px;
-  border-radius: 50%;
-}
-
 .icon-search.mobile {
   display: none;
   cursor: pointer;
@@ -212,7 +206,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 .icon {
-  stroke-width: 1.5px;
+  strokeWidth: 1.5px;
   block-size: 1.5em;
   inline-size: 1.5em;
   display: inline-block;

@@ -11,7 +11,7 @@ export default async function FetchSameCategoriesProducts({catalogItemId}:{catal
     ? await Promise.all(
         recommendedProducts.recommendation.items.map(async (item) => {
           const product = await fetchSingleP(item.catalogItemId!);
-          const collectionName = await fetchCollectionName(item.catalogItemId!);
+          const collectionName = await fetchCollectionName(product.product?.collectionIds[0] || "");
           return { product: product.product, collectionName };
         })
       )

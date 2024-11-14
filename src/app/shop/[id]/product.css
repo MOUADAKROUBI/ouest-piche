@@ -85,6 +85,15 @@
     }
 }
 
+.main-text.in-stock {
+    padding-top: 0;
+    background-color: var(--powder-blue);
+    color: var(--white);
+    padding: 5px 10px;
+    border-radius: 20px;
+    width: fit-content;
+}
+
 .old-price {
     color: var(--black);
     text-decoration: line-through;

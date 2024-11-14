@@ -6,43 +6,39 @@ import Cities from "../../../public/moroccanCities.json";
 import WeatherSkelton from "./weatherSkelton";
 
 export default function Weather({ screen }: { screen: string }) {
-  const [location, setLocation] = useState<Position | null>(null);
   const [resError, setResError] = useState<string | null>(null);
-  const [cityCoords, setCityCoords] = useState<string>("30.4333,-9.6000");
+  const [cityCoords, setCityCoords] = useState<Position>({
+    latitude: 30.4333,
+    longitude: -9.6,
+  });
   const [alert, setAlert] = useState<number | null>(null);
   const fetcher = (...args: [RequestInfo, RequestInit?]) =>
     fetch(...args).then((res) => res.json());
   const { data, isLoading, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_WEATHER_API}?key=${
-      process.env.NEXT_PUBLIC_WEATHER_KEY
-    }&q=
-    ${location ? `${location.latitude},${location.longitude}` : cityCoords}
+    `${process.env.NEXT_PUBLIC_WEATHER_API}?key=${process.env.NEXT_PUBLIC_WEATHER_KEY}
+    &q=${cityCoords.latitude},${cityCoords.longitude}
     &lang=fr`,
     fetcher
   );
 
-  useEffect(() => {
-    const getUserLocation = () => {
-      if (!navigator.geolocation) {
-        setResError("Geolocation is not supported by your browser.");
-        return;
+  const handleClickGetCoordsAuth = () => {
+    if (!navigator.geolocation) {
+      setResError("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setCityCoords({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      },
+      (err) => {
+        setResError("Error getting location: " + err.message);
       }
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (err) => {
-          setResError("Error getting location: " + err.message);
-        }
-      );
-    };
-
-    getUserLocation();
-  }, []);
+    );
+  };
 
   useEffect(() => {
     if (data && data.forecast && data.forecast.forecastday) {
@@ -78,7 +74,7 @@ export default function Weather({ screen }: { screen: string }) {
       const intervalId = setInterval(checkTideAlert, 60000); // Check every minute
       return () => clearInterval(intervalId);
     }
-  }, [data, location, cityCoords]);
+  }, [data, cityCoords]);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertX, setAlertX] = useState(0);
@@ -131,18 +127,56 @@ export default function Weather({ screen }: { screen: string }) {
               <select
                 name="city"
                 id="city"
-                onChange={(e) => setCityCoords(e.target.value)}
+                onChange={(e) =>
+                  setCityCoords({
+                    latitude: Number(e.target.value.split(",")[0]),
+                    longitude: Number(e.target.value.split(",")[1]),
+                  })
+                }
               >
                 {Cities.map((city, index) => (
                   <option
                     key={index}
                     value={`${city.lat},${city.lng}`}
-                    selected={`${city.lat},${city.lng}` === `${cityCoords}`}
+                    selected={`${city.lat},${city.lng}` === `${cityCoords.latitude},${cityCoords.longitude}`}
                   >
                     {city.city}
                   </option>
                 ))}
               </select>
+              <div className="get-coord-auto">
+                <button
+                  onClick={handleClickGetCoordsAuth}
+                  className="location-btn"
+                  title="obtenir votre position authomatiqment"
+                  aria-label="obtenir votre position authomatiqment"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    width={34}
+                    height={34}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      {" "}
+                      <path
+                        d="M19 12C19 15.866 15.866 19 12 19M19 12C19 8.13401 15.866 5 12 5M19 12H21M12 19C8.13401 19 5 15.866 5 12M12 19V21M5 12C5 8.13401 8.13401 5 12 5M5 12H3M12 5V3M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                        stroke="#333"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>{" "}
+                    </g>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
           <div className="weather-state">

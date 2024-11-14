@@ -18,11 +18,11 @@ const Footer = async () => {
               pêche, nous proposons une large gamme de produits adaptés à tous
               les techniques : pêche en mer, pêche en rivière, pêche au
               carnassier ou à la carpe. Que vous soyez débutant ou pêcheur
-              expérimenté, notre objectif est de vous fournir l&apos;équipement et
-              les conseils nécessaires pour vivre des moments inoubliables au
-              bord de l&apos;eau. Chez Ouest Pêche, nous partageons votre passion et
-              mettons tout en œuvre pour vous offrir le meilleur de la pêche,
-              avec des produits rigoureusement sélectionnés, des prix
+              expérimenté, notre objectif est de vous fournir l&apos;équipement
+              et les conseils nécessaires pour vivre des moments inoubliables au
+              bord de l&apos;eau. Chez Ouest Pêche, nous partageons votre
+              passion et mettons tout en œuvre pour vous offrir le meilleur de
+              la pêche, avec des produits rigoureusement sélectionnés, des prix
               compétitifs et un service client à votre écoute.
             </figcaption>
           </div>
@@ -32,7 +32,7 @@ const Footer = async () => {
           >
             <div className="w-layout-grid grid">
               <div className="wrapper-link-footer">
-                <h5 className="heading">page</h5>
+                <h3 className="heading">page</h3>
                 <Link href="/about" className="nav-link footer w-inline-block">
                   <div className="text-link static">À propos de nous</div>
                 </Link>
@@ -50,7 +50,7 @@ const Footer = async () => {
                 </Link>
               </div>
               <div className="wrapper-link-footer">
-                <h5 className="heading">shop</h5>
+                <h3 className="heading">shop</h3>
                 <Suspense fallback={<CategoriesSkelton len={3} />}>
                   {collections.map((collection) => (
                     <Link
@@ -66,12 +66,13 @@ const Footer = async () => {
                 </Suspense>
               </div>
               <div className="wrapper-link-footer">
-                <h5 className="heading">suivez-nous</h5>
+                <h3 className="heading">suivez-nous</h3>
                 <div className="social-icons">
                   <Link
                     target="_blank"
                     href="https://www.facebook.com/profile.php?id=61568291620909"
                     className="nav-link footer w-inline-block"
+                    aria-label="suivez-nous sur facebook"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -87,6 +88,7 @@ const Footer = async () => {
                     target="_blank"
                     href="https://www.instagram.com/Ouest Pêche.store_?igsh=MWRpeTQ4M2RtaXFwaQ=="
                     className="nav-link footer w-inline-block"
+                    aria-label="suivez-nous sur instagram"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +100,12 @@ const Footer = async () => {
                       <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z" />
                     </svg>
                   </Link>
-                  <Link href="#" className="nav-link footer w-inline-block">
+                  <Link
+                    target="_black"
+                    href="#"
+                    className="nav-link footer w-inline-block"
+                    aria-label="contacter nous sur whatsapp"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"

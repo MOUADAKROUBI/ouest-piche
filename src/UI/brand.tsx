@@ -3,7 +3,11 @@ import Link from "next/link";
 
 export default function Brand({ isFooter }: { isFooter?: boolean }) {
   return (
-    <Link href="/" className="brand">
+    <Link 
+      href="/" 
+      className="brand" 
+      aria-label="aller à la page d'accueil"
+    >
       {isFooter ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"

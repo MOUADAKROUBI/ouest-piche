@@ -117,6 +117,11 @@ export function Details({
         </div>
 
         <div className="container-text-shop">
+          <div className="main-text in-stock">
+            { product.stock?.inventoryStatus === 'IN_STOCK' && "En stock" }
+            { product.stock?.inventoryStatus === 'OUT_OF_STOCK' && "Rupture de stock" }
+            { product.stock?.inventoryStatus === 'PARTIALLY_OUT_OF_STOCK' && "En stock partiellement" }
+          </div>
           <div className="main-text price" data-aos="fade-up">
             {product?.discount?.value ? (
               <div>
@@ -199,11 +204,9 @@ export function Details({
           </div>
           <div className="w-layout-grid additional-information-grid top">
             <div className="colluumn">
-                <div className="main-text price first">UGS</div>
                 <div className="main-text price first">Catégorie</div>
             </div>
             <div className="colluumn">
-              <div className="main-text price first">{product.sku}</div>
               <div className="main-text price first">{collection.name}</div>
             </div>
           </div>

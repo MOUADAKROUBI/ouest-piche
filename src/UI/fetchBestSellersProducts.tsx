@@ -19,8 +19,8 @@ export default async function FetchBestSellersProducts() {
 
   if (!data.length)
     return (
-      <div className="w-dyn-empty">
-        <h1 style={{ textAlign: "center" }}>no products found</h1>
+      <div className="not-products-found w-dyn-empty" role="listitem">
+        <h2>no products found</h2>
       </div>
     );
 
