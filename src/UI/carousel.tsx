@@ -33,7 +33,7 @@ export default function Carousel({
       className="carousel-container"
     >
       <div
-        className="sliders-images"
+        className="sliders"
         style={{
           transform: `translateX(-${currentSlide * 100}%)`,
           transition: "transform 0.5s ease-in-out",

@@ -148,9 +148,11 @@ export function Details({
           <h2 className="main-heading shop" data-aos="fade-up">
             {product.name}
           </h2>
-          <p className="main-paragraph shop" data-aos="fade-up">
-            {product.description}
-          </p>
+          <p
+            className="main-paragraph shop"
+            data-aos="fade-up"
+            dangerouslySetInnerHTML={{ __html: product.description! }}
+          />
           <div className="add-to-cart" data-aos="fade-up">
             <form
               className="w-commerce-commerceaddtocartform default-state"
@@ -254,7 +256,10 @@ export function Details({
                 tabSelected === 1 ? "w--tab-active" : ""
               }`}
             >
-              <p className="main-paragraph">{product.description}</p>
+              <p 
+                className="main-paragraph" 
+                dangerouslySetInnerHTML={{__html: product.description!}}
+              />
             </div>
             <div
               data-w-tab="Tab 2"

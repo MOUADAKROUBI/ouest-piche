@@ -16,9 +16,6 @@ export default function Categories({
       <div
         className="collection-list-category w-dyn-items"
         role="list"
-        style={{
-          cursor: "grab",
-        }}
       >
         <Carousel autoSlide={false} tips={false} >
           {collections.map((collection, i) => (

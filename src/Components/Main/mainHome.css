@@ -38,28 +38,14 @@
   padding-top: 0;
 }
 
-.w-slider {
-  text-align: center;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
 .carousel-container {
   position: relative;
   overflow: hidden;
   width: 100%;
 }
 
-.sliders-images {
+.sliders {
   display: flex;
-}
-
-.slider-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .arrows-left-right {

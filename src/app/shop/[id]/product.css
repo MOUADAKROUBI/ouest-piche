@@ -90,6 +90,7 @@
     background-color: var(--powder-blue);
     color: var(--white);
     padding: 5px 10px;
+    font-size: 15px;
     border-radius: 20px;
     width: fit-content;
 }

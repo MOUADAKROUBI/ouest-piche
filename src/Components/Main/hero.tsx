@@ -6,6 +6,7 @@ import 'aos/dist/aos.css';
 import Image from "next/image";
 import Weather from "@/UI/header/weather";
 import Carousel from "@/UI/carousel";
+import Link from "next/link";
 
 const Hero = () => {
   useEffect(() => {
@@ -19,16 +20,30 @@ const Hero = () => {
       <div className="hero-section">
         <div className="hero-slider w-slider" aria-label="carousel">
             <Carousel>
-              {[1,2,3].map((_, index) => (
-                <Image
+              {[1].map(index => (
+                <Link
                   key={index}
-                  src={`/images/hero-${index + 1}.jpg`}
-                  alt="hero"
-                  width={1920}
-                  height={100}
-                  className="slider-image"
-                  unoptimized={true}
-                />
+                  href="#"
+                  aria-label={`slider ${index}/3`}
+                  title="slider"
+                >
+                  <picture>
+                    <source
+                      media="(min-width: 991px)"
+                      srcSet={`/images/slider-${index}.webp`}
+                      type="image/webp"
+                    />
+                    <Image
+                      src={`/images/slider-${index}.webp`}
+                      alt="slider"
+                      width={1920}
+                      height={1080}
+                      loading="lazy"
+                      unoptimized={true}
+                      className="slider-image"
+                    />
+                  </picture>
+                </Link>
               ))}
             </Carousel>
         </div>
@@ -43,7 +58,7 @@ const Hero = () => {
                 width={71}
                 height={71}
                 unoptimized={true}
-                loader={({ src }) => src}
+                loading="lazy"
               />
             </div>
             <h2 className="main-heading h6 services">
@@ -61,6 +76,7 @@ const Hero = () => {
                 alt="delivery icon"
                 width={71}
                 height={71}
+                loading="lazy"
                 unoptimized={true}
               />
             </div>
@@ -78,6 +94,7 @@ const Hero = () => {
                 src='/images/tech-support.gif'
                 alt="delivery icon"
                 width={71}
+                loading="lazy"
                 height={71}
                 unoptimized={true}
               />
