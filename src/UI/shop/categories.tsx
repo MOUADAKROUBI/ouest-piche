@@ -17,7 +17,7 @@ export default function Categories({
         className="collection-list-category w-dyn-items"
         role="list"
       >
-        <Carousel autoSlide={false} tips={false} >
+        <Carousel hiddenArrows={true}>
           {collections.map((collection, i) => (
             <Link
               key={i}
@@ -27,11 +27,10 @@ export default function Categories({
             >
               <div className="category-image">
                 <Image
-                  src={collection.media?.items?.[0].image?.url!}
-                  alt={collection.name!}
-                  width={80}
-                  height={80}
-                  objectFit="cover"
+                  src={collection.media?.mainMedia?.image?.url || "/placeholder-image.jpg"}
+                  alt={collection.media?.mainMedia?.image?.altText || "placeholder"}
+                  width={100}
+                  height={100}
                 />
               </div>
               <div className="category-name nav-link _3 w-dyn-item">

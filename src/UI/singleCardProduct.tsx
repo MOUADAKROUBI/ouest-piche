@@ -5,8 +5,15 @@ import { WixClientContext } from "@/Contexts/wixContext";
 import Link from "next/link";
 import { useCartStore } from "@/hooks/useCartStore";
 import { products } from "@wix/stores";
+import Carousel from "./carousel";
 
-export default function SingleProduct({ data, collectionName } : { data: products.Product, collectionName: string | null | undefined }) {
+export default function SingleProduct({
+  data,
+  collectionName,
+}: {
+  data: products.Product;
+  collectionName: string | null | undefined;
+}) {
   const [hoveredIndex, setHoveredIndex] = useState(null); // Tracks which item is hovered
   const { addItem } = useCartStore();
   const ref = useRef<HTMLInputElement>(null);
@@ -19,9 +26,9 @@ export default function SingleProduct({ data, collectionName } : { data: product
     if (ref.current) {
       const variantId = data.variants?.[0]._id;
       ref.current.value = "Adding to cart...";
-      await addItem(wixClient, data._id!, variantId!, 1)
+      await addItem(wixClient, data._id!, variantId!, 1);
       ref.current.value = "Added to cart";
-    };
+    }
   }
 
   // Use media query to check if it's mobile
@@ -64,33 +71,59 @@ export default function SingleProduct({ data, collectionName } : { data: product
       onMouseLeave={handleMouseLeave}
     >
       <div className="product-card scroll-in-to-view">
-        <Link
-          href={`/shop/${data._id}`}
-          className="wrapp-image-product w-inline-block"
-          style={{
-            backgroundImage: `url(${data?.media?.mainMedia?.image?.url || "/placeholder-image.jpg"})`,
-          }}
-        >
-          <div
-            className="quick-look-wrap"
-            style={{
-              transform: `translate3d(0px, ${
-                hoveredIndex === data._id || isMobile ? "0%" : "100%"
-              }, 0px)`,
-              transition: "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
-              transformStyle: "preserve-3d",
-            }}
-          >
-            <p className="main-paragraph card">Aperçu rapide</p>
-          </div>
-        </Link>
+        <Carousel tips={true} hiddenArrows={true}>
+          {data?.media?.items?.map((item) =>
+            item.mediaType === "image" ? (
+              <Link
+                key={item._id}
+                href={`/shop/${data._id}`}
+                className="wrapp-media-product w-inline-block"
+                style={{
+                  backgroundImage: `url(${
+                    item?.image?.url || "/placeholder-image.jpg"
+                  })`,
+                }}
+              >
+                <div
+                  className="quick-look-wrap"
+                  style={{
+                    transform: `translate3d(0px, ${
+                      hoveredIndex === data._id || isMobile ? "0%" : "100%"
+                    }, 0px)`,
+                    transition:
+                      "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
+                    transformStyle: "preserve-3d",
+                  }}
+                >
+                  <p className="main-paragraph card">Aperçu rapide</p>
+                </div>
+              </Link>
+            ) : (
+              <video
+                key={item._id}
+                loop
+                muted
+                playsInline
+                controls
+                className="wrapp-media-product w-inline-block"
+              >
+                <source
+                  src={item?.video?.files?.[0].url || ""}
+                  type="video/mp4"
+                />
+              </video>
+            )
+          )}
+        </Carousel>
 
         <div className="container-text-product">
           <div className="collumn _1">
-            <h4 className="heading-product">{data.name}</h4>
-            <p className="category-text capitalize">
-              {collectionName}
-            </p>
+            <Link 
+              href={`/shop/${data._id}`}
+            >
+              <h4 className="heading-product">{data.name}</h4>
+            </Link>
+            <p className="category-text capitalize">{collectionName}</p>
           </div>
 
           <div className="collumn">
@@ -101,7 +134,8 @@ export default function SingleProduct({ data, collectionName } : { data: product
                 transform: `translate3d(${
                   hoveredIndex === data._id ? "100%" : "0%"
                 }, 0%, 0px)`,
-                transition: "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease",
+                transition:
+                  "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease",
                 transformStyle: "preserve-3d",
               }}
             >
@@ -114,8 +148,9 @@ export default function SingleProduct({ data, collectionName } : { data: product
                 opacity: hoveredIndex === data._id || isMobile ? 1 : 0,
                 transform: `translate3d(${
                   hoveredIndex === data._id || isMobile ? "0%" : "-100%"
-                }, ${isMobile ? '50%': '0px'} ,0px)`,
-                transition: "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease",
+                }, ${isMobile ? "50%" : "0px"} ,0px)`,
+                transition:
+                  "transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.5s ease",
                 transformStyle: "preserve-3d",
               }}
             >
@@ -123,7 +158,9 @@ export default function SingleProduct({ data, collectionName } : { data: product
                 className="w-commerce-commerceaddtocartform default-state-card"
                 onSubmit={addToCart}
               >
-                <label htmlFor="" className="field-label">Quantité</label>
+                <label htmlFor="" className="field-label">
+                  Quantité
+                </label>
                 <input
                   type="number"
                   pattern="^[0-9]+DH"

@@ -213,8 +213,8 @@ option {
 }
 
 .category-image {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
 }
 
 .collection-item-link:hover {
@@ -222,49 +222,12 @@ option {
 }
 
 .nav-link._3 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: lowercase;
+    color: var(--black);
     padding: 0;
 }
-
-@media screen and (max-width: 991px) {
-    .nav-link._3 {
-        font-weight: 400;
-    }
-}
-
-.arrow-left {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 100%;
-    cursor: pointer;
-    transition: all .9 ease-in;
-  }
-  
-  .arrow-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 100%;  
-    cursor: pointer;
-    transition: all .9 ease-in;
-  }
-  
-  .arrow-left:hover, .arrow-right:hover {
-    opacity: .5;
-  }
-  
-  .icon-arrow-left, .icon-arrow-right {
-    font-size: 20px;
-    z-index: 999;
-  }
 
 
 

@@ -19,7 +19,7 @@ const Hero = () => {
 
       <div className="hero-section">
         <div className="hero-slider w-slider" aria-label="carousel">
-            <Carousel>
+            <Carousel autoSlide= {true} tips={true}>
               {[1].map(index => (
                 <Link
                   key={index}

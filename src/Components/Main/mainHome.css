@@ -48,33 +48,42 @@
   display: flex;
 }
 
-.arrows-left-right {
+.arrow-left, .arrow-right {
   position: absolute;
   top: 50%;
-  right: 0;
-  left: 0;
   transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.arrow-left, .arrow-right {
-  padding: 5px;
+  padding: 10px;
   box-shadow: 0 8px 10px rgba(0, 0, 0, .1);
   background-color: #ddd;
-  opacity: .8;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 479px) {
+  .arrow-left, .arrow-right {
+    opacity: .8;
+    visibility: visible;
+  }
+  
 }
 
 .arrow-left {
+  left: 0;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
 
 .arrow-right {
+  right: 0;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+}
+
+.carousel-container:hover .arrow-left, .carousel-container:hover .arrow-right {
+  opacity: .8;
+  visibility: visible;
+  transition: opacity .3s ease;
 }
 
 .arrow-left:hover, .arrow-right:hover {
@@ -205,7 +214,7 @@ p {
   font-size: 18px;
 }
 
-img {
+img, video {
   vertical-align: middle;
   max-width: 100%;
   display: inline-block;
@@ -591,35 +600,28 @@ a {
   }
 }
 
-
-.product-card.sroll-in-to-view {
-  height: 465px;
-}
-
 .product-card {
   flex-direction: column;
-  height: 430px;
   display: flex;
   overflow: hidden;
+}
+
+
+.wrapp-media-product {
+  background-position: 50%;
+  background-size: cover;
+  flex: 0 0 100%;
+  justify-content: center;
+  align-items: flex-end;
+  display: flex;
+  overflow: hidden;
+  min-height: 330px;
 }
 
 @media screen and (max-width: 767px) {
-  .product-card.sroll-in-to-view {
-      height: 600px;
+  .wrapp-media-product {
+    min-height: 400px;
   }
-}
-
-.wrapp-image-product {
-  background-color: rgba(0, 0, 0, 0);
-  background-image: url(https://d3e54v103j8qbb.cloudfront.net/img/background-image.svg);
-  background-position: 50%;
-  background-size: cover;
-  flex: 1;
-  justify-content: center;
-  align-items: flex-end;
-  text-decoration: none;
-  display: flex;
-  overflow: hidden;
 }
 
 .quick-look-wrap {
@@ -861,6 +863,11 @@ input {
   align-items: center;
   display: flex;
   transition: transform 0.3s ease; /* Smooth scale on hover */
+}
+
+.nav-card .nav-link.footer {
+  text-align: center;
+  width: 100%;
 }
 
 .nav-card:hover {

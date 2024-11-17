@@ -10,6 +10,7 @@ import { currentCart } from "@wix/ecom";
 import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
 import Search from "@/UI/search";
 import Weather from "@/UI/header/weather";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -21,6 +22,7 @@ const Header = () => {
   const { cart, isLoading, counter, removeItem, updateQuantity } =
     useCartStore();
   const [searchBarOpen, setSearchBarOpen] = useState<boolean>(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (cartFormRef.current) if (cart) cartFormRef.current.style.display = "";
@@ -135,7 +137,7 @@ const Header = () => {
         <nav role="navigation" className="nav-menu w-nav-menu">
           <ul className="wrap-nav">
             <li className="nav-item nav-item-fill">
-              <Link href="/" className="nav-link">
+              <Link href="/" className={`nav-link ${pathname === '/'?'active': ''}`}>
                 <div className="icon-page">
                   <svg
                     viewBox="0 0 24 24"
@@ -171,7 +173,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item nav-item-fill">
-              <Link href="/shop" className="nav-link">
+              <Link href="/shop" className={`nav-link ${pathname == '/shop'?'active': ''}`}>
                 <div className="icon-page">
                   <svg
                     viewBox="0 0 24 24"
@@ -213,7 +215,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item nav-item-fill">
-              <Link href="/contact" className="nav-link">
+              <Link href="/contact" className={`nav-link ${pathname == '/contact'?'active': ''}`}>
                 <div className="icon-page">
                   <svg
                     viewBox="0 0 24 24"
@@ -244,7 +246,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item nav-item-fill">
-              <Link href="/about" className="nav-link">
+              <Link href="/about" className={`nav-link ${pathname == '/about'?'active': ''}`}>
                 <div className="icon-page">
                   <svg
                     viewBox="0 0 24 24"

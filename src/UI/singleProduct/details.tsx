@@ -59,59 +59,112 @@ export function Details({
       </div>
       <div className="w-layout-grid shop-grid" data-id={product._id}>
         <div className="wrapper-gallery-product">
-          <div className="container-hover-image">
+          <div className="container-hover-media">
             {product.media?.items &&
               product.media.items
                 .filter((_, index) => index >= 1)
                 .map((item) => (
-                  <Image
-                    key={item._id}
-                    src={item.image?.url!}
-                    alt={item.title!}
-                    width={600}
-                    height={600}
-                    className="hover-image"
-                    style={{
-                      opacity: imageHovered === item._id ? 1 : 0,
-                      transition: "opacity 1s ease", // Smooth opacity transition
-                    }}
-                  />
+                  item.mediaType === "image" ? (
+                    <Image
+                      key={item._id}
+                      src={item.image?.url!}
+                      alt={item.image?.altText  || "image de notre produit"}
+                      width={600}
+                      height={600}
+                      className="hover-media"
+                      style={{
+                        opacity: imageHovered === item._id ? 1 : 0,
+                        transition: "opacity 1s ease", // Smooth opacity transition
+                      }}
+                    />
+                  ) : (
+                    <video
+                      key={item._id}
+                      src={item.video?.files?.[0].url || ""}
+                      autoPlay
+                      loop
+                      muted
+                      controls
+                      className="hover-media"
+                      aria-label={item.video?.files?.[0].altText || "video de notre produit"}
+                      style={{
+                        opacity: imageHovered === item._id ? 1 : 0,
+                        transition: "opacity 1s ease", // Smooth opacity transition
+                      }}
+                    />
+                  )
                 ))}
             {product.media && (
-              <Image
-                src={product.media.mainMedia?.image?.url!}
-                alt={product.media.mainMedia?.title!}
-                width={600}
-                height={600}
-                className="image sroll-in-to-view"
-                style={{
-                  opacity: imageHovered === undefined ? 1 : 0,
-                  transition: "opacity 1s ease", // Smooth opacity transition
-                }}
-              />
+              product.media.mainMedia?.mediaType === "image" ? (
+                <Image
+                  src={product.media.mainMedia?.image?.url!}
+                  alt={product.media.mainMedia?.image?.altText || "image de notre produit"}
+                  width={600}
+                  height={600}
+                  className="media scroll-in-to-view"
+                  style={{
+                    opacity: imageHovered === undefined ? 1 : 0,
+                    transition: "opacity 1s ease", // Smooth opacity transition
+                  }}
+                />
+              ) : (
+                <video
+                  src={product.media.mainMedia?.video?.files?.[0].url || ""}
+                  autoPlay
+                  loop
+                  muted
+                  controls
+                  className="media scroll-in-to-view"
+                  aria-label={product.media.mainMedia?.video?.files?.[0].altText || "video de notre produit"}
+                  style={{
+                    opacity: imageHovered === undefined ? 1 : 0,
+                    transition: "opacity 1s ease", // Smooth opacity transition
+                  }}
+                />
+              )
             )}
           </div>
-          <div className="w-layout-grid grid-more-image">
+          <div className="w-layout-grid grid-more-media">
             {product.media?.items &&
               product?.media?.items
                 .filter((_, index) => index >= 1)
                 .map((item) => (
-                  <Image
-                    key={item._id}
-                    src={item.image?.url!}
-                    alt={item.title!}
-                    width={600}
-                    height={600}
-                    onMouseEnter={() => handleMouseEnter(item._id)}
-                    onMouseLeave={handleMouseLeave}
-                    onClick={() => handleMouseEnter(item._id)}
-                    style={{
-                      cursor: "pointer",
-                      transition: "transform 0.3s ease", // Smooth scale effect
-                      transform:
-                        imageHovered === item._id ? "scale(1.05)" : "scale(1)", // Slight scale on hover
-                    }}
-                  />
+                  item.mediaType === "image" ? (
+                    <Image
+                      key={item._id}
+                      src={item.image?.url!}
+                      alt={item.image?.altText || "image de notre produit"}
+                      width={600}
+                      height={600}
+                      onMouseEnter={() => handleMouseEnter(item._id)}
+                      onMouseLeave={handleMouseLeave}
+                      onClick={() => handleMouseEnter(item._id)}
+                      style={{
+                        cursor: "pointer",
+                        transition: "transform 0.3s ease", // Smooth scale effect
+                        transform:
+                          imageHovered === item._id ? "scale(1.05)" : "scale(1)", // Slight scale on hover
+                      }}
+                    />
+                  ) : (
+                    <video
+                      key={item._id}
+                      src={item.video?.files?.[0].url || ""}
+                      autoPlay
+                      loop
+                      muted
+                      onMouseEnter={() => handleMouseEnter(item._id)}
+                      onMouseLeave={handleMouseLeave}
+                      onClick={() => handleMouseEnter(item._id)}
+                      aria-label={item.video?.files?.[0].altText || "video de notre produit"}
+                      style={{
+                        cursor: "pointer",
+                        transition: "transform 0.3s ease", // Smooth scale effect
+                        transform:
+                          imageHovered === item._id ? "scale(1.05)" : "scale(1)", // Slight scale on hover
+                      }}
+                    />
+                  )
                 ))}
           </div>
         </div>

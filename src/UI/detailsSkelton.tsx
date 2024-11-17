@@ -9,6 +9,7 @@ export default function DetailsSkelton() {
       </div>
 
       <div className="container-text-shop">
+        <div className="main-text in-stock skelton"></div>
         <div className="main-text price skelton" data-aos="fade-up"></div>
         <div className="main-heading shop skelton" data-aos="fade-up"></div>
         <div className="main-paragraph shop skelton" data-aos="fade-up"></div>

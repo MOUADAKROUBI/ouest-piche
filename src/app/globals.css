@@ -3,7 +3,7 @@
   --white: white;
   --black: #333;
   --khaki: #e2e279;
-  --dark-turquoise: #79d6e0;
+  --dark-turquoise: #0483DB;
 }
 
 html, * {
@@ -84,6 +84,14 @@ body {
 
 .wrapp-image-product.skelton {
   width: 100%;
+  height: 330px;
+}
+
+@media screen and (max-width: 767px) {
+  .wrapp-image-product.skelton {
+      height: 400px;
+  }
+  
 }
 
 .heading-product.skelton {
@@ -95,6 +103,11 @@ body {
 .category-text.skelton {
   height: 30px;
   width: 70%;
+}
+
+.main-text.in-stock.skelton {
+  height: 30px;
+  width: 30%;
 }
 
 .collumn.skelton {
