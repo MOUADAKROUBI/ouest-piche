@@ -205,20 +205,26 @@ option {
 }
 
 .collection-item-link {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5px;
-    margin: 20px 0;
+    margin-right: 20px;
+    text-align: center;
 }
 
 .category-image {
     width: 100px;
     height: 100px;
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width: 479px) {
+    .category-image {
+        width: 90px;
+        height: 90px;
+    }
+    
 }
 
 .collection-item-link:hover {
-    opacity: .5;
+    transform: scale(.9);
 }
 
 .nav-link._3 {
