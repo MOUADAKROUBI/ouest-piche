@@ -670,7 +670,7 @@ const Header = () => {
             </ul>
           </nav>
           
-          <Weather screen="-mobile" />
+          {/* <Weather screen="-mobile" /> */}
         </div>
       </div>
     </header>

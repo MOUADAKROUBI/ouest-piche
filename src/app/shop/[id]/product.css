@@ -26,29 +26,34 @@
 }
 
 .hover-media {
-    z-index: 1;
-    height: auto;
+    z-index: 0;
     position: absolute;
     top: 0%;
     bottom: 0%;
     left: 0%;
     right: 0%;
-}
-
-.media {
-    background-color: var(--dark-turquoise);
     flex: 0 1 auto;
-    width: 77%;
-    height: 100%;
-    margin-left: 20px;
-}
-
-.media.scroll-in-to-view {
-    z-index: 0;
     width: auto;
     height: auto;
+}
+
+.hover-media.scroll-in-to-view {
+    z-index: 1;
     margin-left: 0;
     position: relative;
+}
+
+.magnifier {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    cursor: none;
+}
+
+.magnifier-image {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #fff;
 }
 
 .grid-more-media {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useCartStore } from "@/hooks/useCartStore";
 import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
@@ -15,26 +15,51 @@ export function Details({
   product: products.Product;
   collection: collections.Collection;
 }) {
-  const [imageHovered, setImageHovered] = useState<string | undefined>(undefined);
+  const [imageClicked, setImageClicked] = useState<string | undefined>(
+    undefined
+  );
   const [tabSelected, setTabSelected] = useState<number>(1);
   const WixClient = useContext<MyWixClient>(WixClientContext);
   const router = useRouter();
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [showMagnifier, setShowMagnifier] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    const { left, top, width, height } =
+      e.currentTarget.getBoundingClientRect();
+
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+
+    setPosition({ x, y });
+    setCursorPosition({ x: e.clientX, y: e.clientY });
+  };
 
   const { isLoading, addItem } = useCartStore();
 
-  const handleMouseEnter = (i: string | undefined) => {
-    setImageHovered(i);
-  };
+  useEffect(() => {
+    const imageId = product?.media?.mainMedia?._id;
+    if (imageId) {
+      setImageClicked(imageId);
+    }
+  }, [product]);
 
-  const handleMouseLeave = () => {
-    setImageHovered(undefined);
+  const handleClickImage = (i: string | undefined) => {
+    setImageClicked(i);
   };
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const form = e.target as HTMLFormElement;
-    const quantity = (form.elements.namedItem('commerce-add-to-cart-quantity-input') as HTMLInputElement).value;
+    const quantity = (
+      form.elements.namedItem(
+        "commerce-add-to-cart-quantity-input"
+      ) as HTMLInputElement
+    ).value;
     const variantId = product.variants?.[0]._id;
     addItem(WixClient, product._id!, variantId!, parseInt(quantity));
   }
@@ -42,10 +67,7 @@ export function Details({
   return (
     <>
       <div className="go-back">
-        <div
-          className="icon-go-back"
-          onClick={() => router.back()}
-        >
+        <div className="icon-go-back" onClick={() => router.back()}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="30px"
@@ -60,120 +82,112 @@ export function Details({
       <div className="w-layout-grid shop-grid" data-id={product._id}>
         <div className="wrapper-gallery-product">
           <div className="container-hover-media">
-            {product.media?.items &&
-              product.media.items
-                .filter((_, index) => index >= 1)
-                .map((item) => (
-                  item.mediaType === "image" ? (
-                    <Image
-                      key={item._id}
-                      src={item.image?.url!}
-                      alt={item.image?.altText  || "image de notre produit"}
-                      width={600}
-                      height={600}
-                      className="hover-media"
+            {product.media?.items?.map((item) =>
+              item.mediaType === "image" ? (
+                <div key={item._id}>
+                  <Image
+                    src={item.image?.url || ""}
+                    alt={item.image?.altText || "image de notre produit"}
+                    width={600}
+                    height={600}
+                    className={`hover-media ${imageClicked === item._id ? "scroll-in-to-view" : ""}`}
+                    onMouseEnter={() => setShowMagnifier(true)}
+                    onMouseLeave={() => setShowMagnifier(false)}
+                    onMouseMove={(e) => handleMouseMove(e)}
+                    style={{
+                      opacity: imageClicked === item._id ? 1 : 0,
+                      transition: "opacity 1s ease",
+                    }}
+                  />
+                  {showMagnifier && imageClicked === item._id && (
+                    <div
+                      className="magnifier"
                       style={{
-                        opacity: imageHovered === item._id ? 1 : 0,
-                        transition: "opacity 1s ease", // Smooth opacity transition
+                        left: `${cursorPosition.x - 300}px`,
+                        top: `${cursorPosition.y - 270}px`,
                       }}
-                    />
-                  ) : (
-                    <video
-                      key={item._id}
-                      src={item.video?.files?.[0].url || ""}
-                      autoPlay
-                      loop
-                      muted
-                      controls
-                      className="hover-media"
-                      aria-label={item.video?.files?.[0].altText || "video de notre produit"}
-                      style={{
-                        opacity: imageHovered === item._id ? 1 : 0,
-                        transition: "opacity 1s ease", // Smooth opacity transition
-                      }}
-                    />
-                  )
-                ))}
-            {product.media && (
-              product.media.mainMedia?.mediaType === "image" ? (
-                <Image
-                  src={product.media.mainMedia?.image?.url!}
-                  alt={product.media.mainMedia?.image?.altText || "image de notre produit"}
-                  width={600}
-                  height={600}
-                  className="media scroll-in-to-view"
-                  style={{
-                    opacity: imageHovered === undefined ? 1 : 0,
-                    transition: "opacity 1s ease", // Smooth opacity transition
-                  }}
-                />
+                    >
+                      <div
+                        className="magnifier-image"
+                        style={{
+                          background: `url(${item.image?.url}) no-repeat`,
+                          backgroundPosition: `${position.x}% ${position.y}%`,
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
               ) : (
-                <video
-                  src={product.media.mainMedia?.video?.files?.[0].url || ""}
-                  autoPlay
-                  loop
-                  muted
-                  controls
-                  className="media scroll-in-to-view"
-                  aria-label={product.media.mainMedia?.video?.files?.[0].altText || "video de notre produit"}
-                  style={{
-                    opacity: imageHovered === undefined ? 1 : 0,
-                    transition: "opacity 1s ease", // Smooth opacity transition
-                  }}
-                />
+                <div
+                  key={item._id}
+                >
+                  <video
+                    src={item.video?.files?.[0].url || ""}
+                    autoPlay
+                    loop
+                    muted
+                    controls
+                    className={`hover-media ${imageClicked === item._id ? "scroll-in-to-view" : ""}`}
+                    aria-label={
+                      item.video?.files?.[0].altText || "video de notre produit"
+                    }
+                    style={{
+                      opacity: imageClicked === item._id ? 1 : 0,
+                      transition: "opacity 1s ease",
+                    }}
+                  />
+                </div>
               )
             )}
           </div>
           <div className="w-layout-grid grid-more-media">
             {product.media?.items &&
-              product?.media?.items
-                .filter((_, index) => index >= 1)
-                .map((item) => (
-                  item.mediaType === "image" ? (
-                    <Image
-                      key={item._id}
-                      src={item.image?.url!}
-                      alt={item.image?.altText || "image de notre produit"}
-                      width={600}
-                      height={600}
-                      onMouseEnter={() => handleMouseEnter(item._id)}
-                      onMouseLeave={handleMouseLeave}
-                      onClick={() => handleMouseEnter(item._id)}
-                      style={{
-                        cursor: "pointer",
-                        transition: "transform 0.3s ease", // Smooth scale effect
-                        transform:
-                          imageHovered === item._id ? "scale(1.05)" : "scale(1)", // Slight scale on hover
-                      }}
-                    />
-                  ) : (
-                    <video
-                      key={item._id}
-                      src={item.video?.files?.[0].url || ""}
-                      autoPlay
-                      loop
-                      muted
-                      onMouseEnter={() => handleMouseEnter(item._id)}
-                      onMouseLeave={handleMouseLeave}
-                      onClick={() => handleMouseEnter(item._id)}
-                      aria-label={item.video?.files?.[0].altText || "video de notre produit"}
-                      style={{
-                        cursor: "pointer",
-                        transition: "transform 0.3s ease", // Smooth scale effect
-                        transform:
-                          imageHovered === item._id ? "scale(1.05)" : "scale(1)", // Slight scale on hover
-                      }}
-                    />
-                  )
-                ))}
+              product?.media?.items.map((item) =>
+                item.mediaType === "image" ? (
+                  <Image
+                    key={item._id}
+                    src={item.image?.url || ""}
+                    alt={item.image?.altText || "image de notre produit"}
+                    width={600}
+                    height={600}
+                    onClick={() => handleClickImage(item._id)}
+                    style={{
+                      cursor: "pointer",
+                      transition: "transform 0.3s ease",
+                      transform:
+                        imageClicked === item._id ? "scale(.85)" : "scale(1)",
+                    }}
+                  />
+                ) : (
+                  <video
+                    key={item._id}
+                    src={item.video?.files?.[0].url || ""}
+                    autoPlay
+                    loop
+                    muted
+                    onClick={() => handleClickImage(item._id)}
+                    aria-label={
+                      item.video?.files?.[0].altText || "video de notre produit"
+                    }
+                    style={{
+                      cursor: "pointer",
+                      transition: "transform 0.3s ease",
+                      transform:
+                        imageClicked === item._id ? "scale(.85)" : "scale(1)",
+                    }}
+                  />
+                )
+              )}
           </div>
         </div>
 
         <div className="container-text-shop">
           <div className="main-text in-stock">
-            { product.stock?.inventoryStatus === 'IN_STOCK' && "En stock" }
-            { product.stock?.inventoryStatus === 'OUT_OF_STOCK' && "Rupture de stock" }
-            { product.stock?.inventoryStatus === 'PARTIALLY_OUT_OF_STOCK' && "En stock partiellement" }
+            {product.stock?.inventoryStatus === "IN_STOCK" && "En stock"}
+            {product.stock?.inventoryStatus === "OUT_OF_STOCK" &&
+              "Rupture de stock"}
+            {product.stock?.inventoryStatus === "PARTIALLY_OUT_OF_STOCK" &&
+              "En stock partiellement"}
           </div>
           <div className="main-text price" data-aos="fade-up">
             {product?.discount?.value ? (
@@ -230,7 +244,7 @@ export function Details({
                   className="w-commerce-commerceaddtocartbutton add-to-cart-button-product"
                   disabled={isLoading}
                 >
-                    {isLoading ? "Ajout au panier..." : "Ajouter au panier"}
+                  {isLoading ? "Ajout au panier..." : "Ajouter au panier"}
                 </button>
               </div>
               <Link
@@ -246,7 +260,7 @@ export function Details({
                 display: product.stock?.inventoryStatus ? "none" : "block",
               }}
             >
-                <div>ce produit est en rupture de stock</div>
+              <div>ce produit est en rupture de stock</div>
             </div>
             <div
               className="w-commerce-commerceaddtocarterror"
@@ -254,12 +268,12 @@ export function Details({
                 display: "none",
               }}
             >
-                <div>Le produit n&apos;est pas disponible en cette quantité</div>
+              <div>Le produit n&apos;est pas disponible en cette quantité</div>
             </div>
           </div>
           <div className="w-layout-grid additional-information-grid top">
             <div className="colluumn">
-                <div className="main-text price first">Catégorie</div>
+              <div className="main-text price first">Catégorie</div>
             </div>
             <div className="colluumn">
               <div className="main-text price first">{collection.name}</div>
@@ -268,10 +282,7 @@ export function Details({
         </div>
       </div>
       <div className="section">
-        <div
-          className="shop-tab w-tabs"
-          data-current="tab-1"
-        >
+        <div className="shop-tab w-tabs" data-current="tab-1">
           <div className="w-tab-menu" role="tablist">
             <button
               data-w-tab="Tab 1"
@@ -284,7 +295,7 @@ export function Details({
               }`}
               onClick={() => setTabSelected(1)}
             >
-                <div className="tab-text">description</div>
+              <div className="tab-text">description</div>
             </button>
             <button
               data-w-tab="Tab 2"
@@ -297,7 +308,7 @@ export function Details({
               }`}
               onClick={() => setTabSelected(2)}
             >
-                <div className="tab-text">détails</div>
+              <div className="tab-text">détails</div>
             </button>
           </div>
           <div className="w-tab-content">
@@ -309,9 +320,9 @@ export function Details({
                 tabSelected === 1 ? "w--tab-active" : ""
               }`}
             >
-              <p 
-                className="main-paragraph" 
-                dangerouslySetInnerHTML={{__html: product.description!}}
+              <p
+                className="main-paragraph"
+                dangerouslySetInnerHTML={{ __html: product.description! }}
               />
             </div>
             <div
@@ -326,13 +337,13 @@ export function Details({
                 <table className="table">
                   <tbody>
                     <tr>
-                        <td className="main-text price first">quantité</td>
+                      <td className="main-text price first">quantité</td>
                       <td className="main-text price first">
                         {product.stock?.quantity}
                       </td>
                     </tr>
                     <tr>
-                        <td className="main-text price">ruban</td>
+                      <td className="main-text price">ruban</td>
                       <td className="main-text price">{product.ribbon}</td>
                     </tr>
                     {product.additionalInfoSections &&
