@@ -17,7 +17,7 @@ export default function Navigation() {
       <div className="main-text link">boutique</div>
       </Link>
       <div className="main-text link margin">/</div>
-      <div className="main-text link">{query?.replaceAll("-", " ") || 'all products'}</div>
+      <div className="main-text link">{query?.replaceAll("-", " ") ?? 'all products'}</div>
     </div>
   );
 }

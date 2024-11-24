@@ -6,6 +6,7 @@ import React, { Suspense } from "react";
 
 const Footer = async () => {
   const collections = await fetchCollections(3);
+  const currentDate = new Date().getFullYear();
 
   return (
     <footer className="footer" data-aos="zoom-in-down">
@@ -138,7 +139,7 @@ const Footer = async () => {
       </div>
       <div className="footer-buttom">
         <p>
-          {new Date().getFullYear()} &copy; All rights reserved || designed and
+          {currentDate} &copy; All rights reserved || designed and
           developed by{" "}
           <a
             className="font-bold"

@@ -411,7 +411,7 @@ const Header = () => {
                                     400,
                                     {}
                                   )}
-                                  alt={item.productName?.original || "product"}
+                                  alt={item.productName?.original ?? "product"}
                                   width={400}
                                   height={400}
                                   className="w-commerce-commercecartitemimage"
@@ -670,7 +670,7 @@ const Header = () => {
             </ul>
           </nav>
           
-          <Weather screen="-mobile" />
+          {/* <Weather screen="-mobile" /> */}
         </div>
       </div>
     </header>

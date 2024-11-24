@@ -9,7 +9,7 @@ export const wixClientServer = async () => {
 
     try {
       const cookieStore = cookies();
-      refreshToken = JSON.parse(cookieStore.get("refreshToken")?.value || "{}");
+      refreshToken = JSON.parse(cookieStore.get("refreshToken")?.value ?? "{}");
     } catch (error) {
       console.error("Error parsing refresh token", error);
     }
@@ -23,7 +23,7 @@ export const wixClientServer = async () => {
         recommendations
       },
       auth: OAuthStrategy({
-        clientId: process.env.NEXT_PUBLIC_CLIENT_ID || "",
+        clientId: process.env.NEXT_PUBLIC_CLIENT_ID ?? "",
         tokens: {
           refreshToken,
           accessToken: { value: "", expiresAt: 0 },

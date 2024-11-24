@@ -5,7 +5,7 @@ import { Position } from "@/lib/difinations";
 import Cities from "../../../public/moroccanCities.json";
 import WeatherSkelton from "./weatherSkelton";
 
-export default function Weather({ screen }: { screen: string }) {
+export default function Weather({ screen }: { readonly screen: string }) {
   const [resError, setResError] = useState<string | null>(null);
   const [cityCoords, setCityCoords] = useState<Position>({
     latitude: 30.4333,
@@ -20,6 +20,7 @@ export default function Weather({ screen }: { screen: string }) {
     &lang=fr`,
     fetcher
   );
+  console.log(data);
 
   const handleClickGetCoordsAuth = () => {
     if (!navigator.geolocation) {
@@ -41,7 +42,6 @@ export default function Weather({ screen }: { screen: string }) {
   };
 
   useEffect(() => {
-    if (data && data.forecast && data.forecast.forecastday) {
       const checkTideAlert = () => {
         const forecast = data.forecast.forecastday[0].day;
         const currentTime = new Date();
@@ -73,20 +73,19 @@ export default function Weather({ screen }: { screen: string }) {
 
       const intervalId = setInterval(checkTideAlert, 60000); // Check every minute
       return () => clearInterval(intervalId);
-    }
   }, [data, cityCoords]);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertX, setAlertX] = useState(0);
   const [alertY, setAlertY] = useState(0);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     setShowAlert(true);
     setAlertX(e.clientX);
     setAlertY(e.clientY);
   };
 
-  if (error) return <h2>someting went wrong</h2>;
+  if (error) return <h2>someting went wrong: {resError}</h2>;
 
   const formatDate = (dateString: string, isTides: boolean): string => {
     // Create a Date object from the input date string
@@ -134,9 +133,9 @@ export default function Weather({ screen }: { screen: string }) {
                   })
                 }
               >
-                {Cities.map((city, index) => (
+                {Cities.map( city => (
                   <option
-                    key={index}
+                    key={`${city.city}`}
                     value={`${city.lat},${city.lng}`}
                     selected={`${city.lat},${city.lng}` === `${cityCoords.latitude},${cityCoords.longitude}`}
                   >
@@ -326,15 +325,15 @@ export default function Weather({ screen }: { screen: string }) {
                 </div>
               </div>
             </div>
-            <div className="tides">
+            <menu className="tides">
               <div className="line"></div>
-              {data.forecast.forecastday[0].day.tides[0].tide.map(
+              {data.forecast.forecastday[0].day?.tides?.[0].tide.map(
                 (tide: any, index: number) => {
                   return (
                     <>
-                      <div
+                      <li
                         className={`tide ${alert === index ? "alert" : ""}`}
-                        key={index}
+                        key={tide.tide_time}
                         onMouseMove={(e) => handleMouseMove(e)}
                         onMouseLeave={() => setShowAlert(false)}
                       >
@@ -422,7 +421,7 @@ export default function Weather({ screen }: { screen: string }) {
                             </span>
                           </div>
                         )}
-                      </div>
+                      </li>
 
                       {index <
                         data.forecast.forecastday[0].day.tides[0].tide.length -
@@ -431,7 +430,7 @@ export default function Weather({ screen }: { screen: string }) {
                   );
                 }
               )}
-            </div>
+            </menu>
           </div>
         </>
       )}

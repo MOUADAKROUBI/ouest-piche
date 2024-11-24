@@ -6,29 +6,29 @@ import Link from "next/link";
 import { collections } from "@wix/stores";
 import Carousel from "../carousel";
 
+interface Props {
+  readonly collections: collections.Collection[];
+}
+
 export default function Categories({
   collections,
-}: {
-  collections: collections.Collection[];
-}) {
+}: Props) {
   return (
     <div className="collection-list w-dyn-list">
-      <div
+      <menu
         className="collection-list-category w-dyn-items"
-        role="list"
       >
         <Carousel hiddenArrows={true}>
-          {collections.map((collection, i) => (
+          {collections.map( collection => (
             <Link
-              key={i}
-              role="listitem"
+              key={collection._id}
               href={`?category=${collection.name?.toLowerCase().replaceAll(" ", "-")}`}
               className="collection-item-link w-inline-block"
             >
               <div className="category-image">
                 <Image
-                  src={collection.media?.mainMedia?.image?.url || "/placeholder-image.jpg"}
-                  alt={collection.media?.mainMedia?.image?.altText || "placeholder"}
+                  src={collection.media?.mainMedia?.image?.url ?? "/placeholder-image.jpg"}
+                  alt={collection.media?.mainMedia?.image?.altText ?? "placeholder"}
                   width={100}
                   height={100}
                 />
@@ -39,7 +39,7 @@ export default function Categories({
             </Link>
           ))}
         </Carousel>
-      </div>
+      </menu>
     </div>
   );
 }

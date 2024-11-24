@@ -85,7 +85,8 @@ const Page = () => {
             width: "100%",
             height: "500px",
             border:0
-        }}
+          }}
+          title="google maps"
           allowFullScreen={true}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

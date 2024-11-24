@@ -6,15 +6,15 @@ type CartState = {
   cart: currentCart.Cart & currentCart.CartNonNullableFields;
   isLoading: boolean;
   counter: number;
-  getCart: (wixClient: MyWixClient) => void;
+  getCart: (wixClient: MyWixClient) => Promise<void>;
   addItem: (
     wixClient: MyWixClient,
     productId: string,
     variantId: string,
     quantity: number
   ) => Promise<void>;
-  removeItem: (wixClient: MyWixClient, productId: string) => void,
-  updateQuantity: (wixClient: MyWixClient, productId: string, quantity: number) => void,
+  removeItem: (wixClient: MyWixClient, productId: string) => Promise<void>,
+  updateQuantity: (wixClient: MyWixClient, productId: string, quantity: number) => Promise<void>,
 };
 
 export const useCartStore = create<CartState>((set) => ({

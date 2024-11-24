@@ -8,13 +8,15 @@ import Link from "next/link";
 import { collections, products } from "@wix/stores";
 import { useRouter } from "next/navigation";
 
+interface Props {
+  product: products.Product;
+  collection: collections.Collection;
+}
+
 export function Details({
   product,
   collection,
-}: {
-  product: products.Product;
-  collection: collections.Collection;
-}) {
+}: Readonly<Props>) {
   const [imageClicked, setImageClicked] = useState<string | undefined>(
     undefined
   );
@@ -67,7 +69,7 @@ export function Details({
   return (
     <>
       <div className="go-back">
-        <div className="icon-go-back" onClick={() => router.back()}>
+        <button className="icon-go-back" onClick={() => router.back()}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="30px"
@@ -77,7 +79,7 @@ export function Details({
           >
             <path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z" />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="w-layout-grid shop-grid" data-id={product._id}>
         <div className="wrapper-gallery-product">
@@ -86,8 +88,8 @@ export function Details({
               item.mediaType === "image" ? (
                 <div key={item._id}>
                   <Image
-                    src={item.image?.url || ""}
-                    alt={item.image?.altText || "image de notre produit"}
+                    src={item.image?.url ?? ""}
+                    alt={item.image?.altText ?? "image de notre produit"}
                     width={600}
                     height={600}
                     className={`hover-media ${imageClicked === item._id ? "scroll-in-to-view" : ""}`}
@@ -122,14 +124,14 @@ export function Details({
                   key={item._id}
                 >
                   <video
-                    src={item.video?.files?.[0].url || ""}
+                    src={item.video?.files?.[0].url ?? ""}
                     autoPlay
                     loop
                     muted
                     controls
                     className={`hover-media ${imageClicked === item._id ? "scroll-in-to-view" : ""}`}
                     aria-label={
-                      item.video?.files?.[0].altText || "video de notre produit"
+                      item.video?.files?.[0].altText ?? "video de notre produit"
                     }
                     style={{
                       opacity: imageClicked === item._id ? 1 : 0,
@@ -141,13 +143,13 @@ export function Details({
             )}
           </div>
           <div className="w-layout-grid grid-more-media">
-            {product.media?.items &&
-              product?.media?.items.map((item) =>
+            {
+              product?.media?.items?.map((item) =>
                 item.mediaType === "image" ? (
                   <Image
                     key={item._id}
-                    src={item.image?.url || ""}
-                    alt={item.image?.altText || "image de notre produit"}
+                    src={item.image?.url ?? ""}
+                    alt={item.image?.altText ?? "image de notre produit"}
                     width={600}
                     height={600}
                     onClick={() => handleClickImage(item._id)}
@@ -161,13 +163,13 @@ export function Details({
                 ) : (
                   <video
                     key={item._id}
-                    src={item.video?.files?.[0].url || ""}
+                    src={item.video?.files?.[0].url ?? ""}
                     autoPlay
                     loop
                     muted
                     onClick={() => handleClickImage(item._id)}
                     aria-label={
-                      item.video?.files?.[0].altText || "video de notre produit"
+                      item.video?.files?.[0].altText ?? "video de notre produit"
                     }
                     style={{
                       cursor: "pointer",
@@ -227,26 +229,26 @@ export function Details({
             >
               <label htmlFor="" className="field-label-product">
                 Quantité
+                <div className="add-to-cart-wrap">
+                  <input
+                    type="number"
+                    pattern="^[1-9]+$"
+                    inputMode="numeric"
+                    id="quantity-5377d51fa6998e4325fd81c3622b761b"
+                    name="commerce-add-to-cart-quantity-input"
+                    min={1}
+                    className="w-commerce-commerceaddtocartquantityinput quantity-product"
+                    defaultValue={1}
+                  />
+                  <button
+                    type="submit"
+                    className="w-commerce-commerceaddtocartbutton add-to-cart-button-product"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Ajout au panier..." : "Ajouter au panier"}
+                  </button>
+                </div>
               </label>
-              <div className="add-to-cart-wrap">
-                <input
-                  type="number"
-                  pattern="^[1-9]+$"
-                  inputMode="numeric"
-                  id="quantity-5377d51fa6998e4325fd81c3622b761b"
-                  name="commerce-add-to-cart-quantity-input"
-                  min={1}
-                  className="w-commerce-commerceaddtocartquantityinput quantity-product"
-                  defaultValue={1}
-                />
-                <button
-                  type="submit"
-                  className="w-commerce-commerceaddtocartbutton add-to-cart-button-product"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Ajout au panier..." : "Ajouter au panier"}
-                </button>
-              </div>
               <Link
                 href="/checkout"
                 className="w-commerce-commercebuynowbutton add-to-cart-button-product w-dyn-hide"
@@ -346,9 +348,9 @@ export function Details({
                       <td className="main-text price">ruban</td>
                       <td className="main-text price">{product.ribbon}</td>
                     </tr>
-                    {product.additionalInfoSections &&
-                      product.additionalInfoSections.map((section, i) => (
-                        <tr key={i}>
+                    {
+                      product?.additionalInfoSections?.map(section => (
+                        <tr key={section.title}>
                           <td className="main-text price">{section.title}</td>
                           <td
                             className="main-text price"
@@ -359,14 +361,14 @@ export function Details({
                         </tr>
                       ))}
 
-                    {product.productOptions &&
-                      product.productOptions.map((options, i) => (
-                        <tr key={i}>
+                    {
+                      product?.productOptions?.map((options, i) => (
+                        <tr key={options.name}>
                           <td className="main-text price">{options.name}</td>
                           <td>
-                            {options.choices &&
-                              options.choices.map((choice, i) => (
-                                <span key={i} className="main-text price">
+                            {
+                              options?.choices?.map((choice, i) => (
+                                <span key={choice.value} className="main-text price">
                                   {choice.value} ,{" "}
                                 </span>
                               ))}

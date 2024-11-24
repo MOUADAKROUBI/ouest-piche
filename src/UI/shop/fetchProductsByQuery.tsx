@@ -4,9 +4,9 @@ import { Props } from "@/app/shop/page";
 import { fetchCollectionName, fetchProductsByQuery } from "@/lib/fetchData";
 import { products } from "@wix/stores";
 
-export default async function Products({ searchParams }: {searchParams: Props["searchParams"]}) {
+export default async function Products({ searchParams }: {readonly searchParams: Props["searchParams"]}) {
   let products: (products.Product | undefined)[] = [];
-  products = await fetchProductsByQuery(searchParams.category || 'all-products', searchParams.filter || 'default', 100);
+  products = await fetchProductsByQuery(searchParams.category ?? 'all-products', searchParams.filter ?? 'default', 100);
 
   if (!products) 
     return (
@@ -17,11 +17,11 @@ export default async function Products({ searchParams }: {searchParams: Props["s
 
   return (
     <>
-      {await Promise.all(products.map(async (data, i) => {
-        const collectionName = data?.collectionIds && data.collectionIds[0] ? await fetchCollectionName(data.collectionIds[0]) : 'all products';
+      {await Promise.all(products.map(async data => {
+        const collectionName = data?.collectionIds?.[0] ? await fetchCollectionName(data.collectionIds[0]) : 'all products';
         
         return (
-          <SingleProduct key={i} data={data!} collectionName={collectionName} />
+          <SingleProduct key={data?._id} data={data!} collectionName={collectionName} />
         )
       }))}
     </>

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-export default function Brand({ isFooter }: { isFooter?: boolean }) {
+export default function Brand({ isFooter }: { readonly isFooter?: boolean }) {
   return (
     <Link 
       href="/" 

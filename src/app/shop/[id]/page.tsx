@@ -21,7 +21,7 @@ export async function generateMetadata(
   const product = await fetchSingleP(id)
  
   // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || []
+  const previousImages = (await parent).openGraph?.images ?? []
  
   return {
     title: product.product?.name,
@@ -37,32 +37,30 @@ export async function generateMetadata(
   }
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params }: Readonly<Props>) {
   return (
-    <>
-      <div className="main">
-        <div className="container">
-          <Suspense fallback={<DetailsSkelton />}>
-            <SingleProductContent id={params.id} />
-          </Suspense>
-          <div className="product-section">
-            <h3 className="main-heading h3 black scroll-in-to-view" data-aos="zoom-in-left">
-              Produits similaires
-            </h3>
-            <p className="main-paragraph center" data-aos="zoom-in-right">
-              Découvrez nos produits similaires
-            </p>
-            
-            <div className="collection-product w-dyn-list">
-              <div role="list" className="collection-list-product w-dyn-items">
-                <Suspense fallback={<ProductCartSkeleton len={4} />}>
-                  <FetchSameCategoriesProducts catalogItemId={params.id} />
-                </Suspense>
-              </div>
-            </div>
+    <div className="main">
+      <div className="container">
+        <Suspense fallback={<DetailsSkelton />}>
+          <SingleProductContent id={params.id} />
+        </Suspense>
+        <div className="product-section">
+          <h3 className="main-heading h3 black scroll-in-to-view" data-aos="zoom-in-left">
+            Produits similaires
+          </h3>
+          <p className="main-paragraph center" data-aos="zoom-in-right">
+            Découvrez nos produits similaires
+          </p>
+          
+          <div className="collection-product w-dyn-list">
+            <ul className="collection-list-product w-dyn-items">
+              <Suspense fallback={<ProductCartSkeleton len={4} />}>
+                <FetchSameCategoriesProducts catalogItemId={params.id} />
+              </Suspense>
+            </ul>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

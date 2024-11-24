@@ -7,13 +7,15 @@ import { useCartStore } from "@/hooks/useCartStore";
 import { products } from "@wix/stores";
 import Carousel from "./carousel";
 
+interface Props {
+  data: products.Product;
+  collectionName: string | null | undefined;
+}
+
 export default function SingleProduct({
   data,
   collectionName,
-}: {
-  data: products.Product;
-  collectionName: string | null | undefined;
-}) {
+}: Readonly<Props>) {
   const [hoveredIndex, setHoveredIndex] = useState(null); // Tracks which item is hovered
   const { addItem } = useCartStore();
   const ref = useRef<HTMLInputElement>(null);
@@ -62,9 +64,8 @@ export default function SingleProduct({
   };
 
   return (
-    <div
+    <li
       className="collection-item-product w-dyn-item"
-      role="listitem"
       data-aos="fade-up"
       data-id={data._id}
       onMouseEnter={() => handleMouseEnter(data._id)}
@@ -80,7 +81,7 @@ export default function SingleProduct({
                 className="wrapp-media-product w-inline-block"
                 style={{
                   backgroundImage: `url(${
-                    item?.image?.url || "/placeholder-image.jpg"
+                    item?.image?.url ?? "/placeholder-image.jpg"
                   })`,
                 }}
               >
@@ -108,7 +109,7 @@ export default function SingleProduct({
                 className="wrapp-media-product w-inline-block"
               >
                 <source
-                  src={item?.video?.files?.[0].url || ""}
+                  src={item?.video?.files?.[0].url ?? ""}
                   type="video/mp4"
                 />
               </video>
@@ -118,9 +119,7 @@ export default function SingleProduct({
 
         <div className="container-text-product">
           <div className="collumn _1">
-            <Link 
-              href={`/shop/${data._id}`}
-            >
+            <Link href={`/shop/${data._id}`}>
               <h4 className="heading-product">{data.name}</h4>
             </Link>
             <p className="category-text capitalize">{collectionName}</p>
@@ -159,25 +158,25 @@ export default function SingleProduct({
                 onSubmit={addToCart}
               >
                 <label htmlFor="" className="field-label">
-                  Quantité
+                  Quantité {' '}
+                  <input
+                    type="number"
+                    pattern="^[0-9]+DH"
+                    inputMode="numeric"
+                    id="quantity-5377d51fa6998e4325fd81c3622b761b"
+                    name="commerce-add-to-cart-quantity-input"
+                    min={1}
+                    className="w-commerce-commerceaddtocartquantityinput quantity"
+                    defaultValue="1"
+                  />
+                  <input
+                    ref={ref}
+                    type="submit"
+                    value="Ajouter au panier"
+                    id={`add-to-cart-${data._id}`}
+                    className="w-commerce-commerceaddtocartbutton add-to-cart-button"
+                  />
                 </label>
-                <input
-                  type="number"
-                  pattern="^[0-9]+DH"
-                  inputMode="numeric"
-                  id="quantity-5377d51fa6998e4325fd81c3622b761b"
-                  name="commerce-add-to-cart-quantity-input"
-                  min={1}
-                  className="w-commerce-commerceaddtocartquantityinput quantity"
-                  defaultValue="1"
-                />
-                <input
-                  ref={ref}
-                  type="submit"
-                  value="Ajouter au panier"
-                  id={`add-to-cart-${data._id}`}
-                  className="w-commerce-commerceaddtocartbutton add-to-cart-button"
-                />
                 <Link
                   href="/checkout"
                   className="w-commerce-commercebuynowbutton buy-now-button w-dyn-hid"
@@ -189,6 +188,6 @@ export default function SingleProduct({
           </div>
         </div>
       </div>
-    </div>
+    </li>
   );
 }

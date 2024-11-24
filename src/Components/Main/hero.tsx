@@ -15,7 +15,7 @@ const Hero = () => {
 
   return (
     <>
-      <Weather screen="-desktop" />
+      {/* <Weather screen="-desktop" /> */}
 
       <div className="hero-section">
         <div className="hero-slider w-slider" aria-label="carousel">

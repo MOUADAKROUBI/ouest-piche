@@ -8,9 +8,9 @@ export default async function FetchCollections() {
 
   return (
     <div className="collection-list-wrapper">
-      <div role="list" className="collection-list-home w-dyn-items">
+      <ul className="collection-list-home w-dyn-items">
         {collections.map((collection) => (
-          <div key={collection._id} role="listitem" className="collection-item">
+          <li key={collection._id} className="collection-item">
             <Link
               className="nav-card w-inline-block"
               href={`/shop?category=${collection
@@ -19,11 +19,11 @@ export default async function FetchCollections() {
             >
               <Image
                 src={
-                  collection?.media?.mainMedia?.image?.url ||
+                  collection?.media?.mainMedia?.image?.url ??
                   "/placeholder-image.jpg"
                 } // Fallback if image URL is missing
                 alt={
-                  collection?.media?.mainMedia?.title || "No title available"
+                  collection?.media?.mainMedia?.title ?? "No title available"
                 } // Fallback if title is missing
                 width={200}
                 height={200}
@@ -31,9 +31,9 @@ export default async function FetchCollections() {
               />
               <div className="nav-link footer">{collection.name}</div>
             </Link>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

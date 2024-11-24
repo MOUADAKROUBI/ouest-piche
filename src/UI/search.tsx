@@ -6,7 +6,7 @@ import { products } from "@wix/stores";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export default function Search({screen}: {screen: string}) {
+export default function Search({screen}: {readonly screen: string}) {
   const router = useRouter()
   const myWixClient = useContext<MyWixClient>(WixClientContext);
   const [searchTxt, setSearchTxt] = useState<string>("");
@@ -73,20 +73,26 @@ export default function Search({screen}: {screen: string}) {
           display: (searchedData.length && searchTxt) ? "block" : "none",
         }}
       >
-        <ul>
+        <div>
           {searchedData.map((product) => (
-            <li
+            <button
               className="search-result-item"
               key={product._id}
               onClick={() => {
                 router.push(`/shop/${product._id}`)
                 setSearchTxt('')
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  router.push(`/shop/${product._id}`)
+                  setSearchTxt('')
+                }
+              }}
             >
               <div className="search-result-image">
                 <Image
                   src={
-                    product.media?.mainMedia?.image?.url ||
+                    product.media?.mainMedia?.image?.url ??
                     "/images/apple-touch-icon.png"
                   }
                   alt="product"
@@ -102,9 +108,9 @@ export default function Search({screen}: {screen: string}) {
                   {product.priceData?.price} {product.priceData?.currency}
                 </div>
               </div>
-            </li>
+            </button>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );

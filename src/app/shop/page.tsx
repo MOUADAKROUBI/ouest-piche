@@ -9,7 +9,7 @@ import { fetchCollections } from "@/lib/fetchData";
 import Filters from "@/UI/shop/filters";
 
 export type Props = {
-  searchParams: { [key: string]: string | undefined };
+  readonly searchParams: { [key: string]: string | undefined };
 };
 
 export async function generateMetadata(
@@ -22,16 +22,16 @@ export async function generateMetadata(
       col.name?.toLowerCase().replaceAll(" ", "-") === searchParams.category || 'all-products'
   )[0];
 
-  const previousImages = (await parent).openGraph?.images || [];
+  const previousImages = (await parent).openGraph?.images ?? [];
 
   return {
-    title: `Shop ${searchParams.category || 'all-products'}`,
+    title: `Shop ${searchParams.category ?? 'all-products'}`,
     description: "browse our products",
     openGraph: {
-      title: `Shop ${searchParams.category || 'all-products'}`,
+      title: `Shop ${searchParams.category ?? 'all-products'}`,
       description: "browse our products",
       type: "website",
-      url: `https://leficheur.vercle.com/shop?category=${searchParams.category || 'all-products'}`,
+      url: `https://leficheur.vercle.com/shop?category=${searchParams.category ?? 'all-products'}`,
       siteName: "ouest peche",
       images: [
         collectionNames.media?.items?.[0].image?.url!,
@@ -61,14 +61,13 @@ export default async function Page({ searchParams }: Props) {
 
           <div className="container-card-product">
             <div className="collection-product w-dyn-list">
-              <div
-                role="list"
+              <ul
                 className="collection-list-product w-dyn-items"
               >
                 <Suspense fallback={<ProductCartSkeleton len={6} />}>
                   <Products searchParams={searchParams} />
                 </Suspense>
-              </div>
+              </ul>
             </div>
           </div>
         </div>

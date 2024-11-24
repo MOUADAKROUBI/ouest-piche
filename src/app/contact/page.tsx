@@ -34,7 +34,7 @@ export default function Contact() {
                 </div>
                 <div className="wrapper-text-contact">
                     <p className="main-paragraph contact sroll-in-to-view">
-                        toute la semain: <strong className="bold-text-7">10:00 - 19:00 <br /></strong>
+                        toute la semain: <strong className="bold-text-7">10:00 - 19:00</strong><br />
                         vendredi: <strong className="bold-text-7">15:30 - 20:00 <br /></strong>
                     </p>
                 </div>

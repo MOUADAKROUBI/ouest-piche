@@ -7,7 +7,7 @@ export default function Carousel({
   authoSlideInterval = 5000,
   tips = false,
   hiddenArrows = false,
-}: CarouselProps) {
+}: Readonly<CarouselProps>) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slidesCount = React.Children.count(sliders);
 
@@ -108,14 +108,14 @@ export default function Carousel({
       {tips && (
         <div className="carousel-tips-btns">
           <div className="carousel-tips">
-            {Array.from({ length: slidesCount }).map((_, index) => (
-              <div
-                key={index}
+            {Array.from({ length: slidesCount }).map( index => (
+              <button
+                key={Number(index)}
                 className={`carousel-tip ${
                   currentSlide === index ? "active" : ""
                 }`}
-                onClick={() => setCurrentSlide(index)}
-              ></div>
+                onClick={() => setCurrentSlide(Number(index))}
+              ></button>
             ))}
           </div>
         </div>

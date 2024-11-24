@@ -21,7 +21,7 @@ export async function fetchProducts(limit: number, skipProductId?: string) {
     const client = await wixClientServer();
     const response = await client.products
       .queryProducts()
-      .ne("_id", skipProductId || "")
+      .ne("_id", skipProductId ?? "")
       .limit(limit)
       .find();
     return response.items;
@@ -48,7 +48,7 @@ export async function fetchSingleP(id: string) {
     const client = await wixClientServer();
     const response = await client.products.getProduct(id);
     const collection = await client.collections.getCollection(
-      response.product?.collectionIds[0] || ""
+      response.product?.collectionIds[0] ?? ""
     );
 
     return { product: response.product, collection: collection };
