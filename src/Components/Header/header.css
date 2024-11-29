@@ -104,7 +104,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 .brand {
-  /* width: 150px; */
   padding-bottom: 0;
   display: block;
 }
@@ -190,7 +189,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 .icon-go-back {
   cursor: pointer;
-  width: fit-content;
 }
 
 .icon-search.mobile {
@@ -206,7 +204,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 .icon {
-  strokeWidth: 1.5px;
   block-size: 1.5em;
   inline-size: 1.5em;
   display: inline-block;
@@ -335,13 +332,6 @@ ul {
     display: none;
   }
 }
-
-/* @media screen and (max-width: 479px) {
-  .nav-item .nav-link {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-} */
 
 .nav-link._2 {
   padding-right: 0;

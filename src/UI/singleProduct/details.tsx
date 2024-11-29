@@ -75,7 +75,7 @@ export function Details({
             height="30px"
             viewBox="0 -960 960 960"
             width="30px"
-            fill="#333"
+            stroke="#333"
           >
             <path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z" />
           </svg>
@@ -227,28 +227,25 @@ export function Details({
               className="w-commerce-commerceaddtocartform default-state"
               onSubmit={handleSubmit}
             >
-              <label htmlFor="" className="field-label-product">
-                Quantité
-                <div className="add-to-cart-wrap">
-                  <input
-                    type="number"
-                    pattern="^[1-9]+$"
-                    inputMode="numeric"
-                    id="quantity-5377d51fa6998e4325fd81c3622b761b"
-                    name="commerce-add-to-cart-quantity-input"
-                    min={1}
-                    className="w-commerce-commerceaddtocartquantityinput quantity-product"
-                    defaultValue={1}
-                  />
-                  <button
-                    type="submit"
-                    className="w-commerce-commerceaddtocartbutton add-to-cart-button-product"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Ajout au panier..." : "Ajouter au panier"}
-                  </button>
-                </div>
-              </label>
+              <div className="add-to-cart-wrap">
+                <input
+                  type="number"
+                  pattern="^[1-9]+$"
+                  inputMode="numeric"
+                  id="quantity-5377d51fa6998e4325fd81c3622b761b"
+                  name="commerce-add-to-cart-quantity-input"
+                  min={1}
+                  className="w-commerce-commerceaddtocartquantityinput quantity-product"
+                  defaultValue={1}
+                />
+                <button
+                  type="submit"
+                  className="w-commerce-commerceaddtocartbutton add-to-cart-button-product"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Ajout au panier..." : "Ajouter au panier"}
+                </button>
+              </div>
               <Link
                 href="/checkout"
                 className="w-commerce-commercebuynowbutton add-to-cart-button-product w-dyn-hide"

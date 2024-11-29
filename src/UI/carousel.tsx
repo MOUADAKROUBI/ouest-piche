@@ -108,7 +108,7 @@ export default function Carousel({
       {tips && (
         <div className="carousel-tips-btns">
           <div className="carousel-tips">
-            {Array.from({ length: slidesCount }).map( index => (
+            {Array.from({ length: slidesCount }, (_, index) => index).map( index => (
               <button
                 key={Number(index)}
                 className={`carousel-tip ${
