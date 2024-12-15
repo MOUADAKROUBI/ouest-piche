@@ -37,7 +37,7 @@ export async function generateMetadata(
   }
 }
 
-export default async function Page({ params }: Readonly<Props>) {
+export default async function Page({ params }: Props) {
   return (
     <div className="main">
       <div className="container">
