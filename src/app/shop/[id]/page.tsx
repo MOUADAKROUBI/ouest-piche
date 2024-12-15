@@ -6,16 +6,12 @@ import DetailsSkelton from "@/UI/detailsSkelton";
 import SingleProductContent from "@/UI/singleProduct/singleProduct";
 import FetchSameCategoriesProducts from "@/UI/fetchSameCategoriesProducts";
  
-type Props = {
-  params: { id: string }
-}
- 
 export async function generateMetadata(
-  { params }: Props,
+  { params }: {params: Promise<{ id: string }>},
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const id = params.id
+  const id = (await params).id
  
   // fetch data
   const product = await fetchSingleP(id)
@@ -37,12 +33,12 @@ export async function generateMetadata(
   }
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params }: {readonly params: Promise<{ id: string }>}) {
   return (
     <div className="main">
       <div className="container">
         <Suspense fallback={<DetailsSkelton />}>
-          <SingleProductContent id={params.id} />
+          <SingleProductContent id={(await params).id} />
         </Suspense>
         <div className="product-section">
           <h3 className="main-heading h3 black scroll-in-to-view" data-aos="zoom-in-left">
@@ -55,7 +51,7 @@ export default async function Page({ params }: Props) {
           <div className="collection-product w-dyn-list">
             <ul className="collection-list-product w-dyn-items">
               <Suspense fallback={<ProductCartSkeleton len={4} />}>
-                <FetchSameCategoriesProducts catalogItemId={params.id} />
+                <FetchSameCategoriesProducts catalogItemId={(await params).id} />
               </Suspense>
             </ul>
           </div>
