@@ -9,14 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "^15.0.3",
     "@wix/ecom": "^1.0.749",
+    "@wix/members": "^1.0.122",
     "@wix/redirects": "^1.0.56",
+    "@wix/restaurants": "^1.0.179",
     "@wix/sdk": "^1.12.14",
     "@wix/stores": "^1.0.216",
     "aos": "3.0.0-beta.6",
     "confetti": "^2.0.3",
     "js-cookie": "^3.0.5",
-    "next": "14.2.7",
+    "next": "15.0.3",
     "react": "^18",
     "react-dom": "^18",
     "swr": "^2.2.5",

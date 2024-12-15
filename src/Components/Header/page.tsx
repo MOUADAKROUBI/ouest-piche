@@ -10,19 +10,34 @@ import { currentCart } from "@wix/ecom";
 import { MyWixClient, WixClientContext } from "@/Contexts/wixContext";
 import Search from "@/UI/search";
 import Weather from "@/UI/header/weather";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { UseUser } from "@/hooks/useUser";
+import Cookies from "js-cookie";
 
 const Header = () => {
+  const myWixClient = useContext<MyWixClient>(WixClientContext);
+
+  const [loginMenuOpen, setLoginMenuOpen] = useState<boolean>(false);
+  const { user, isUserLoading, getUser } = UseUser();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      await getUser(myWixClient); // Call the service function
+    };
+
+    fetchUser();
+  }, [myWixClient, getUser]);
+
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [cartOpen, setCartOpen] = useState<boolean>(false);
   const cartRef = useRef<HTMLDivElement>(null);
-  const myWixClient = useContext<MyWixClient>(WixClientContext);
   const cartFormRef = useRef<HTMLFormElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { cart, isLoading, counter, removeItem, updateQuantity } =
+  const { cart, isCartLoading, counter, removeItem, updateQuantity } =
     useCartStore();
   const [searchBarOpen, setSearchBarOpen] = useState<boolean>(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (cartFormRef.current) if (cart) cartFormRef.current.style.display = "";
@@ -84,6 +99,15 @@ const Header = () => {
     }
   }, [menuOpen]);
 
+  const handleLogOut = async () => {
+    setLoginMenuOpen(false);
+    Cookies.remove("WIX_REFRESH_TOKEN");
+    Cookies.remove("WIX_ACCESS_TOKEN");
+
+    const { logoutUrl } = await myWixClient.auth.logout(window.location.origin);
+    router.push(logoutUrl);
+  };
+
   return (
     <header className="navbar w-nav" data-collapse="medium">
       <div
@@ -93,9 +117,8 @@ const Header = () => {
         }}
       >
         {/* menu button */}
-        <div
+        <button
           className="menu-button w-nav-button"
-          role="button"
           aria-label="Open menu"
           onClick={() => setMenuOpen(!menuOpen)}
           style={{
@@ -129,178 +152,281 @@ const Header = () => {
               }}
             />
           </div>
-        </div>
+        </button>
         <div className="brand-search-wrapp">
           <Brand />
-          <Search screen="desktop" />
         </div>
-        <nav role="navigation" className="nav-menu w-nav-menu">
-          <ul className="wrap-nav">
-            <li className="nav-item nav-item-fill">
-              <Link href="/" className={`nav-link ${pathname === '/'?'active': ''}`}>
-                <div className="icon-page">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    width={24}
-                    height={24}
-                    xmlns="http://www.w3.org/2000/svg"
+
+        <Search screen="desktop" />
+
+        <div className="icon-search-cart-login">
+          <div className="login-wrapper">
+            {isUserLoading ? (
+              <div className="login-icon skelton" />
+            ) : (
+              <div>
+                {user ? (
+                  <button
+                    className="login-icon"
+                    title={user.profile?.nickname ?? ""}
+                    onClick={() => setLoginMenuOpen(!loginMenuOpen)}
                   >
-                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      {" "}
-                      <path
-                        d="M22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274"
-                        stroke="#000"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      ></path>{" "}
-                      <path
-                        d="M15 18H9"
-                        stroke="#000"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      ></path>{" "}
-                    </g>
-                  </svg>
-                </div>
-                <div className="name-page">Accueil</div>
-              </Link>
-            </li>
-            <li className="nav-item nav-item-fill">
-              <Link href="/shop" className={`nav-link ${pathname == '/shop'?'active': ''}`}>
-                <div className="icon-page">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    width={24}
-                    height={24}
-                    xmlns="http://www.w3.org/2000/svg"
+                    <div className="icon-page">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        height="24px"
+                        width="24px"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#333"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          {" "}
+                          <path
+                            d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                            stroke="#333"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>{" "}
+                        </g>
+                      </svg>
+                    </div>
+                  </button>
+                ) : (
+                  <Link
+                    href="/auth"
+                    className="login-icon"
+                    title="se Connecter"
                   >
-                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      {" "}
-                      <path
-                        d="M3.5 11V14C3.5 17.7712 3.5 19.6569 4.67157 20.8284C5.84315 22 7.72876 22 11.5 22H12.5C16.2712 22 18.1569 22 19.3284 20.8284M20.5 11V14C20.5 15.1698 20.5 16.1581 20.465 17"
-                        stroke="#000"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      ></path>{" "}
-                      <path
-                        d="M9.50002 2H14.5M9.50002 2L8.84828 8.51737C8.66182 10.382 10.1261 12 12 12C13.874 12 15.3382 10.382 15.1518 8.51737L14.5 2M9.50002 2H7.41771C6.50969 2 6.05567 2 5.66628 2.10675C4.84579 2.33168 4.15938 2.89439 3.77791 3.65484M9.50002 2L8.77549 9.24527C8.61911 10.8091 7.30318 12 5.73155 12C3.8011 12 2.35324 10.2339 2.73183 8.34093L2.80002 8M14.5 2H16.5823C17.4904 2 17.9444 2 18.3338 2.10675C19.1542 2.33168 19.8407 2.89439 20.2221 3.65484C20.4032 4.01573 20.4922 4.46093 20.6703 5.35133L21.2682 8.34093C21.6468 10.2339 20.1989 12 18.2685 12C16.6969 12 15.3809 10.8091 15.2245 9.24527L14.5 2Z"
-                        stroke="#000"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      ></path>{" "}
-                      <path
-                        d="M9.5 21.5V18.5C9.5 17.5654 9.5 17.0981 9.70096 16.75C9.83261 16.522 10.022 16.3326 10.25 16.201C10.5981 16 11.0654 16 12 16C12.9346 16 13.4019 16 13.75 16.201C13.978 16.3326 14.1674 16.522 14.299 16.75C14.5 17.0981 14.5 17.5654 14.5 18.5V21.5"
-                        stroke="#000"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      ></path>{" "}
-                    </g>
-                  </svg>
-                </div>
-                <div className="name-page">boutique</div>
-              </Link>
-            </li>
-            <li className="nav-item nav-item-fill">
-              <Link href="/contact" className={`nav-link ${pathname == '/contact'?'active': ''}`}>
-                <div className="icon-page">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    width={24}
-                    height={24}
-                    xmlns="http://www.w3.org/2000/svg"
+                    <div className="icon-page">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        height="24px"
+                        width="24px"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#333"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          {" "}
+                          <path
+                            d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                            stroke="#333"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>{" "}
+                        </g>
+                      </svg>
+                    </div>
+                  </Link>
+                )}
+              </div>
+            )}
+            <div
+              className="login-menu"
+              style={{
+                display: loginMenuOpen ? "block" : "none",
+                transform: loginMenuOpen
+                  ? "translateY(0)"
+                  : "translateY(-100%)",
+                transition: "all, transform .5 ease-in-out",
+              }}
+            >
+              <ul>
+                <li className="nav-item">
+                  <Link
+                    href={`/${user?.profile?.nickname}/me/orders`}
+                    className="nav-link"
+                    onClick={() => setLoginMenuOpen(false)}
                   >
-                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      {" "}
-                      <path
-                        d="M11.5003 12H5.41872M5.24634 12.7972L4.24158 15.7986C3.69128 17.4424 3.41613 18.2643 3.61359 18.7704C3.78506 19.21 4.15335 19.5432 4.6078 19.6701C5.13111 19.8161 5.92151 19.4604 7.50231 18.7491L17.6367 14.1886C19.1797 13.4942 19.9512 13.1471 20.1896 12.6648C20.3968 12.2458 20.3968 11.7541 20.1896 11.3351C19.9512 10.8529 19.1797 10.5057 17.6367 9.81135L7.48483 5.24303C5.90879 4.53382 5.12078 4.17921 4.59799 4.32468C4.14397 4.45101 3.77572 4.78336 3.60365 5.22209C3.40551 5.72728 3.67772 6.54741 4.22215 8.18767L5.24829 11.2793C5.34179 11.561 5.38855 11.7019 5.407 11.8459C5.42338 11.9738 5.42321 12.1032 5.40651 12.231C5.38768 12.375 5.34057 12.5157 5.24634 12.7972Z"
-                        stroke="#000000"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>{" "}
-                    </g>
-                  </svg>
-                </div>
-                <div className="name-page">Contact</div>
-              </Link>
-            </li>
-            <li className="nav-item nav-item-fill">
-              <Link href="/about" className={`nav-link ${pathname == '/about'?'active': ''}`}>
-                <div className="icon-page">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    width={24}
-                    height={24}
-                    xmlns="http://www.w3.org/2000/svg"
+                    <div className="icon-page">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        height="24px"
+                        width="24px"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#333"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          {" "}
+                          <path
+                            d="M21.9844 10C21.9473 8.68893 21.8226 7.85305 21.4026 7.13974C20.8052 6.12523 19.7294 5.56066 17.5777 4.43152L15.5777 3.38197C13.8221 2.46066 12.9443 2 12 2C11.0557 2 10.1779 2.46066 8.42229 3.38197L6.42229 4.43152C4.27063 5.56066 3.19479 6.12523 2.5974 7.13974C2 8.15425 2 9.41667 2 11.9415V12.0585C2 14.5833 2 15.8458 2.5974 16.8603C3.19479 17.8748 4.27063 18.4393 6.42229 19.5685L8.42229 20.618C10.1779 21.5393 11.0557 22 12 22C12.9443 22 13.8221 21.5393 15.5777 20.618L17.5777 19.5685C19.7294 18.4393 20.8052 17.8748 21.4026 16.8603C21.8226 16.1469 21.9473 15.3111 21.9844 14"
+                            stroke="#333"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                          ></path>{" "}
+                          <path
+                            d="M21 7.5L17 9.5M12 12L3 7.5M12 12V21.5M12 12C12 12 14.7426 10.6287 16.5 9.75C16.6953 9.65237 17 9.5 17 9.5M17 9.5V13M17 9.5L7.5 4.5"
+                            stroke="#333"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                          ></path>{" "}
+                        </g>
+                      </svg>
+                    </div>
+                    <div className="name-page">mes commandes</div>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    href={`/${user?.profile?.nickname}/me`}
+                    className="nav-link"
+                    onClick={() => setLoginMenuOpen(false)}
                   >
-                    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></g>
-                    <g id="SVGRepo_iconCarrier">
-                      {" "}
-                      <path
-                        d="M12 6H12.01M9 20L3 17V4L5 5M9 20L15 17M9 20V14M15 17L21 20V7L19 6M15 17V14M15 6.2C15 7.96731 13.5 9.4 12 11C10.5 9.4 9 7.96731 9 6.2C9 4.43269 10.3431 3 12 3C13.6569 3 15 4.43269 15 6.2Z"
-                        stroke="#000000"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>{" "}
-                    </g>
-                  </svg>
-                </div>
-                <div className="name-page">à propos de nous</div>
-              </Link>
-            </li>
-          </ul>
-        </nav>
-        <div className="ico-search-cart">
+                    <div className="icon-page">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        height="24px"
+                        width="24px"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#333"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          {" "}
+                          <path
+                            d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                            stroke="#333"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>{" "}
+                        </g>
+                      </svg>
+                    </div>
+                    <div className="name-page">mon compte</div>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    href={`/${user?.profile?.nickname}/me/likes`}
+                    className="nav-link"
+                    onClick={() => setLoginMenuOpen(false)}
+                  >
+                    <div className="icon-page">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        height="24px"
+                        width="24px"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          {" "}
+                          <path
+                            d="M8.96173 18.9109L9.42605 18.3219L8.96173 18.9109ZM12 5.50063L11.4596 6.02073C11.601 6.16763 11.7961 6.25063 12 6.25063C12.2039 6.25063 12.399 6.16763 12.5404 6.02073L12 5.50063ZM15.0383 18.9109L15.5026 19.4999L15.0383 18.9109ZM7.00061 16.4209C6.68078 16.1577 6.20813 16.2036 5.94491 16.5234C5.68169 16.8432 5.72758 17.3159 6.04741 17.5791L7.00061 16.4209ZM2.34199 13.4115C2.54074 13.7749 2.99647 13.9084 3.35988 13.7096C3.7233 13.5108 3.85677 13.0551 3.65801 12.6917L2.34199 13.4115ZM2.75 9.1371C2.75 6.98623 3.96537 5.18252 5.62436 4.42419C7.23607 3.68748 9.40166 3.88258 11.4596 6.02073L12.5404 4.98053C10.0985 2.44352 7.26409 2.02539 5.00076 3.05996C2.78471 4.07292 1.25 6.42503 1.25 9.1371H2.75ZM8.49742 19.4999C9.00965 19.9037 9.55954 20.3343 10.1168 20.6599C10.6739 20.9854 11.3096 21.25 12 21.25V19.75C11.6904 19.75 11.3261 19.6293 10.8736 19.3648C10.4213 19.1005 9.95208 18.7366 9.42605 18.3219L8.49742 19.4999ZM15.5026 19.4999C16.9292 18.3752 18.7528 17.0866 20.1833 15.4758C21.6395 13.8361 22.75 11.8026 22.75 9.1371H21.25C21.25 11.3345 20.3508 13.0282 19.0617 14.4798C17.7469 15.9603 16.0896 17.1271 14.574 18.3219L15.5026 19.4999ZM22.75 9.1371C22.75 6.42503 21.2153 4.07292 18.9992 3.05996C16.7359 2.02539 13.9015 2.44352 11.4596 4.98053L12.5404 6.02073C14.5983 3.88258 16.7639 3.68748 18.3756 4.42419C20.0346 5.18252 21.25 6.98623 21.25 9.1371H22.75ZM14.574 18.3219C14.0479 18.7366 13.5787 19.1005 13.1264 19.3648C12.6739 19.6293 12.3096 19.75 12 19.75V21.25C12.6904 21.25 13.3261 20.9854 13.8832 20.6599C14.4405 20.3343 14.9903 19.9037 15.5026 19.4999L14.574 18.3219ZM9.42605 18.3219C8.63014 17.6945 7.82129 17.0963 7.00061 16.4209L6.04741 17.5791C6.87768 18.2624 7.75472 18.9144 8.49742 19.4999L9.42605 18.3219ZM3.65801 12.6917C3.0968 11.6656 2.75 10.5033 2.75 9.1371H1.25C1.25 10.7746 1.66995 12.1827 2.34199 13.4115L3.65801 12.6917Z"
+                            fill="#333"
+                          ></path>{" "}
+                        </g>
+                      </svg>
+                    </div>
+                    <div className="name-page">mes favoris</div>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <button className="nav-link logout" onClick={handleLogOut}>
+                    <div className="icon-page">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        height="24px"
+                        width="24px"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#fff"
+                      >
+                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                        <g
+                          id="SVGRepo_tracerCarrier"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                          {" "}
+                          <path
+                            d="M15 12L2 12M2 12L5.5 9M2 12L5.5 15"
+                            stroke="#fff"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          ></path>{" "}
+                          <path
+                            d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.3531 21.8897 19.1752 21.9862 17 21.9983M9.00195 17C9.01406 19.175 9.11051 20.3529 9.87889 21.1213C10.5202 21.7626 11.4467 21.9359 13 21.9827"
+                            stroke="#fff"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                          ></path>{" "}
+                        </g>
+                      </svg>
+                    </div>
+                    <div className="name-page">se déconnecter</div>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
           {/* search icon for mobile devices */}
-          <div
+          <button
             className="icon-search mobile"
             onClick={() => setSearchBarOpen(!searchBarOpen)}
+            style={{
+              background: "transparent",
+            }}
+            title="Rechercher"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
-              viewBox="0 -960 960 960"
               width="24px"
+              viewBox="0 -960 960 960"
               fill="#333"
             >
               <path d="M792-120.67 532.67-380q-30 25.33-69.64 39.67Q423.39-326 378.67-326q-108.44 0-183.56-75.17Q120-476.33 120-583.33t75.17-182.17q75.16-75.17 182.5-75.17 107.33 0 182.16 75.17 74.84 75.17 74.84 182.27 0 43.23-14 82.9-14 39.66-40.67 73l260 258.66-48 48Zm-414-272q79.17 0 134.58-55.83Q568-504.33 568-583.33q0-79-55.42-134.84Q457.17-774 378-774q-79.72 0-135.53 55.83-55.8 55.84-55.8 134.84t55.8 134.83q55.81 55.83 135.53 55.83Z" />
             </svg>
-          </div>
+          </button>
           <div className="cart-wrap">
             <div
               className="w-commerce-commercecartwrapper cart-2"
               data-cart-open
             >
               <div className="w-commerce-commercecartopenlink cart-button w-inline-block">
-                <div className="cart-icon" onClick={toggleCart}>
+                <button
+                  className="cart-icon"
+                  onClick={toggleCart}
+                  title="mon panier"
+                >
                   <div className="icon-page">
                     <svg
                       viewBox="0 0 24 24"
@@ -339,8 +465,7 @@ const Header = () => {
                       {counter}
                     </div>
                   </div>
-                  <div className=" nav-link text-page">mon Panier</div>
-                </div>
+                </button>
               </div>
               <div
                 ref={cartRef}
@@ -356,15 +481,16 @@ const Header = () => {
                   style={{
                     transition:
                       "transform .3 cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                    transform: cartOpen ? "translateX(0px)" : "translateX(-100%)",
+                    transform: cartOpen
+                      ? "translateX(0px)"
+                      : "translateX(-100%)",
                   }}
                 >
                   <div className="w-commerce-commercecartheader cart-header">
-                    <Link
-                      href="#"
+                    <button
                       className="w-commerce-commercecartcloselink w-inline-block"
-                      role="button"
                       aria-label="Close cart"
+                      title="Close cart"
                       onClick={toggleCart}
                     >
                       <svg width="16px" height="16px" viewBox="0 0 16 16">
@@ -379,11 +505,11 @@ const Header = () => {
                           </g>
                         </g>
                       </svg>
-                    </Link>
+                    </button>
                     <Brand />
                   </div>
                   <div className="w-commerce-commercecartformwrapper">
-                    {isLoading && <div className="loading-cart" />}
+                    {isCartLoading && <div className="loading-cart" />}
                     {cart.lineItems?.length ? (
                       <form
                         ref={cartFormRef}
@@ -393,15 +519,11 @@ const Header = () => {
                         }}
                         onSubmit={handleCheckout}
                       >
-                        <div
-                          className="w-commerce-commercecartlist"
-                          role="list"
-                        >
+                        <ul className="w-commerce-commercecartlist">
                           {cart.lineItems.map((item) => (
-                            <div
+                            <li
                               key={item._id}
                               className="w-commerce-commercecartitem"
-                              role="listitem"
                             >
                               {item.image && (
                                 <Image
@@ -429,14 +551,14 @@ const Header = () => {
                                   href="#"
                                   className="remove-button w-inline-block"
                                 >
-                                  <div
+                                  <button
                                     className="text-block-collection"
                                     onClick={() =>
                                       removeItem(myWixClient, item._id!)
                                     }
                                   >
                                     Supprimer
-                                  </div>
+                                  </button>
                                 </Link>
                               </div>
                               <input
@@ -452,9 +574,9 @@ const Header = () => {
                                 max={10}
                                 onChange={(e) => handleChange(e, item._id!)}
                               />
-                            </div>
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                         <div className="w-commerce-commercecartfooter">
                           <div className="w-commerce-commercecartlineitem">
                             <div className="main-text cart">Sous-total</div>
@@ -492,13 +614,53 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <nav role="navigation" className="nav-menu w-nav-menu">
+        <ul className="wrap-nav">
+          <li className="nav-item nav-item-fill">
+            <Link
+              href="/"
+              className={`nav-link ${pathname === "/" ? "active" : ""}`}
+            >
+              <div className="name-page">Accueil</div>
+            </Link>
+          </li>
+          <li className="nav-item nav-item-fill">
+            <Link
+              href="/shop"
+              className={`nav-link ${pathname == "/shop" ? "active" : ""}`}
+            >
+              <div className="name-page">boutique</div>
+            </Link>
+          </li>
+          <li className="nav-item nav-item-fill">
+            <Link
+              href="/contact"
+              className={`nav-link ${pathname == "/contact" ? "active" : ""}`}
+            >
+              <div className="name-page">Contact</div>
+            </Link>
+          </li>
+          <li className="nav-item nav-item-fill">
+            <Link
+              href="/about"
+              className={`nav-link ${pathname == "/about" ? "active" : ""}`}
+            >
+              <div className="name-page">à propos de nous</div>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <div className="line"></div>
       <div
         className="search-bar-go-back mobile"
         style={{
           display: searchBarOpen ? "flex" : "none",
         }}
       >
-        <div className="icon-go-back" onClick={() => setSearchBarOpen(false)}>
+        <button
+          className="icon-go-back"
+          onClick={() => setSearchBarOpen(false)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
@@ -508,7 +670,7 @@ const Header = () => {
           >
             <path d="m287-446.67 240 240L480-160 160-480l320-320 47 46.67-240 240h513v66.66H287Z" />
           </svg>
-        </div>
+        </button>
         <Search screen="mobile" />
       </div>
       <div
@@ -528,148 +690,44 @@ const Header = () => {
           >
             <ul className="wrap-nav">
               <li className="nav-item">
-                <Link href="/" className="nav-link" onClick={() => setMenuOpen(!menuOpen)}>
-                  <div className="icon-page">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      width={24}
-                      height={24}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        {" "}
-                        <path
-                          d="M22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274"
-                          stroke="#000"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        ></path>{" "}
-                        <path
-                          d="M15 18H9"
-                          stroke="#000"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        ></path>{" "}
-                      </g>
-                    </svg>
-                  </div>
+                <Link
+                  href="/"
+                  className={`nav-link ${pathname === "/" ? "active" : ""}`}
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
                   <div className="name-page">Accueil</div>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link href="/shop" className="nav-link" onClick={() => setMenuOpen(!menuOpen)}>
-                  <div className="icon-page">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      width={24}
-                      height={24}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        {" "}
-                        <path
-                          d="M3.5 11V14C3.5 17.7712 3.5 19.6569 4.67157 20.8284C5.84315 22 7.72876 22 11.5 22H12.5C16.2712 22 18.1569 22 19.3284 20.8284M20.5 11V14C20.5 15.1698 20.5 16.1581 20.465 17"
-                          stroke="#000"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        ></path>{" "}
-                        <path
-                          d="M9.50002 2H14.5M9.50002 2L8.84828 8.51737C8.66182 10.382 10.1261 12 12 12C13.874 12 15.3382 10.382 15.1518 8.51737L14.5 2M9.50002 2H7.41771C6.50969 2 6.05567 2 5.66628 2.10675C4.84579 2.33168 4.15938 2.89439 3.77791 3.65484M9.50002 2L8.77549 9.24527C8.61911 10.8091 7.30318 12 5.73155 12C3.8011 12 2.35324 10.2339 2.73183 8.34093L2.80002 8M14.5 2H16.5823C17.4904 2 17.9444 2 18.3338 2.10675C19.1542 2.33168 19.8407 2.89439 20.2221 3.65484C20.4032 4.01573 20.4922 4.46093 20.6703 5.35133L21.2682 8.34093C21.6468 10.2339 20.1989 12 18.2685 12C16.6969 12 15.3809 10.8091 15.2245 9.24527L14.5 2Z"
-                          stroke="#000"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        ></path>{" "}
-                        <path
-                          d="M9.5 21.5V18.5C9.5 17.5654 9.5 17.0981 9.70096 16.75C9.83261 16.522 10.022 16.3326 10.25 16.201C10.5981 16 11.0654 16 12 16C12.9346 16 13.4019 16 13.75 16.201C13.978 16.3326 14.1674 16.522 14.299 16.75C14.5 17.0981 14.5 17.5654 14.5 18.5V21.5"
-                          stroke="#000"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        ></path>{" "}
-                      </g>
-                    </svg>
-                  </div>
+                <Link
+                  href="/shop"
+                  className={`nav-link ${pathname === "/shop" ? "active" : ""}`}
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
                   <div className="name-page">boutique</div>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link href="/contact" className="nav-link" onClick={() => setMenuOpen(!menuOpen)}>
-                  <div className="icon-page">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      width={24}
-                      height={24}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        {" "}
-                        <path
-                          d="M11.5003 12H5.41872M5.24634 12.7972L4.24158 15.7986C3.69128 17.4424 3.41613 18.2643 3.61359 18.7704C3.78506 19.21 4.15335 19.5432 4.6078 19.6701C5.13111 19.8161 5.92151 19.4604 7.50231 18.7491L17.6367 14.1886C19.1797 13.4942 19.9512 13.1471 20.1896 12.6648C20.3968 12.2458 20.3968 11.7541 20.1896 11.3351C19.9512 10.8529 19.1797 10.5057 17.6367 9.81135L7.48483 5.24303C5.90879 4.53382 5.12078 4.17921 4.59799 4.32468C4.14397 4.45101 3.77572 4.78336 3.60365 5.22209C3.40551 5.72728 3.67772 6.54741 4.22215 8.18767L5.24829 11.2793C5.34179 11.561 5.38855 11.7019 5.407 11.8459C5.42338 11.9738 5.42321 12.1032 5.40651 12.231C5.38768 12.375 5.34057 12.5157 5.24634 12.7972Z"
-                          stroke="#000000"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>{" "}
-                      </g>
-                    </svg>
-                  </div>
+                <Link
+                  href="/contact"
+                  className={`nav-link ${pathname === "/contact" ? "active" : ""}`}
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
                   <div className="name-page">Contact</div>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link href="/about" className="nav-link" onClick={() => setMenuOpen(!menuOpen)}>
-                  <div className="icon-page">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      width={24}
-                      height={24}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        {" "}
-                        <path
-                          d="M12 6H12.01M9 20L3 17V4L5 5M9 20L15 17M9 20V14M15 17L21 20V7L19 6M15 17V14M15 6.2C15 7.96731 13.5 9.4 12 11C10.5 9.4 9 7.96731 9 6.2C9 4.43269 10.3431 3 12 3C13.6569 3 15 4.43269 15 6.2Z"
-                          stroke="#000000"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></path>{" "}
-                      </g>
-                    </svg>
-                  </div>
+                <Link
+                  href="/about"
+                  className={`nav-link ${pathname === "/about" ? "active" : ""}`}
+                  onClick={() => setMenuOpen(!menuOpen)}
+                >
                   <div className="name-page">à propos de nous</div>
                 </Link>
               </li>
             </ul>
           </nav>
-          
+
           {/* <Weather screen="-mobile" /> */}
         </div>
       </div>

@@ -40,7 +40,7 @@ export function Details({
     setCursorPosition({ x: e.clientX, y: e.clientY });
   };
 
-  const { isLoading, addItem } = useCartStore();
+  const { isCartLoading, addItem } = useCartStore();
 
   useEffect(() => {
     const imageId = product?.media?.mainMedia?._id;
@@ -241,9 +241,9 @@ export function Details({
                 <button
                   type="submit"
                   className="w-commerce-commerceaddtocartbutton add-to-cart-button-product"
-                  disabled={isLoading}
+                  disabled={isCartLoading}
                 >
-                  {isLoading ? "Ajout au panier..." : "Ajouter au panier"}
+                  {isCartLoading ? "Ajout au panier..." : "Ajouter au panier"}
                 </button>
               </div>
               <Link

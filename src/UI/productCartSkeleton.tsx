@@ -3,11 +3,10 @@ import React from "react";
 export default function ProductCartSkeleton({ len }: { len: number }) {
   return (
     <>
-      {Array.from({ length: len }).map((_, i) => (
-        <div
+      {Array.from({ length: len }, (_, i) => i).map((i) => (
+        <li
           key={i}
           className="collection-item-product w-dyn-item"
-          role="listitem"
         >
           <div className="product-card scroll-in-to-view">
             <div className="wrapp-image-product skelton"></div>
@@ -21,7 +20,7 @@ export default function ProductCartSkeleton({ len }: { len: number }) {
               <div className="collumn skelton"></div>
             </div>
           </div>
-        </div>
+        </li>
       ))}
     </>
   );

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCartStore } from "@/hooks/useCartStore";
 import { products } from "@wix/stores";
 import Carousel from "./carousel";
+import SaveProductButton from "./saveProductButton";
 
 interface Props {
   data: products.Product;
@@ -21,6 +22,11 @@ export default function SingleProduct({
   const ref = useRef<HTMLInputElement>(null);
 
   const wixClient = useContext(WixClientContext);
+
+  // Get existing products from localStorage
+  const savedProducts: string[] = JSON.parse(
+    localStorage.getItem("savedProducts") || "[]"
+  );
 
   async function addToCart(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -116,6 +122,8 @@ export default function SingleProduct({
             )
           )}
         </Carousel>
+        
+        <SaveProductButton savedProducts={savedProducts} id={data._id!} />
 
         <div className="container-text-product">
           <div className="collumn _1">
@@ -157,26 +165,23 @@ export default function SingleProduct({
                 className="w-commerce-commerceaddtocartform default-state-card"
                 onSubmit={addToCart}
               >
-                <label htmlFor="" className="field-label">
-                  Quantité {' '}
-                  <input
-                    type="number"
-                    pattern="^[0-9]+DH"
-                    inputMode="numeric"
-                    id="quantity-5377d51fa6998e4325fd81c3622b761b"
-                    name="commerce-add-to-cart-quantity-input"
-                    min={1}
-                    className="w-commerce-commerceaddtocartquantityinput quantity"
-                    defaultValue="1"
-                  />
-                  <input
-                    ref={ref}
-                    type="submit"
-                    value="Ajouter au panier"
-                    id={`add-to-cart-${data._id}`}
-                    className="w-commerce-commerceaddtocartbutton add-to-cart-button"
-                  />
-                </label>
+                <input
+                  type="number"
+                  pattern="^[0-9]+DH"
+                  inputMode="numeric"
+                  id="quantity-5377d51fa6998e4325fd81c3622b761b"
+                  name="commerce-add-to-cart-quantity-input"
+                  min={1}
+                  className="w-commerce-commerceaddtocartquantityinput quantity"
+                  defaultValue="1"
+                />
+                <input
+                  ref={ref}
+                  type="submit"
+                  value="Ajouter au panier"
+                  id={`add-to-cart-${data._id}`}
+                  className="w-commerce-commerceaddtocartbutton add-to-cart-button"
+                />
                 <Link
                   href="/checkout"
                   className="w-commerce-commercebuynowbutton buy-now-button w-dyn-hid"

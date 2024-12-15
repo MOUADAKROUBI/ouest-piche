@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
 import Image from "next/image";
+import { GoogleMapsEmbed } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: "About",
@@ -79,6 +80,13 @@ const Page = () => {
           width: "100vw",
         }}
       >
+        {/* <GoogleMapsEmbed
+          apiKey="AIzaSyC3AJRU4sSjCvMma6OXW1k6J8XxfnxzRnM"
+          mode="place"
+          q="National R1 en face de, route oukhrib tusouss, Belfaa 87252"
+          allowfullscreen={true}
+          
+        /> */}
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.957672733722!2d-9.55870841429443!3d30.066747740762608!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb39347a0b36f49%3A0x30b0ffcb3c83ec1a!2zQmx1ZSBGaXNoIC0gbWF0ZXJpYWwgZGUgcMOqY2ggLSDZhdiz2KrZhNiy2YXYp9iqINin2YTYtdmK2K8!5e0!3m2!1sen!2sma!4v1729791556960!5m2!1sen!2sma"
           style={{

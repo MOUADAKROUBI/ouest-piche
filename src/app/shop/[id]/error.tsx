@@ -1,12 +1,14 @@
 'use client' // Error boundaries must be Client Components
  
+interface ErrorProps {
+  error: Error & { digest?: string }
+  reset: () => void
+}
+
 export default function Error({
   error,
   reset,
-}: {
-  error: Error & { digest?: string }
-  reset: () => void
-}) {
+}: Readonly<ErrorProps>) {
  
   return (
     <div className='main error'>

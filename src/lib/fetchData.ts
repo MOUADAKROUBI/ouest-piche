@@ -1,4 +1,4 @@
-import { products } from "@wix/stores";
+import { collections, products } from "@wix/stores";
 import { wixClientServer } from "./wixClientServer";
 
 export async function fetchCollections(limit: number) {
@@ -31,18 +31,6 @@ export async function fetchProducts(limit: number, skipProductId?: string) {
   }
 }
 
-export async function fetchCollectionName(collectionId: string) {
-  try {
-    const client = await wixClientServer();
-    const collection = await client.collections.getCollection(collectionId);
-    return collection.name;
-    
-  } catch (error) {
-    console.log(error)
-    throw new Error("Error fetching collection name")
-  }
-}
-
 export async function fetchSingleP(id: string) {
   try {
     const client = await wixClientServer();
@@ -63,7 +51,7 @@ export async function fetchProductsByQuery(
   filterQuery: string,
   limit: number
 ) {
-  let products: products.Product[] = [];
+  let data: Promise<{ product: products.Product, collection: collections.Collection & collections.CollectionNonNullableFields }>[] = [];
 
   try {
     const client = await wixClientServer();
@@ -71,49 +59,72 @@ export async function fetchProductsByQuery(
       await client.collections
         .queryCollections()
         .eq("name", categoryQuery.replaceAll("-", " "))
-        .limit(limit)
         .find()
-    ).items[0];
+      ).items[0];
     switch (filterQuery) {
       case "date":
-        products = (
-          await client.products
+        {
+          const products = (
+            await client.products
             .queryProducts()
             .eq("collectionIds", category._id)
             .descending("lastUpdated")
+            .limit(limit)
             .find()
-        ).items;
-        break;
+          ).items;
+            
+          data = products.map( async (product) => {
+            const collection = await client.collections.getCollection(product.collectionIds?.[0]!)
+            return {product, collection: collection}
+          })
+          return data;
+        }
       case "price-cro":
-        products = (
-          await client.products
-            .queryProducts()
-            .eq("collectionIds", category._id)
-            .ascending("price")
-            .find()
-        ).items;
-        break;
-      case "price-desc":
-        products = (
-          await client.products
-            .queryProducts()
-            .eq("collectionIds", category._id)
-            .descending("price")
-            .find()
-        ).items;
-        break;
+        {
+          const products = (
+            await client.products
+              .queryProducts()
+              .eq("collectionIds", category._id)
+              .ascending("price")
+              .find()
+          ).items;
+          data = products.map( async (product) => {
+            const collection = await client.collections.getCollection(product.collectionIds?.[0]!)
+            return {product, collection: collection}
+          })
+          return data;
+        }
+      case "price-desc": 
+        {
+          const products = (
+            await client.products
+              .queryProducts()
+              .eq("collectionIds", category._id)
+              .descending("price")
+              .find()
+          ).items;
+          data = products.map( async (product) => {
+            const collection = await client.collections.getCollection(product.collectionIds?.[0]!)
+            return {product, collection: collection}
+          })
+          return data;
+        }
 
       default:
-        products = (
-          await client.products
-            .queryProducts()
-            .eq("collectionIds", category._id)
-            .find()
-        ).items;
-        break;
+        {
+          const products = (
+            await client.products
+              .queryProducts()
+              .eq("collectionIds", category._id)
+              .find()
+          ).items;
+          data = products.map( async (product) => {
+            const collection = await client.collections.getCollection(product.collectionIds?.[0]!)
+            return {product, collection: collection}
+          })
+          return data;
+        }
     }
-
-    return products;
   } catch (error) {
     console.log(error);
     throw new Error("error fetching products my query");
@@ -190,5 +201,30 @@ export async function fetchFrequentlyViewedProducts() {
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching recommendations products");
+  }
+}
+
+export async function fetchOrders() {
+  try {
+    const client = await wixClientServer();
+    const orders =  await client.orders.listOrders()
+
+    return orders;
+    
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching orders");
+  }
+}
+
+export async function fetchOrder(id: string) {
+  try {
+    const client = await wixClientServer();
+    const orders = await client.ordersEcom.getOrder(id);
+    return orders;
+    
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching orders");
   }
 }

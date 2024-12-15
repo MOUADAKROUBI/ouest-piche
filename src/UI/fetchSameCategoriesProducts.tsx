@@ -1,7 +1,7 @@
 import React from "react";
 import SingleProduct from "./singleCardProduct";
-import { fetchCollectionName, fetchSameCategoriesProducts, fetchSingleP } from "@/lib/fetchData";
-import { products } from "@wix/stores";
+import { fetchSameCategoriesProducts, fetchSingleP } from "@/lib/fetchData";
+import { collections, products } from "@wix/stores";
 
 interface Props {
   readonly catalogItemId: string
@@ -10,13 +10,12 @@ interface Props {
 export default async function FetchSameCategoriesProducts({catalogItemId} : Props) {
   const recommendedProducts = await fetchSameCategoriesProducts( catalogItemId );
 
-  const data: { product: products.Product | undefined; collectionName: string | undefined | null }[] = recommendedProducts
+  const data: { product: products.Product | undefined; collection: collections.Collection & collections.CollectionNonNullableFields }[] = recommendedProducts
     .recommendation?.items
     ? await Promise.all(
         recommendedProducts.recommendation.items.map(async (item) => {
           const product = await fetchSingleP(item.catalogItemId!);
-          const collectionName = await fetchCollectionName(product.product?.collectionIds[0] ?? "");
-          return { product: product.product, collectionName };
+          return product;
         })
       )
     : [];
@@ -30,8 +29,8 @@ export default async function FetchSameCategoriesProducts({catalogItemId} : Prop
 
   return (
     <>
-      {data.map(({ product, collectionName }, i) => (
-        <SingleProduct key={i} data={product!} collectionName={collectionName!} />
+      {data.map(({ product, collection }) => (
+        <SingleProduct key={product?._id} data={product!} collectionName={collection.name!} />
       ))}
     </>
   );

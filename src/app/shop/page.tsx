@@ -48,7 +48,7 @@ export default async function Page({ searchParams }: Props) {
       <div className="main">
         <div className="navigation-wrap">
           <Navigation />
-          <Filters />
+          <Filters shop={true} />
         </div>
       </div>
       <div className="container shop">

@@ -77,6 +77,12 @@ body {
   animation: skeleton 2s infinite linear;
 }
 
+.login-icon.skelton {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
 .collection-item-link.skelton {
   height: 30px;
   width: 200px;
@@ -315,10 +321,21 @@ audio, canvas, progress, video {
   font-size: 48px;
 }
 
+button {
+  background: transparent;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(.95)
+}
+
 @import url("../Components/Header/header.css");
+@import url("auth/style.css");
 @import url("../Components/Main/mainHome.css");
 @import url("shop/shop.css");
 @import url("shop/[id]/product.css");
 @import url("../Components/Footer/footer.css");
 @import url("about/about.css");
 @import url("contact/contact.css");
+@import url("[username]/me/style.css");

@@ -1,0 +1,44 @@
+.me-wrapper {
+    padding-top: 139px;
+    padding-bottom: 139px;
+    max-width: 1200px;
+    grid-template-columns: 25% 75%;
+}
+
+.right-side {
+    padding: 20px;
+    background-color: #eee;
+    border-radius: 10px;
+}
+
+.content-personal {
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 20px;
+}
+
+.content-commands table {
+    width: 100%;
+    border-collapse: collapse;
+} 
+
+.content-info, .content-security, .danger-zone, .content-commands {
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.right-side h1 {
+    font-size: 24px;
+    letter-spacing: .2rem;
+    line-height: 1rem;
+}
+
+.content-info h2, .content-security h2, .danger-zone h2 {
+    font-size: 18px;
+    letter-spacing: .1rem;
+    line-height: 1rem;
+}
+
+.shop-page.likes-wrap {
+    padding: 10px;
+}

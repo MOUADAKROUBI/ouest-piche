@@ -129,8 +129,8 @@
 }
 
 select {
-    padding: 10px;
-    background-color: hsla(0, 0%, 100%, .2);
+    padding: 5px;   
+    background-color: var(--white);
     border: 1px solid #eee;
     border-radius: 20px;
     cursor: pointer;
@@ -178,7 +178,7 @@ option {
     background-color: var(--white);
     position: sticky;
     position: -webkit-sticky;
-    top: 100px;
+    top: 120px;
     z-index: 999;
 }
 

@@ -4,7 +4,7 @@ import { create } from "zustand";
 
 type CartState = {
   cart: currentCart.Cart & currentCart.CartNonNullableFields;
-  isLoading: boolean;
+  isCartLoading: boolean;
   counter: number;
   getCart: (wixClient: MyWixClient) => Promise<void>;
   addItem: (
@@ -31,25 +31,25 @@ export const useCartStore = create<CartState>((set) => ({
     appliedDiscounts: [],
     weightUnit: currentCart.WeightUnit.KG || currentCart.WeightUnit.LB || currentCart.WeightUnit.UNSPECIFIED_WEIGHT_UNIT,
   },
-  isLoading: false,
+  isCartLoading: false,
   counter: 0,
   getCart: async (wixClient) => {
-    set((prev) => ({ ...prev, isLoading: true }));
+    set((prev) => ({ ...prev, isCartLoading: true }));
     try {
       const cart = await wixClient.currentCart.getCurrentCart();
       set({
         cart: cart || [],
-        isLoading: false,
+        isCartLoading: false,
         counter: cart?.lineItems.length || 0,
       });
     } catch (error) {
-      set((prev) => ({ ...prev, isLoading: false }));
+      set((prev) => ({ ...prev, isCartLoading: false }));
     }
   },
   addItem: async (wixClient, productId, variantId, quantity) => {
-    set((state) => ({ ...state, isLoading: true }));
+    set((state) => ({ ...state, isCartLoading: true }));
     try {
-      const responce = await wixClient.currentCart.addToCurrentCart({
+      const response = await wixClient.currentCart.addToCurrentCart({
         lineItems: [
           {
             catalogReference: {
@@ -63,34 +63,34 @@ export const useCartStore = create<CartState>((set) => ({
       });
   
       set({
-        cart: responce.cart,
-        counter: responce.cart?.lineItems.length,
-        isLoading: false,
+        cart: response.cart,
+        counter: response.cart?.lineItems.length,
+        isCartLoading: false,
       });
     } catch (error) {
-      set((state) => ({ ...state, isLoading: false }));
+      set((state) => ({ ...state, isCartLoading: false }));
     }
   },
   removeItem: async (wixClient, productId) => {
-    set((state) => ({ ...state, isLoading: true }));
+    set((state) => ({ ...state, isCartLoading: true }));
     try {
-      const responce = await wixClient.currentCart.removeLineItemsFromCurrentCart(
+      const response = await wixClient.currentCart.removeLineItemsFromCurrentCart(
         [productId]
       );
   
       set({
-        cart: responce.cart,
-        counter: responce.cart?.lineItems.length,
-        isLoading: false,
+        cart: response.cart,
+        counter: response.cart?.lineItems.length,
+        isCartLoading: false,
       });
     } catch (error) {
-      set((state) => ({ ...state, isLoading: false }));
+      set((state) => ({ ...state, isCartLoading: false }));
     }
   },
   updateQuantity: async (wixClient, productId, quantity) => {
-    set((state) => ({ ...state, isLoading: true }));
+    set((state) => ({ ...state, isCartLoading: true }));
     try {
-      const responce = await wixClient.currentCart.updateCurrentCartLineItemQuantity([
+      const response = await wixClient.currentCart.updateCurrentCartLineItemQuantity([
         {
           _id: productId,
           quantity: quantity,
@@ -98,13 +98,13 @@ export const useCartStore = create<CartState>((set) => ({
       ]);
   
       set({
-        cart: responce.cart,
-        counter: responce.cart?.lineItems.length,
-        isLoading: false,
+        cart: response.cart,
+        counter: response.cart?.lineItems.length,
+        isCartLoading: false,
       });
       
     } catch (error) {
-      set((state) => ({ ...state, isLoading: false }));
+      set((state) => ({ ...state, isCartLoading: false }));
     }
   },
 }));
