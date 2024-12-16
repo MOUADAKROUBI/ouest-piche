@@ -9,7 +9,7 @@ import { fetchCollections } from "@/lib/fetchData";
 import Filters from "@/UI/shop/filters";
 
 export type Props = {
-  readonly searchParams: { [key: string]: string | undefined };
+  searchParams: { [key: string]: string | undefined };
 };
 
 export async function generateMetadata(
