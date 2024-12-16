@@ -6,12 +6,12 @@ import { collections, products } from "@wix/stores";
 
 export default async function Products({ searchParams }: {readonly searchParams: Props["searchParams"]}) {
   let data: Promise<{ product: products.Product, collection: collections.Collection }>[] = [];
-  data = await fetchProductsByQuery(searchParams.category ?? 'all-products', searchParams.filter ?? 'default', 100);
+  data = await fetchProductsByQuery(await(searchParams).category ?? 'all-products', await(searchParams).filter ?? 'default', 100);
 
   if (!products) 
     return (
       <li className="w-dyn-empty border">
-        <h1>No products found in {searchParams.category!} category</h1>
+        <h1>No products found in {await(searchParams).category!} category</h1>
       </li>
     )
 

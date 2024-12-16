@@ -9,7 +9,7 @@ import { fetchCollections } from "@/lib/fetchData";
 import Filters from "@/UI/shop/filters";
 
 export type Props = {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: { [key: string]: Promise<string | undefined> };
 };
 
 export async function generateMetadata(
@@ -18,20 +18,20 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const collection = await fetchCollections(100);
   const collectionNames = collection.filter(
-    (col) =>
-      col.name?.toLowerCase().replaceAll(" ", "-") === searchParams.category || 'all-products'
+    async (col) =>
+      col.name?.toLowerCase().replaceAll(" ", "-") === await(searchParams).category || 'all-products'
   )[0];
 
   const previousImages = (await parent).openGraph?.images ?? [];
 
   return {
-    title: `Shop ${searchParams.category ?? 'all-products'}`,
+    title: `Shop ${await(searchParams).category ?? 'all-products'}`,
     description: "browse our products",
     openGraph: {
-      title: `Shop ${searchParams.category ?? 'all-products'}`,
+      title: `Shop ${await(searchParams).category ?? 'all-products'}`,
       description: "browse our products",
       type: "website",
-      url: `https://leficheur.vercle.com/shop?category=${searchParams.category ?? 'all-products'}`,
+      url: `https://leficheur.vercle.com/shop?category=${await(searchParams).category ?? 'all-products'}`,
       siteName: "ouest peche",
       images: [
         collectionNames.media?.items?.[0].image?.url!,
