@@ -9,29 +9,30 @@ import { fetchCollections } from "@/lib/fetchData";
 import Filters from "@/UI/shop/filters";
 
 export type Props = {
-  readonly searchParams: { [key: string]: string | undefined };
+  readonly searchParams: Promise<{ [key: string]: string }>;
 };
 
 export async function generateMetadata(
   { searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  const searchP = await searchParams;
   const collection = await fetchCollections(100);
   const collectionNames = collection.filter(
-    (col) =>
-      col.name?.toLowerCase().replaceAll(" ", "-") === searchParams.category || 'all-products'
+    async (col) =>
+      col.name?.toLowerCase().replaceAll(" ", "-") === searchP?.category || 'all-products'
   )[0];
 
   const previousImages = (await parent).openGraph?.images ?? [];
 
   return {
-    title: `Shop ${searchParams.category ?? 'all-products'}`,
+    title: `Shop ${searchP?.category ?? 'all-products'}`,
     description: "browse our products",
     openGraph: {
-      title: `Shop ${searchParams.category ?? 'all-products'}`,
+      title: `Shop ${searchP?.category ?? 'all-products'}`,
       description: "browse our products",
       type: "website",
-      url: `https://leficheur.vercle.com/shop?category=${searchParams.category ?? 'all-products'}`,
+      url: `https://leficheur.vercle.com/shop?category=${searchP?.category ?? 'all-products'}`,
       siteName: "ouest peche",
       images: [
         collectionNames.media?.items?.[0].image?.url!,
