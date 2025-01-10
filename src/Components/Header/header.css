@@ -154,6 +154,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   gap: 10px;
 }
 
+.brand-search-wrapp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .search {
   position: relative;
 }
@@ -205,7 +211,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   align-items: center;
   background-color: #f5f4f5;
   background-repeat: no-repeat;
-  width: 500px;
+  width: 400px;
   padding-inline: 20px;
   height: 40px;
   border-radius: 3em;

@@ -153,11 +153,48 @@ const Header = () => {
             />
           </div>
         </button>
+        
         <div className="brand-search-wrapp">
           <Brand />
+          <Search screen="desktop" />
         </div>
 
-        <Search screen="desktop" />
+        <nav role="navigation" className="nav-menu w-nav-menu">
+          <ul className="wrap-nav">
+            <li className="nav-item nav-item-fill">
+              <Link
+                href="/"
+                className={`nav-link ${pathname === "/" ? "active" : ""}`}
+              >
+                <div className="name-page">Accueil</div>
+              </Link>
+            </li>
+            <li className="nav-item nav-item-fill">
+              <Link
+                href="/shop"
+                className={`nav-link ${pathname == "/shop" ? "active" : ""}`}
+              >
+                <div className="name-page">boutique</div>
+              </Link>
+            </li>
+            <li className="nav-item nav-item-fill">
+              <Link
+                href="/contact"
+                className={`nav-link ${pathname == "/contact" ? "active" : ""}`}
+              >
+                <div className="name-page">Contact</div>
+              </Link>
+            </li>
+            <li className="nav-item nav-item-fill">
+              <Link
+                href="/about"
+                className={`nav-link ${pathname == "/about" ? "active" : ""}`}
+              >
+                <div className="name-page">à propos de nous</div>
+              </Link>
+            </li>
+          </ul>
+        </nav>
 
         <div className="icon-search-cart-login">
           <div className="login-wrapper">
@@ -614,43 +651,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <nav role="navigation" className="nav-menu w-nav-menu">
-        <ul className="wrap-nav">
-          <li className="nav-item nav-item-fill">
-            <Link
-              href="/"
-              className={`nav-link ${pathname === "/" ? "active" : ""}`}
-            >
-              <div className="name-page">Accueil</div>
-            </Link>
-          </li>
-          <li className="nav-item nav-item-fill">
-            <Link
-              href="/shop"
-              className={`nav-link ${pathname == "/shop" ? "active" : ""}`}
-            >
-              <div className="name-page">boutique</div>
-            </Link>
-          </li>
-          <li className="nav-item nav-item-fill">
-            <Link
-              href="/contact"
-              className={`nav-link ${pathname == "/contact" ? "active" : ""}`}
-            >
-              <div className="name-page">Contact</div>
-            </Link>
-          </li>
-          <li className="nav-item nav-item-fill">
-            <Link
-              href="/about"
-              className={`nav-link ${pathname == "/about" ? "active" : ""}`}
-            >
-              <div className="name-page">à propos de nous</div>
-            </Link>
-          </li>
-        </ul>
-      </nav>
-      <div className="line"></div>
+
       <div
         className="search-bar-go-back mobile"
         style={{
@@ -710,7 +711,9 @@ const Header = () => {
               <li className="nav-item">
                 <Link
                   href="/contact"
-                  className={`nav-link ${pathname === "/contact" ? "active" : ""}`}
+                  className={`nav-link ${
+                    pathname === "/contact" ? "active" : ""
+                  }`}
                   onClick={() => setMenuOpen(!menuOpen)}
                 >
                   <div className="name-page">Contact</div>
@@ -719,7 +722,9 @@ const Header = () => {
               <li className="nav-item">
                 <Link
                   href="/about"
-                  className={`nav-link ${pathname === "/about" ? "active" : ""}`}
+                  className={`nav-link ${
+                    pathname === "/about" ? "active" : ""
+                  }`}
                   onClick={() => setMenuOpen(!menuOpen)}
                 >
                   <div className="name-page">à propos de nous</div>
