@@ -326,9 +326,9 @@ button {
   cursor: pointer;
 }
 
-button:active {
+/* button:active {
   transform: scale(.95)
-}
+} */
 
 @import url("../Components/Header/header.css");
 @import url("auth/style.css");
