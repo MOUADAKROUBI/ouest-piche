@@ -21,6 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${popping.variable}`}>
+      <head>
+        <meta name="google-site-verification" content="q4HAxj2uRaA0FtPC3yvqAmJ10SeWAGUTF_-o00vxJNQ" />
+      </head>
       <body>
         <WixClientContextProvider>
           <Header />
