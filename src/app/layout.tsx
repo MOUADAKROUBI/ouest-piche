@@ -28,7 +28,7 @@ export default function RootLayout({
           <Footer />
         </WixClientContextProvider>
       </body>
-      <GoogleAnalytics gaId="G-NR1BMZG3M7" />
+      <GoogleAnalytics gaId="G-KX7EFFKXPJ" />
     </html>
   );
 }
