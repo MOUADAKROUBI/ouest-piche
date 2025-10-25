@@ -4,6 +4,7 @@ import { WixClientContextProvider } from "@/Contexts/wixContext";
 import Header from "@/Components/Header/page";
 import Footer from "@/Components/Footer/page";
 import { popping } from "./fonts";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: {
@@ -27,6 +28,7 @@ export default function RootLayout({
           <Footer />
         </WixClientContextProvider>
       </body>
+      <GoogleAnalytics gaId="G-NR1BMZG3M7" />
     </html>
   );
 }
